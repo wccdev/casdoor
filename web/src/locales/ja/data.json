@@ -234,7 +234,7 @@
     "ID - Tooltip": "ユニークなランダム文字列",
     "Is enabled": "可能になっています",
     "Is enabled - Tooltip": "使用可能かどうかを設定してください",
-    "LDAPs": "LDAPs",
+    "LDAPs": "LDAP",
     "LDAPs - Tooltip": "LDAPサーバー",
     "Languages": "言語",
     "Languages - Tooltip": "利用可能な言語",
@@ -354,7 +354,7 @@
     "Virtual": "Virtual"
   },
   "ldap": {
-    "Admin": "Admin",
+    "Admin": "管理者",
     "Admin - Tooltip": "LDAPサーバー管理者のCNまたはID",
     "Admin Password": "管理者パスワード",
     "Admin Password - Tooltip": "LDAPサーバーの管理者パスワード",
@@ -693,7 +693,7 @@
     "SMS account - Tooltip": "SMSアカウント",
     "SMS sent successfully": "SMSが正常に送信されました",
     "SP ACS URL": "SP ACS URL",
-    "SP ACS URL - Tooltip": "SP ACS URL",
+    "SP ACS URL - Tooltip": "SP ACS URL - ツールチップ",
     "SP Entity ID": "SPエンティティID",
     "Scene": "シーン",
     "Scene - Tooltip": "シーン",
