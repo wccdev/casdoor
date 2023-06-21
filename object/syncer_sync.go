@@ -23,7 +23,8 @@ func (syncer *Syncer) syncUsers() {
 	fmt.Printf("Running syncUsers()..\n")
 
 	users, userMap, userNameMap := syncer.getUserMap()
-	oUsers, oUserMap, err := syncer.getOriginalUserMap()
+	// oUsers, oUserMap, err := syncer.getOriginalUserMap()
+	oUsers, _, err := syncer.getOriginalUserMap()
 	if err != nil {
 		fmt.Printf(err.Error())
 
@@ -64,7 +65,7 @@ func (syncer *Syncer) syncUsers() {
 			} else {
 				if user.PreHash == oHash {
 					updatedOUser := syncer.createOriginalUserFromUser(user)
-					syncer.updateUser(updatedOUser)
+					// syncer.updateUser(updatedOUser)
 					fmt.Printf("Update from user to oUser: %v\n", updatedOUser)
 
 					// update preHash
@@ -91,15 +92,15 @@ func (syncer *Syncer) syncUsers() {
 		panic(err)
 	}
 
-	for _, user := range users {
-		id := user.Id
-		if _, ok := oUserMap[id]; !ok {
-			newOUser := syncer.createOriginalUserFromUser(user)
-			_, err = syncer.addUser(newOUser)
-			if err != nil {
-				panic(err)
-			}
-			fmt.Printf("New oUser: %v\n", newOUser)
-		}
-	}
+// 	for _, user := range users {
+// 		id := user.Id
+// 		if _, ok := oUserMap[id]; !ok {
+// 			newOUser := syncer.createOriginalUserFromUser(user)
+// 			_, err = syncer.addUser(newOUser)
+// 			if err != nil {
+// 				panic(err)
+// 			}
+// 			fmt.Printf("New oUser: %v\n", newOUser)
+// 		}
+// 	}
 }
