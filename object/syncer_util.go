@@ -185,6 +185,8 @@ func (syncer *Syncer) setUserByKeyValue(user *User, key string, value string) {
 		user.MfaEmailEnabled = util.ParseBool(value)
 	case "RecoveryCodes":
 		user.RecoveryCodes = strings.Split(value, ",")
+	case "Groups":
+		user.Groups = []string{value}
 	}
 }
 
@@ -322,6 +324,7 @@ func (syncer *Syncer) getMapFromOriginalUser(user *OriginalUser) map[string]stri
 	m["MfaPhoneEnabled"] = util.BoolToString(user.MfaPhoneEnabled)
 	m["MfaEmailEnabled"] = util.BoolToString(user.MfaEmailEnabled)
 	m["RecoveryCodes"] = strings.Join(user.RecoveryCodes, ",")
+	m["Groups"] = strings.Join(user.Groups, "|")
 
 	m2 := map[string]string{}
 	for _, tableColumn := range syncer.TableColumns {
