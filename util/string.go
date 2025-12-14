@@ -220,6 +220,19 @@ func IsStringsEmpty(strs ...string) bool {
 	return false
 }
 
+func UniqueStrings(input []string) []string {
+    uniqueMap := make(map[string]bool)
+    uniqueSlice := []string{}
+
+    for _, str := range input {
+        if !uniqueMap[str] {
+            uniqueMap[str] = true
+            uniqueSlice = append(uniqueSlice, str)
+        }
+    }
+    return uniqueSlice
+}
+
 func ReadStringFromPath(path string) string {
 	data, err := os.ReadFile(filepath.Clean(path))
 	if err != nil {

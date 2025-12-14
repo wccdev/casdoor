@@ -179,16 +179,12 @@ func (idp *DingTalkIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, erro
 
 	corpAccessToken := idp.getInnerAppAccessToken()
 	userId, err := idp.getUserId(userInfo.UnionId, corpAccessToken)
-	if err != nil {
-		return nil, err
+	if userId == "" {
+		return &userInfo, nil
 	}
 
-	corpMobile, corpEmail, jobNumber, err := idp.getUserCorpEmail(userId, corpAccessToken)
+	corpEmail, jobNumber, err := idp.getUserCorpEmail(userId, corpAccessToken)
 	if err == nil {
-		if corpMobile != "" {
-			userInfo.Phone = corpMobile
-		}
-
 		if corpEmail != "" {
 			userInfo.Email = corpEmail
 		}
@@ -272,29 +268,28 @@ func (idp *DingTalkIdProvider) getUserId(unionId string, accessToken string) (st
 	return data.Result.UserId, nil
 }
 
-func (idp *DingTalkIdProvider) getUserCorpEmail(userId string, accessToken string) (string, string, string, error) {
+func (idp *DingTalkIdProvider) getUserCorpEmail(userId string, accessToken string) (string, string, error) {
 	// https://open.dingtalk.com/document/isvapp/query-user-details
 	body := make(map[string]string)
 	body["userid"] = userId
 	respBytes, err := idp.postWithBody(body, "https://oapi.dingtalk.com/topapi/v2/user/get?access_token="+accessToken)
 	if err != nil {
-		return "", "", "", err
+		return "", "", err
 	}
 
 	var data struct {
 		ErrMessage string `json:"errmsg"`
 		Result     struct {
-			Mobile    string `json:"mobile"`
 			Email     string `json:"email"`
 			JobNumber string `json:"job_number"`
 		} `json:"result"`
 	}
 	err = json.Unmarshal(respBytes, &data)
 	if err != nil {
-		return "", "", "", err
+		return "", "", err
 	}
 	if data.ErrMessage != "ok" {
-		return "", "", "", fmt.Errorf(data.ErrMessage)
+		return "", "", fmt.Errorf(data.ErrMessage)
 	}
-	return data.Result.Mobile, data.Result.Email, data.Result.JobNumber, nil
+	return data.Result.Email, data.Result.JobNumber, nil
 }

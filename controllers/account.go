@@ -367,8 +367,29 @@ func (c *ApiController) Logout() {
 		// 	return
 		// }
 		if accessToken == "" {
-			c.ResponseError(c.T("general:Missing parameter") + ": id_token_hint")
-			return
+			if redirectUri == "" {
+				c.ResponseOk()
+				return
+			} else {
+				if user != "" {
+					c.ClearUserSession()
+					// TODO https://github.com/casdoor/casdoor/pull/1494#discussion_r1095675265
+					owner, username, err := util.GetOwnerAndNameFromIdWithError(user)
+					if err != nil {
+						c.ResponseError(err.Error())
+						return
+					}
+			
+					_, err = object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), c.Ctx.Input.CruSession.SessionID())
+					if err != nil {
+						c.ResponseError(err.Error())
+						return
+					}
+		
+					util.LogInfo(c.Ctx, "API: [%s] logged out", user)
+				}
+				c.Ctx.Redirect(http.StatusFound, fmt.Sprintf("%s?state=%s", strings.TrimRight(redirectUri, "/"), state))
+			}
 		}
 
 		_, application, token, err := object.ExpireTokenByAccessToken(accessToken)

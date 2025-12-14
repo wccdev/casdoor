@@ -80,6 +80,31 @@ func GetGlobalGroups() ([]*Group, error) {
 	return groups, nil
 }
 
+func GetAllParentGroupIds(groupId string) ([]string, error) {
+    var parentGroupIds []string
+    
+    currentGroup, err := GetGroup(groupId)
+    if err != nil {
+        return nil, err
+    }
+    
+    for currentGroup != nil && currentGroup.ParentId != "" {
+        parentGroup, err := getGroup(currentGroup.Owner, currentGroup.ParentId)
+        if err != nil {
+            return nil, err
+        }
+        
+        if parentGroup != nil {
+            parentGroupIds = append(parentGroupIds, parentGroup.GetId())
+            currentGroup = parentGroup
+        } else {
+            break
+        }
+    }
+    
+    return parentGroupIds, nil
+}
+
 func GetPaginationGroups(owner string, offset, limit int, field, value, sortField, sortOrder string) ([]*Group, error) {
 	groups := []*Group{}
 	session := GetSession(owner, offset, limit, field, value, sortField, sortOrder)

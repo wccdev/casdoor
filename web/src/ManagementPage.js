@@ -409,6 +409,11 @@ function ManagementPage(props) {
   function renderLoginIfNotLoggedIn(component) {
     if (props.account === null) {
       sessionStorage.setItem("from", window.location.pathname);
+      const organization = localStorage.getItem("loginOrganization");
+      if (organization !== "undefined" && organization && organization !== "built-in") {
+        const loginPath = `/login/${organization}`;
+        return <Redirect to={loginPath} />;
+      }
       return <Redirect to="/login" />;
     } else if (props.account === undefined) {
       return null;

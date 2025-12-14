@@ -583,6 +583,7 @@ class LoginPage extends React.Component {
           };
 
           if (res.status === "ok") {
+            localStorage.setItem("loginOrganization", values["organization"]);
             Setting.checkLoginMfa(res, values, oAuthParams, loginHandler, this);
           } else {
             Setting.showMessage("error", `${i18next.t("application:Failed to sign in")}: ${res.msg}`);

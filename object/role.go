@@ -278,24 +278,38 @@ func getRolesByUserInternal(userId string) ([]*Role, error) {
 		return nil, fmt.Errorf("The user: %s doesn't exist", userId)
 	}
 
-	query := ormer.Engine.Alias("r").Where("r.users like ?", fmt.Sprintf("%%%s%%", userId))
-	for _, group := range user.Groups {
-		query = query.Or("r.groups like ?", fmt.Sprintf("%%%s%%", group))
+	allGroups := []string{}
+	for _, groupId := range user.Groups {
+		allGroups = append(allGroups, groupId)
+		parentGroups, err := GetAllParentGroupIds(groupId)
+		if err != nil {
+			return nil, err
+		}
+		allGroups = append(allGroups, parentGroups...)
 	}
 
+	allGroups = util.UniqueStrings(allGroups)
+
+	whereClause := "JSON_CONTAINS(r.users, ?)"
+	params := []interface{}{fmt.Sprintf("\"%s\"", userId)}
+
+	if len(allGroups) > 0 {
+		groupConditions := []string{}
+		for _, group := range allGroups {
+			groupConditions = append(groupConditions, "JSON_CONTAINS(r.groups, ?)")
+			params = append(params, fmt.Sprintf("\"%s\"", group))
+		}
+		groupsWhere := strings.Join(groupConditions, " OR ")
+		whereClause += " OR (" + groupsWhere + ")"
+	}
+    
 	roles := []*Role{}
-	err = query.Find(&roles)
+	err = ormer.Engine.Alias("r").Where(whereClause, params...).Find(&roles)
 	if err != nil {
 		return nil, err
 	}
 
-	res := []*Role{}
-	for _, role := range roles {
-		if util.InSlice(role.Users, userId) || util.HaveIntersection(role.Groups, user.Groups) {
-			res = append(res, role)
-		}
-	}
-	return res, nil
+	return roles, nil
 }
 
 func getRolesByUser(userId string) ([]*Role, error) {
