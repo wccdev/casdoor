@@ -43,16 +43,22 @@ const {Option} = Select;
 
 const template = `<style>
   .login-panel {
-    padding: 40px 70px 0 70px;
+    margin: 50px 0;
+    display: flex;
+    background-color: #fff;
+    padding: 40px 70px 0;
     border-radius: 16px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.20);
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
   }
   .login-panel-dark {
-    padding: 40px 70px 0 70px;
+    margin: 50px 0;
+    display: flex;
+    background-color: #141414;
+    padding: 40px 70px 0;
     border-radius: 16px;
-    background-color: #333333;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.20);
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
   }
   .panel-logo {
     width: 230px;
@@ -64,8 +70,14 @@ const template = `<style>
     margin: 30px auto;
     border: 2px solid #fff;
     border-radius: 16px;
-    background-color: rgb(255 255 255);
-    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
+
+    &.dark-mode {
+      border: 2px solid #141414;
+      background-color: #141414;
+      box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
+    }
   }
 </style>`;
 
