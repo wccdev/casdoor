@@ -522,11 +522,10 @@ class ForgetPage extends React.Component {
     if (application === null) {
       return Util.renderMessageLarge(this, this.state.msg);
     }
-
     return (
       <React.Fragment>
         <CustomGithubCorner />
-        <div className="forget-content" style={{padding: Setting.isMobile() ? "0" : null, boxShadow: Setting.isMobile() ? "none" : null}}>
+        <div className={localStorage.getItem("themeAlgorithm").includes("dark") ? "forget-content dark-mode" : "forget-content"} style={{padding: Setting.isMobile() ? "0" : null, boxShadow: Setting.isMobile() ? "none" : null}}>
           {Setting.inIframe() || Setting.isMobile() ? null : <div dangerouslySetInnerHTML={{__html: application.formCss}} />}
           {Setting.inIframe() || !Setting.isMobile() ? null : <div dangerouslySetInnerHTML={{__html: application.formCssMobile}} />}
           <Button type="text"

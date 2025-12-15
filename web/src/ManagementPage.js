@@ -20,7 +20,7 @@ import React, {useState} from "react";
 import i18next from "i18next";
 import {
   AppstoreTwoTone,
-  BarsOutlined, DeploymentUnitOutlined, DollarTwoTone, DownOutlined,
+  BarsOutlined, DeploymentUnitOutlined, DownOutlined,
   HomeTwoTone,
   LockTwoTone, LogoutOutlined,
   SafetyCertificateTwoTone, SettingOutlined, SettingTwoTone,
@@ -328,16 +328,16 @@ function ManagementPage(props) {
       Setting.getItem(<Link to="/verifications">{i18next.t("general:Verifications")}</Link>, "/verifications"),
     ]));
 
-    res.push(Setting.getItem(<Link style={{color: textColor}} to="/products">{i18next.t("general:Business & Payments")}</Link>, "/business", <DollarTwoTone twoToneColor={twoToneColor} />, [
-      Setting.getItem(<Link to="/product-store">{i18next.t("general:Product Store")}</Link>, "/product-store"),
-      Setting.getItem(<Link to="/products">{i18next.t("general:Products")}</Link>, "/products"),
-      Setting.getItem(<Link to="/orders">{i18next.t("general:Orders")}</Link>, "/orders"),
-      Setting.getItem(<Link to="/payments">{i18next.t("general:Payments")}</Link>, "/payments"),
-      Setting.getItem(<Link to="/plans">{i18next.t("general:Plans")}</Link>, "/plans"),
-      Setting.getItem(<Link to="/pricings">{i18next.t("general:Pricings")}</Link>, "/pricings"),
-      Setting.getItem(<Link to="/subscriptions">{i18next.t("general:Subscriptions")}</Link>, "/subscriptions"),
-      Setting.getItem(<Link to="/transactions">{i18next.t("general:Transactions")}</Link>, "/transactions"),
-    ]));
+    // res.push(Setting.getItem(<Link style={{color: textColor}} to="/products">{i18next.t("general:Business & Payments")}</Link>, "/business", <DollarTwoTone twoToneColor={twoToneColor} />, [
+    //   Setting.getItem(<Link to="/product-store">{i18next.t("general:Product Store")}</Link>, "/product-store"),
+    //   Setting.getItem(<Link to="/products">{i18next.t("general:Products")}</Link>, "/products"),
+    //   Setting.getItem(<Link to="/orders">{i18next.t("general:Orders")}</Link>, "/orders"),
+    //   Setting.getItem(<Link to="/payments">{i18next.t("general:Payments")}</Link>, "/payments"),
+    //   Setting.getItem(<Link to="/plans">{i18next.t("general:Plans")}</Link>, "/plans"),
+    //   Setting.getItem(<Link to="/pricings">{i18next.t("general:Pricings")}</Link>, "/pricings"),
+    //   Setting.getItem(<Link to="/subscriptions">{i18next.t("general:Subscriptions")}</Link>, "/subscriptions"),
+    //   Setting.getItem(<Link to="/transactions">{i18next.t("general:Transactions")}</Link>, "/transactions"),
+    // ]));
 
     if (Setting.isAdminUser(props.account)) {
       res.push(Setting.getItem(<Link style={{color: textColor}} to="/sysinfo">{i18next.t("general:Admin")}</Link>, "/admin", <SettingTwoTone twoToneColor={twoToneColor} />, [

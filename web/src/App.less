@@ -37,29 +37,31 @@ img {
   flex-direction: column;
   height: 100%;
   min-height: 100vh;
-  background: #e5e1ec;
 }
 
 #parent-area main .login-content .login-panel .login-form button {
   box-shadow: none;
-  border-radius: 8px;
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid #eee;
 }
 
 #footer {
+  > a {
+    filter: grayscale(100%);
+    transition: filter 0.2s;
+    color: #adaab4;
+  }
+
+  > a:hover {
+    filter: grayscale(0%);
+    color: #928f9a;
+  }
+
   background: #e5e1ec;
-}
 
-#footer > a {
-  filter: grayscale(100%);
-  transition: filter 0.2s;
-  color: #adaab4;
-}
-
-#footer > a:hover {
-  filter: grayscale(0%);
-  color: #928f9a;
+  &.dark-mode {
+    background: #000;
+  }
 }
 
 @media (max-width: 640px) {
@@ -67,10 +69,6 @@ img {
     padding: 40px 0 0;
     box-shadow: none;
   }
-}
-
-.ant-btn-primary {
-  box-shadow: none !important;
 }
 
 .panel-logo {
@@ -134,12 +132,18 @@ img {
 }
 
 .forget-content {
-  padding: 40px 70px 0;
+  padding: 10px 100px 20px;
   margin: 30px auto;
   border: 2px solid #fff;
   border-radius: 16px;
   background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
+
+  &.dark-mode {
+    border: 2px solid #141414;
+    background-color: #141414;
+    box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
+  }
 }
 
 .login-panel {
@@ -149,7 +153,17 @@ img {
   padding: 40px 70px 0;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
+}
+
+.login-panel-dark {
+  margin: 50px 0;
+  display: flex;
+  background-color: #141414;
+  padding: 40px 70px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
 }
 
 .login-form {
@@ -159,7 +173,6 @@ img {
 
 .login-content {
   display: flex;
-  // flex-direction: row;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -187,4 +200,16 @@ img {
 
 .ant-menu-horizontal {
   border-bottom: none !important;
+}
+
+.ant-btn-primary {
+  box-shadow: none !important;
+}
+
+.ant-card.ant-card-bordered.content-warp-card {
+  border-radius: 0;
+}
+
+.login-languages {
+  display: none;
 }

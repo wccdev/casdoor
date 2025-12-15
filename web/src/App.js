@@ -461,7 +461,7 @@ class App extends Component {
       <React.Fragment>
         {!this.state.account ? null : <div style={{display: "none"}} id="CasdoorApplicationName" value={this.state.account.signupApplication} />}
         {!this.state.account ? null : <div style={{display: "none"}} id="CasdoorAccessToken" value={this.state.accessToken} />}
-        <Footer id="footer" style={
+        <Footer id="footer" className={this.state.themeAlgorithm.includes("dark") ? "dark-mode" : ""} style={
           {
             textAlign: "center",
           }
@@ -475,7 +475,7 @@ class App extends Component {
                 Conf.CustomFooter !== null ? Conf.CustomFooter : (
                   <React.Fragment>
                     <a target="_blank" href="https://casdoor.org" rel="noreferrer">
-                      <span>Powered by</span>
+                      <span>Powered by </span>
                       <img style={{paddingBottom: "3px"}} height={"20px"} alt={"Casdoor"} src={logo} />
                     </a>
                   </React.Fragment>
