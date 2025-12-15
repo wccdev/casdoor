@@ -599,7 +599,7 @@
     "Back button": "Terugknop",
     "Continue with": "Doorgaan met",
     "Email": "E-mail",
-    "Email or phone": "E-mail of telefoonnummer",
+    "Email / Phone": "E-mail of telefoonnummer",
     "Face ID": "Gezichtsherkenning",
     "Face Recognition": "Gezichtsherkenning",
     "Face recognition failed": "Gezichtsherkenning mislukt",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Autorisatie via Web3-Onboard mislukt",
     "Forgot password?": "Wachtwoord vergeten?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP-gebruikersnaam, e-mail of telefoonnummer",
+    "LDAP Username / Email / Phone": "LDAP-gebruikersnaam, e-mail of telefoonnummer",
     "Loading": "Laden",
     "Logging out...": "Uitloggen...",
     "MetaMask plugin not detected": "MetaMask-plugin niet gedetecteerd",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "registreer nu",
-    "username, Email or phone": "gebruikersnaam, e-mail of telefoonnummer"
+    "Username / Email / Phone": "gebruikersnaam, e-mail of telefoonnummer"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Elke keer dat je inlogt, heb je je wachtwoord en een verificatiecode nodig",

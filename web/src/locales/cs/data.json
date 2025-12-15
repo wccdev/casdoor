@@ -599,7 +599,7 @@
     "Back button": "Tlačítko zpět",
     "Continue with": "Pokračovat s",
     "Email": "E-mail",
-    "Email or phone": "Email nebo telefon",
+    "Email / Phone": "Email nebo telefon",
     "Face ID": "Face ID",
     "Face Recognition": "Rozpoznávání obličeje",
     "Face recognition failed": "Rozpoznání obličeje selhalo",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Nepodařilo se získat autorizaci Web3-Onboard",
     "Forgot password?": "Zapomněli jste heslo?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP uživatelské jméno, e-mail nebo telefon",
+    "LDAP Username / Email / Phone": "LDAP uživatelské jméno, e-mail nebo telefon",
     "Loading": "Načítání",
     "Logging out...": "Odhlášení...",
     "MetaMask plugin not detected": "Plugin MetaMask nebyl detekován",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "zaregistrujte se nyní",
-    "username, Email or phone": "uživatelské jméno, Email nebo telefon"
+    "Username / Email / Phone": "uživatelské jméno, Email nebo telefon"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Při každém přihlášení do vašeho účtu budete potřebovat heslo a ověřovací kód",

@@ -599,7 +599,7 @@
     "Back button": "Tlačidlo späť",
     "Continue with": "Pokračovať s",
     "Email": "Email",
-    "Email or phone": "Email alebo telefón",
+    "Email / Phone": "Email alebo telefón",
     "Face ID": "Face ID",
     "Face Recognition": "Rozpoznávanie tváre",
     "Face recognition failed": "Zlyhalo rozpoznávanie tváre",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Nepodarilo sa získať autorizáciu Web3-Onboard",
     "Forgot password?": "Zabudli ste heslo?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP meno používateľa, Email alebo telefón",
+    "LDAP Username / Email / Phone": "LDAP meno používateľa, Email alebo telefón",
     "Loading": "Načítava sa",
     "Logging out...": "Odhlasovanie...",
     "MetaMask plugin not detected": "Plugin MetaMask nebol zistený",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "zaregistrujte sa teraz",
-    "username, Email or phone": "meno používateľa, Email alebo telefón"
+    "Username / Email / Phone": "meno používateľa, Email alebo telefón"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Každýkrát, keď sa prihlásite do svojho účtu, budete potrebovať svoje heslo a overovací kód",

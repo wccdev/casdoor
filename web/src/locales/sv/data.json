@@ -599,7 +599,7 @@
     "Back button": "Tillbaka-knapp",
     "Continue with": "Fortsätt med",
     "Email": "E-post",
-    "Email or phone": "E-post eller telefon",
+    "Email / Phone": "E-post eller telefon",
     "Face ID": "Face ID",
     "Face Recognition": "Ansiktsigenkänning",
     "Face recognition failed": "Ansiktsigenkänning misslyckades",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Misslyckades att få Web3-Onboard-auktorisation",
     "Forgot password?": "Glömt lösenord?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP-användarnamn, e-post eller telefon",
+    "LDAP Username / Email / Phone": "LDAP-användarnamn, e-post eller telefon",
     "Loading": "Laddar",
     "Logging out...": "Loggar ut...",
     "MetaMask plugin not detected": "MetaMask-plugin hittades inte",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "registrera dig nu",
-    "username, Email or phone": "användarnamn, e-post eller telefon"
+    "Username / Email / Phone": "användarnamn, e-post eller telefon"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Varje gång du loggar in på ditt konto behöver du ditt lösenord och en verifieringskod",

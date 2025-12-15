@@ -599,7 +599,7 @@
     "Back button": "Кнопка \"Назад\".",
     "Continue with": "Продовжити з",
     "Email": "Електронна пошта",
-    "Email or phone": "Електронна пошта або телефон",
+    "Email / Phone": "Електронна пошта або телефон",
     "Face ID": "Face ID",
     "Face Recognition": "Розпізнавання обличчя",
     "Face recognition failed": "Помилка розпізнавання обличчя",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Не вдалося отримати авторизацію Web3-Onboard",
     "Forgot password?": "Забули пароль?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "Ім’я користувача LDAP, електронна пошта або телефон",
+    "LDAP Username / Email / Phone": "Ім’я користувача LDAP, електронна пошта або телефон",
     "Loading": "Завантаження",
     "Logging out...": "Вихід...",
     "MetaMask plugin not detected": "Плагін MetaMask не виявлено",
@@ -653,7 +653,7 @@
     "WeChat": "Вейчат",
     "WebAuthn": "WebAuthn",
     "sign up now": "Зареєструйся зараз",
-    "username, Email or phone": "ім'я користувача, електронну пошту або телефон"
+    "Username / Email / Phone": "ім'я користувача, електронну пошту або телефон"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Кожного разу, коли ви входите в обліковий запис, вам знадобляться пароль і код автентифікації",

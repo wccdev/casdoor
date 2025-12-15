@@ -599,7 +599,7 @@
     "Back button": "כפתור חזור",
     "Continue with": "המשך עם",
     "Email": "אימייל",
-    "Email or phone": "אימייל או טלפון",
+    "Email / Phone": "אימייל או טלפון",
     "Face ID": "זיהוי פנים",
     "Face Recognition": "זיהוי פנים",
     "Face recognition failed": "זיהוי פנים נכשל",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "קבלת הרשאת Web3-Onboard נכשלה",
     "Forgot password?": "שכחת סיסמה?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "שם משתמש LDAP, אימייל או טלפון",
+    "LDAP Username / Email / Phone": "שם משתמש LDAP, אימייל או טלפון",
     "Loading": "טוען",
     "Logging out...": "מתנתק...",
     "MetaMask plugin not detected": "לא זוהה תוסף MetaMask",
@@ -653,7 +653,7 @@
     "WeChat": "ווצ'אט",
     "WebAuthn": "וובאוטהן",
     "sign up now": "הירשם עכשיו",
-    "username, Email or phone": "שם משתמש, אימייל או טלפון"
+    "Username / Email / Phone": "שם משתמש, אימייל או טלפון"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "בכל פעם שתתחבר לחשבונך, תזדקק לסיסמה ולקוד אימות",

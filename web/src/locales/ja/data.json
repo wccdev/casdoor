@@ -599,7 +599,7 @@
     "Back button": "戻るボタン",
     "Continue with": "続ける",
     "Email": "メール",
-    "Email or phone": "メールまたは電話",
+    "Email / Phone": "メールまたは電話",
     "Face ID": "Face ID",
     "Face Recognition": "顔認識",
     "Face recognition failed": "顔認識に失敗しました",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Web3-Onboard認証の取得に失敗しました",
     "Forgot password?": "パスワードを忘れましたか？",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAPユーザー名、メールまたは電話",
+    "LDAP Username / Email / Phone": "LDAPユーザー名、メールまたは電話",
     "Loading": "ローディング",
     "Logging out...": "ログアウト中...",
     "MetaMask plugin not detected": "MetaMaskプラグインが検出されません",
@@ -653,7 +653,7 @@
     "WeChat": "微信",
     "WebAuthn": "ウェブオーセン",
     "sign up now": "今すぐサインアップ",
-    "username, Email or phone": "ユーザー名、メールアドレス、または電話番号"
+    "Username / Email / Phone": "ユーザー名、メールアドレス、または電話番号"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "アカウントにサインインするたびに、パスワードと認証コードが必要です",

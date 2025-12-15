@@ -599,7 +599,7 @@
     "Back button": "Nút quay lại",
     "Continue with": "Tiếp tục với",
     "Email": "Email",
-    "Email or phone": "Email hoặc điện thoại",
+    "Email / Phone": "Email hoặc điện thoại",
     "Face ID": "Xác thực khuôn mặt",
     "Face Recognition": "Nhận diện khuôn mặt",
     "Face recognition failed": "Nhận diện khuôn mặt thất bại",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Lấy ủy quyền Web3-Onboard thất bại",
     "Forgot password?": "Quên mật khẩu?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "Tên người dùng LDAP, Email hoặc điện thoại",
+    "LDAP Username / Email / Phone": "Tên người dùng LDAP, Email hoặc điện thoại",
     "Loading": "Đang tải",
     "Logging out...": "Đăng xuất ...",
     "MetaMask plugin not detected": "Không phát hiện plugin MetaMask",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "Đăng ký ngay bây giờ",
-    "username, Email or phone": "Tên đăng nhập, Email hoặc điện thoại"
+    "Username / Email / Phone": "Tên đăng nhập, Email hoặc điện thoại"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Mỗi lần đăng nhập vào Tài khoản của bạn, bạn sẽ cần mật khẩu và mã xác thực",

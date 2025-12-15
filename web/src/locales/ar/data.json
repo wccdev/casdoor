@@ -599,7 +599,7 @@
     "Back button": "زر الرجوع",
     "Continue with": "المتابعة باستخدام",
     "Email": "البريد الإلكتروني",
-    "Email or phone": "البريد الإلكتروني أو الهاتف",
+    "Email / Phone": "البريد الإلكتروني أو الهاتف",
     "Face ID": "معرف الوجه",
     "Face Recognition": "التعرف على الوجه",
     "Face recognition failed": "فشل التعرف على الوجه",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "فشل الحصول على تصريح Web3-Onboard",
     "Forgot password?": "هل نسيت كلمة المرور؟",
     "LDAP": "خدمة الدليل المشترك الخاطئ",
-    "LDAP username, Email or phone": "اسم مستخدم LDAP أو البريد الإلكتروني أو الهاتف",
+    "LDAP Username / Email / Phone": "اسم مستخدم LDAP أو البريد الإلكتروني أو الهاتف",
     "Loading": "جار التحميل",
     "Logging out...": "جار تسجيل الخروج...",
     "MetaMask plugin not detected": "لم يتم اكتشاف ملحق MetaMask",
@@ -653,7 +653,7 @@
     "WeChat": "ويشات",
     "WebAuthn": "ويب أوثن",
     "sign up now": "سجّل الآن",
-    "username, Email or phone": "اسم المستخدم أو البريد الإلكتروني أو الهاتف"
+    "Username / Email / Phone": "اسم المستخدم أو البريد الإلكتروني أو الهاتف"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "في كل مرة تسجل الدخول إلى حسابك، ستحتاج إلى كلمة المرور ورمز مصادقة",

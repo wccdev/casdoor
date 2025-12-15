@@ -1,6 +1,30 @@
 /* stylelint-disable at-rule-name-case */
 /* stylelint-disable selector-class-pattern */
 
+html,
+body {
+  background-color: #e5e1ec;
+  overscroll-behavior-y: none;  /* 禁用垂直方向的过度滚动弹性效果 */
+  overscroll-behavior-x: none;  /* 禁用水平方向的过度滚动弹性效果 */
+  margin: 0;
+  padding: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+}
+
 .App {
   text-align: center;
 }
@@ -29,14 +53,22 @@ img {
 }
 
 #root {
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content-warp-card {
+  box-shadow: 0 1px 5px 0 rgb(51 51 51 / 14%);
+  flex: 1;
+  align-items: stretch;
+  overflow: auto;  /* 添加滚动 */
 }
 
 #parent-area {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #parent-area main .login-content .login-panel .login-form button {
@@ -46,6 +78,8 @@ img {
 }
 
 #footer {
+  flex-shrink: 0;  /* 添加这行 */
+
   > a {
     filter: grayscale(100%);
     transition: filter 0.2s;
@@ -112,12 +146,6 @@ img {
   &:hover {
     background-color: #f5f5f5a5;
   }
-}
-
-.content-warp-card {
-  box-shadow: 0 1px 5px 0 rgb(51 51 51 / 14%);
-  flex: 1;
-  align-items: stretch;
 }
 
 .side-image {
@@ -210,6 +238,98 @@ img {
   border-radius: 0;
 }
 
-.login-languages {
-  display: none;
+/* 登录页面分割线样式 - or */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 15px auto;
+  width: 70%;  /* 缩短整体宽度 */
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.login-divider span {
+  padding: 0 16px;
+  color: #c8c9cc;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* 暗黑模式下的分割线 */
+.login-panel-dark .login-divider::before,
+.login-panel-dark .login-divider::after {
+  border-bottom-color: #424242;
+}
+
+.login-panel-dark .login-divider span {
+  color: #666;
+}
+
+/* 应用列表页面 Logo 图标样式优化 */
+.ant-table-tbody .app-logo-img {
+  width: 100px;
+  height: auto;  /* 保持原始比例 */
+  max-height: 28px;  /* 限制高度 */
+  object-fit: contain;
+  border-radius: 4px;
+  padding: 4px 8px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ant-table-tbody .app-logo-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+/* 暗黑模式 */
+.dark-mode .ant-table-tbody .app-logo-img {
+  border-color: #424242;
+  background-color: #1f1f1f;
+}
+
+/* 首页应用卡片样式优化 */
+.app-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.app-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+}
+
+.app-card-cover {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+}
+
+.app-card-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 暗黑模式 */
+.dark-mode .app-card-cover {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+}
+
+.dark-mode .app-card {
+  border-color: #424242;
+}
+
+.dark-mode .app-card:hover {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
 }

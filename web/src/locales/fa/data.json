@@ -599,7 +599,7 @@
     "Back button": "دکمه بازگشت",
     "Continue with": "ادامه با",
     "Email": "ایمیل",
-    "Email or phone": "ایمیل یا تلفن",
+    "Email / Phone": "ایمیل یا تلفن",
     "Face ID": "شناسایی چهره",
     "Face Recognition": "تشخیص چهره",
     "Face recognition failed": "تشخیص چهره ناموفق بود",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "عدم موفقیت در دریافت مجوز Web3-Onboard",
     "Forgot password?": "رمز عبور را فراموش کرده‌اید؟",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "نام کاربری LDAP، ایمیل یا تلفن",
+    "LDAP Username / Email / Phone": "نام کاربری LDAP، ایمیل یا تلفن",
     "Loading": "در حال بارگذاری",
     "Logging out...": "در حال خروج...",
     "MetaMask plugin not detected": "پلاگین MetaMask شناسایی نشد",
@@ -653,7 +653,7 @@
     "WeChat": "ویچات",
     "WebAuthn": "WebAuthn",
     "sign up now": "ثبت‌نام کنید",
-    "username, Email or phone": "نام کاربری، ایمیل یا تلفن"
+    "Username / Email / Phone": "نام کاربری، ایمیل یا تلفن"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "هر بار که به حساب خود وارد می‌شوید، به رمز عبور و یک کد تأیید نیاز خواهید داشت",

@@ -455,7 +455,8 @@ class App extends Component {
   }
 
   renderFooter(logo, footerHtml) {
-    logo = logo ?? this.state.logo;
+    // logo = logo ?? this.state.logo;
+    logo = Setting.getLogo(this.state.themeAlgorithm);
     footerHtml = footerHtml ?? this.state.application?.footerHtml;
     return (
       <React.Fragment>
@@ -475,11 +476,7 @@ class App extends Component {
                 Conf.CustomFooter !== null ? Conf.CustomFooter : (
                   <React.Fragment>
                     <a target="_blank" href="https://casdoor.org" rel="noreferrer">
-<<<<<<< HEAD
                       <span>Powered by </span>
-=======
-                      <span>Powered by</span>
->>>>>>> 1f1d83fe (Persists last login organization and redirects to org-specific login)
                       <img style={{paddingBottom: "3px"}} height={"20px"} alt={"Casdoor"} src={logo} />
                     </a>
                   </React.Fragment>

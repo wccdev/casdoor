@@ -398,7 +398,8 @@ func (c *ApiController) Logout() {
 			return
 		}
 		if token == nil {
-			c.ResponseError(c.T("token:Token not found, invalid accessToken"))
+			c.ResponseOk()
+			// c.ResponseError(c.T("token:Token not found, invalid accessToken"))
 			return
 		}
 		if application == nil {

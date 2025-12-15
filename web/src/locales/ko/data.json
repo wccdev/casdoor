@@ -599,7 +599,7 @@
     "Back button": "뒤로 버튼",
     "Continue with": "계속하다",
     "Email": "이메일",
-    "Email or phone": "이메일 또는 전화",
+    "Email / Phone": "이메일 또는 전화",
     "Face ID": "얼굴 ID",
     "Face Recognition": "얼굴 인식",
     "Face recognition failed": "얼굴 인식 실패",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Web3-Onboard 권한을 가져오지 못했습니다.",
     "Forgot password?": "비밀번호를 잊으셨나요?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP 사용자명, 이메일 또는 전화번호",
+    "LDAP Username / Email / Phone": "LDAP 사용자명, 이메일 또는 전화번호",
     "Loading": "로딩 중입니다",
     "Logging out...": "로그아웃 중...",
     "MetaMask plugin not detected": "MetaMask 플러그인을 감지하지 못했습니다.",
@@ -653,7 +653,7 @@
     "WeChat": "위챗",
     "WebAuthn": "웹오토인",
     "sign up now": "지금 가입하세요",
-    "username, Email or phone": "유저명, 이메일 또는 전화번호"
+    "Username / Email / Phone": "유저명, 이메일 또는 전화번호"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "계정에 로그인할 때마다 비밀번호와 인증 코드가 필요합니다.",

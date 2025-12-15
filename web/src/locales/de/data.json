@@ -599,7 +599,7 @@
     "Back button": "Zurück-Button",
     "Continue with": "Weitermachen mit",
     "Email": "E-Mail",
-    "Email or phone": "E-Mail oder Telefon",
+    "Email / Phone": "E-Mail oder Telefon",
     "Face ID": "Face ID",
     "Face Recognition": "Gesichtserkennung",
     "Face recognition failed": "Gesichtserkennung fehlgeschlagen",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Web3-Onboard-Autorisierung fehlgeschlagen",
     "Forgot password?": "Passwort vergessen?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP-Benutzername, E-Mail oder Telefon",
+    "LDAP Username / Email / Phone": "LDAP-Benutzername, E-Mail oder Telefon",
     "Loading": "Laden",
     "Logging out...": "Ausloggen...",
     "MetaMask plugin not detected": "MetaMask-Plugin nicht erkannt",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "Melde dich jetzt an",
-    "username, Email or phone": "Benutzername, E-Mail oder Telefon"
+    "Username / Email / Phone": "Benutzername, E-Mail oder Telefon"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Jedes Mal, wenn Sie sich anmelden, benötigen Sie Ihr Passwort und einen Authentifizierungscode.",

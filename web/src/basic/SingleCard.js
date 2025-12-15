@@ -75,19 +75,26 @@ class SingleCard extends React.Component {
     const silentSigninLink = this.wrappedAsSilentSigninLink(link);
 
     return (
-      <Col style={{paddingLeft: "20px", paddingRight: "20px", paddingBottom: "20px", marginBottom: "20px"}} span={6}>
+      <Col style={{paddingLeft: "12px", paddingRight: "12px", paddingBottom: "16px", marginBottom: "8px"}} span={6}>
         <Card
           hoverable
+          className="app-card"
           cover={
-            <img alt="logo" src={logo} style={{width: "100%", height: "200px", padding: "20px", objectFit: "scale-down"}} />
+            <div className="app-card-cover">
+              <img alt="logo" src={logo} className="app-card-logo" />
+            </div>
           }
           onClick={() => Setting.goToLinkSoft(this, silentSigninLink)}
-          style={isSingle ? {width: "320px", height: "100%"} : {width: "100%", height: "100%"}}
+          style={isSingle ? {width: "280px", height: "100%"} : {width: "100%", height: "100%"}}
         >
           <Meta title={title} description={desc} />
           {this.renderTags(tags)}
-          <br />
-          <Meta title={""} description={Setting.getFormattedDateShort(time)} />
+          {time && (
+            <>
+              <br />
+              <Meta title={""} description={Setting.getFormattedDateShort(time)} />
+            </>
+          )}
         </Card>
       </Col>
     );

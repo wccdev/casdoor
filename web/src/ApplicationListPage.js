@@ -182,11 +182,11 @@ class ApplicationListPage extends BaseListPage {
         title: "Logo",
         dataIndex: "logo",
         key: "logo",
-        width: "200px",
+        width: "130px",
         render: (text, record, index) => {
           return (
             <a target="_blank" rel="noreferrer" href={text}>
-              <img src={text} alt={text} width={150} />
+              <img src={text} alt={text} className="app-logo-img" width={150} />
             </a>
           );
         },

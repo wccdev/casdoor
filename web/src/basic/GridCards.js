@@ -36,7 +36,7 @@ const GridCards = (props) => {
       </Card>
     ) : (
       <div style={{width: "100%", padding: "0 100px"}}>
-        <Row style={{justifyContent: "center"}}>
+        <Row style={{justifyContent: "flex-start"}}>
           {items.map(item => <SingleCard logo={item.logo} link={item.link} title={item.name} desc={item.description} tags = {item.tags} time={item.createdTime} isSingle={items.length === 1} key={item.name} />)}
         </Row>
       </div>

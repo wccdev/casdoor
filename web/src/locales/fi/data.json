@@ -599,7 +599,7 @@
     "Back button": "Takaisin-painike",
     "Continue with": "Jatka palvelulla",
     "Email": "Sähköposti",
-    "Email or phone": "Sähköposti tai puhelinnumero",
+    "Email / Phone": "Sähköposti tai puhelinnumero",
     "Face ID": "Kasvontunnistus",
     "Face Recognition": "Kasvojentunnistus",
     "Face recognition failed": "Kasvojentunnistus epäonnistui",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Web3-Onboard-valtuutus epäonnistui",
     "Forgot password?": "Unohditko salasanan?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP-käyttäjätunnus, sähköposti tai puhelinnumero",
+    "LDAP Username / Email / Phone": "LDAP-käyttäjätunnus, sähköposti tai puhelinnumero",
     "Loading": "Ladataan",
     "Logging out...": "Kirjaudutaan ulos...",
     "MetaMask plugin not detected": "MetaMask-lisäosaa ei havaittu",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "rekisteröidy nyt",
-    "username, Email or phone": "käyttäjätunnus, sähköposti tai puhelinnumero"
+    "Username / Email / Phone": "käyttäjätunnus, sähköposti tai puhelinnumero"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Joka kerta kirjautuessasi tilillesi tarvitset salasanasi ja tunnistuskoodin",

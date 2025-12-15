@@ -599,7 +599,7 @@
     "Back button": "Артқа батырмасы",
     "Continue with": "Жалғастыру",
     "Email": "Электрондық пошта",
-    "Email or phone": "Электрондық пошта немесе телефон",
+    "Email / Phone": "Электрондық пошта немесе телефон",
     "Face ID": "Ендіру айдентификаторы",
     "Face Recognition": "Бетті тану",
     "Face recognition failed": "Бетті тану сәтсіз аяқталды",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Web3-Onboard рұқсатын алу сәтсіз аяқталды",
     "Forgot password?": "Құпия сөзді ұмыттыңыз ба?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP пайдаланушы аты, электрондық пошта немесе телефон",
+    "LDAP Username / Email / Phone": "LDAP пайдаланушы аты, электрондық пошта немесе телефон",
     "Loading": "Жүктелуде",
     "Logging out...": "Шығу барысында...",
     "MetaMask plugin not detected": "MetaMask плагині табылмады",
@@ -653,7 +653,7 @@
     "WeChat": "Вейчат",
     "WebAuthn": "Вэб-Ауθεν",
     "sign up now": "қазір тіркелу",
-    "username, Email or phone": "пайдаланушы аты, электрондық пошта немесе телефон"
+    "Username / Email / Phone": "пайдаланушы аты, электрондық пошта немесе телефон"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Әр кірген сайын құпия сөзіңіз бен растау кодын енгізу керек болады",

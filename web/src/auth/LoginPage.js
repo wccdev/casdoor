@@ -285,11 +285,11 @@ class LoginPage extends React.Component {
       return defaultPlaceholder;
     }
     switch (this.state.loginMethod) {
-    case "verificationCode": return i18next.t("login:Email or phone");
+    case "verificationCode": return i18next.t("login:Email / Phone");
     case "verificationCodeEmail": return i18next.t("login:Email");
     case "verificationCodePhone": return i18next.t("login:Phone");
-    case "ldap": return i18next.t("login:LDAP username, Email or phone");
-    default: return i18next.t("login:username, Email or phone");
+    case "ldap": return i18next.t("login:LDAP Username / Email / Phone");
+    default: return i18next.t("login:Username / Email / Phone");
     }
   }
 
@@ -924,9 +924,19 @@ class LoginPage extends React.Component {
       const searchParams = new URLSearchParams(window.location.search);
       const providerHint = searchParams.get("provider_hint");
 
+      // 检查是否有可见的社会化登录提供者
+      const visibleProviders = application.providers.filter(providerItem => this.isProviderVisible(providerItem));
+      const hasProviders = visibleProviders.length > 0;
+
       return (
         <div key={resultItemKey}>
           <div dangerouslySetInnerHTML={{__html: ("<style>" + signinItem.customCss?.replaceAll("<style>", "").replaceAll("</style>", "") + "</style>")}} />
+          {/* 如果有表单且有社会化登录提供者，显示分割线 */}
+          {showForm && hasProviders && (
+            <div className="login-divider">
+              <span>{i18next.t("login:or")}</span>
+            </div>
+          )}
           <Form.Item>
             {
               application.providers.filter(providerItem => this.isProviderVisible(providerItem)).map((providerItem, id) => {

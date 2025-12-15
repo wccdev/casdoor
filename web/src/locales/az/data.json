@@ -599,7 +599,7 @@
     "Back button": "Geri düyməsi",
     "Continue with": "İlə davam et",
     "Email": "Email",
-    "Email or phone": "Email və ya telefon",
+    "Email / Phone": "Email və ya telefon",
     "Face ID": "Üz ID",
     "Face Recognition": "Üz Tanıma",
     "Face recognition failed": "Üz tanıma uğursuz oldu",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Web3-Onboard icazəsini almaq uğursuz oldu",
     "Forgot password?": "Şifrəni unutdun?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "LDAP istifadəçi adı, Email və ya telefon",
+    "LDAP Username / Email / Phone": "LDAP istifadəçi adı, Email və ya telefon",
     "Loading": "Yüklənir",
     "Logging out...": "Çıxış edilir...",
     "MetaMask plugin not detected": "MetaMask plugin-i aşkarlanmadı",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "indi qeydiyyatdan keç",
-    "username, Email or phone": "istifadəçi adı, Email və ya telefon"
+    "Username / Email / Phone": "istifadəçi adı, Email və ya telefon"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Hesabınıza hər daxil olarkən şifrəniz və təsdiqləmə kodunuz lazım olacaq",

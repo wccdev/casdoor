@@ -599,7 +599,7 @@
     "Back button": "Tombol kembali",
     "Continue with": "Lanjutkan dengan",
     "Email": "Email",
-    "Email or phone": "Email atau telepon",
+    "Email / Phone": "Email atau telepon",
     "Face ID": "Face ID",
     "Face Recognition": "Pengenalan Wajah",
     "Face recognition failed": "Pengenalan wajah gagal",
@@ -608,7 +608,7 @@
     "Failed to obtain Web3-Onboard authorization": "Gagal mendapatkan otorisasi Web3-Onboard",
     "Forgot password?": "Lupa kata sandi?",
     "LDAP": "LDAP",
-    "LDAP username, Email or phone": "Nama pengguna LDAP, Email atau telepon",
+    "LDAP Username / Email / Phone": "Nama pengguna LDAP, Email atau telepon",
     "Loading": "Memuat",
     "Logging out...": "Keluar...",
     "MetaMask plugin not detected": "Plugin MetaMask tidak terdeteksi",
@@ -653,7 +653,7 @@
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
     "sign up now": "Daftar sekarang",
-    "username, Email or phone": "nama pengguna, Email atau nomor telepon"
+    "Username / Email / Phone": "nama pengguna, Email atau nomor telepon"
   },
   "mfa": {
     "Each time you sign in to your Account, you'll need your password and a authentication code": "Setiap kali Anda masuk ke Akun Anda, Anda akan memerlukan kata sandi dan kode autentikasi",
