@@ -37,9 +37,44 @@ img {
   flex-direction: column;
   height: 100%;
   min-height: 100vh;
+  background: #e5e1ec;
+}
+
+#parent-area main .login-content .login-panel .login-form button {
+  box-shadow: none;
+  border-radius: 8px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #eee;
+}
+
+#footer {
+  background: #e5e1ec;
+}
+
+#footer > a {
+  filter: grayscale(100%);
+  transition: filter 0.2s;
+  color: #adaab4;
+}
+
+#footer > a:hover {
+  filter: grayscale(0%);
+  color: #928f9a;
+}
+
+@media (max-width: 640px) {
+  .login-panel {
+    padding: 40px 0 0;
+    box-shadow: none;
+  }
+}
+
+.ant-btn-primary {
+  box-shadow: none !important;
 }
 
 .panel-logo {
+  width: 230px;
   margin-bottom: 30px;
 }
 
@@ -94,25 +129,27 @@ img {
     display: block;
     position: relative;
     width: 500px;
-    border-right: 0.5px solid rgb(196 203 215);
+    border-right: 0.5px solid #c4cbd7;
   }
 }
 
 .forget-content {
-  padding: 10px 100px 20px;
+  padding: 40px 70px 0;
   margin: 30px auto;
   border: 2px solid #fff;
-  border-radius: 7px;
-  background-color: rgb(255 255 255);
-  box-shadow: 0 0 20px rgb(0 0 0 / 20%);
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
 }
 
 .login-panel {
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 50px 0;
   display: flex;
-  background-color: rgb(255 255 255);
+  background-color: #fff;
+  padding: 40px 70px 0;
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
 }
 
 .login-form {
@@ -122,7 +159,7 @@ img {
 
 .login-content {
   display: flex;
-  flex-direction: row;
+  // flex-direction: row;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -134,7 +171,7 @@ img {
   flex: auto;
   display: flex;
   align-items: center;
-  background: #fff no-repeat;
+  background: #e5e1ec no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
 }
