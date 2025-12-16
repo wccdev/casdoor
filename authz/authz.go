@@ -66,6 +66,7 @@ p, *, *, GET, /api/get-user-application, *, *
 p, *, *, POST, /api/upload-users, *, *
 p, *, *, GET, /api/get-resources, *, *
 p, *, *, GET, /api/get-records, *, *
+p, *, *, GET, /api/get-verifications, *, *
 p, *, *, GET, /api/get-product, *, *
 p, *, *, GET, /api/get-payment, *, *
 p, *, *, POST, /api/update-payment, *, *
