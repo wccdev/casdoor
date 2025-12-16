@@ -85,6 +85,14 @@ func getObject(ctx *context.Context) (string, string, error) {
 			}
 		}
 
+		// 这些 API 虽然以 "s" 结尾但需要从 id 参数获取 owner（不是获取列表的 API）
+		if path == "/api/get-ldap-users" {
+			id := ctx.Input.Query("id")
+			if id != "" {
+				return util.GetOwnerAndNameFromIdWithError(id)
+			}
+		}
+
 		if !(strings.HasPrefix(ctx.Request.URL.Path, "/api/get-") && strings.HasSuffix(ctx.Request.URL.Path, "s")) {
 			// query == "?id=built-in/admin"
 			id := ctx.Input.Query("id")
