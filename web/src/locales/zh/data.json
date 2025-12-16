@@ -283,6 +283,8 @@
     "Data": "数据",
     "Default": "默认",
     "Default application": "默认应用",
+    "Please select a group": "请选择群组",
+    "Please select groups": "请选择群组",
     "Default application - Tooltip": "直接从组织页面注册的用户默认所属的应用",
     "Default avatar": "默认头像",
     "Default avatar - Tooltip": "新注册用户没有设置头像时所采用的默认头像",
@@ -532,6 +534,7 @@
   "group": {
     "Edit Group": "编辑群组",
     "New Group": "新建群组",
+    "Organization root": "组织根节点",
     "Parent group": "上级组",
     "Parent group - Tooltip": "该组的父组",
     "Physical": "实体组",

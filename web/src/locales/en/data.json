@@ -283,6 +283,8 @@
     "Data": "Data",
     "Default": "Default",
     "Default application": "Default application",
+    "Please select a group": "Please select a group",
+    "Please select groups": "Please select groups",
     "Default application - Tooltip": "Default application for users registered directly from the organization page",
     "Default avatar": "Default avatar",
     "Default avatar - Tooltip": "Default avatar used when newly registered users do not set an avatar image",
@@ -534,6 +536,7 @@
   "group": {
     "Edit Group": "Edit Group",
     "New Group": "New Group",
+    "Organization root": "Organization root",
     "Parent group": "Parent group",
     "Parent group - Tooltip": "Parent group of this group",
     "Physical": "Physical",

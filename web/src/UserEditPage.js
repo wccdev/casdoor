@@ -37,7 +37,8 @@ import PropertyTable from "./table/propertyTable";
 import {CountryCodeSelect} from "./common/select/CountryCodeSelect";
 import PopconfirmModal from "./common/modal/PopconfirmModal";
 import {DeleteMfa} from "./backend/MfaBackend";
-import {CheckCircleOutlined, HolderOutlined, UsergroupAddOutlined} from "@ant-design/icons";
+import {CheckCircleOutlined} from "@ant-design/icons";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 import * as MfaBackend from "./backend/MfaBackend";
 import AccountAvatar from "./account/AccountAvatar";
 import FaceIdTable from "./table/FaceIdTable";
@@ -377,25 +378,19 @@ class UserEditPage extends React.Component {
             {Setting.getLabel(i18next.t("general:Groups"), i18next.t("general:Groups - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Select virtual={false} mode="multiple" style={{width: "100%"}} disabled={disabled} value={this.state.user.groups ?? []} onChange={(value => {
-              if (this.state.groups?.filter(group => value.includes(`${group.owner}/${group.name}`))
-                .filter(group => group.type === "Physical").length > 1) {
-                Setting.showMessage("error", i18next.t("general:You can only select one physical group"));
-                return;
-              }
-
-              this.updateUserField("groups", value);
-            })}
-            >
-              {
-                this.state.groups?.map((group) => <Option key={group.name} value={`${group.owner}/${group.name}`}>
-                  <Space>
-                    {group.type === "Physical" ? <UsergroupAddOutlined /> : <HolderOutlined />}
-                    {group.displayName}
-                  </Space>
-                </Option>)
-              }
-            </Select>
+            <GroupTreeSelect
+              organizationName={this.state.user.owner}
+              value={this.state.user.groups ?? []}
+              onChange={(value) => this.updateUserField("groups", value)}
+              multiple={true}
+              disabled={disabled}
+              groups={this.state.groups}
+              onPhysicalGroupCheck={(valid) => {
+                if (!valid) {
+                  Setting.showMessage("error", i18next.t("general:You can only select one physical group"));
+                }
+              }}
+            />
           </Col>
         </Row>
       );

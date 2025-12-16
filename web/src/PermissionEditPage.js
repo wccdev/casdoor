@@ -24,6 +24,7 @@ import * as RoleBackend from "./backend/RoleBackend";
 import * as ModelBackend from "./backend/ModelBackend";
 import * as ApplicationBackend from "./backend/ApplicationBackend";
 import moment from "moment/moment";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 
 class PermissionEditPage extends React.Component {
   constructor(props) {
@@ -282,12 +283,13 @@ class PermissionEditPage extends React.Component {
             {Setting.getLabel(i18next.t("role:Sub groups"), i18next.t("role:Sub groups - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Select virtual={false} mode="multiple" style={{width: "100%"}} value={this.state.permission.groups}
-              onChange={(value => {this.updatePermissionField("groups", value);})}
-              options={[
-                Setting.getOption(i18next.t("organization:All"), "*"),
-                ...this.state.groups.map((group) => Setting.getOption(`${group.owner}/${group.name}`, `${group.owner}/${group.name}`)),
-              ]}
+            <GroupTreeSelect
+              organizationName={this.state.permission.owner}
+              value={this.state.permission.groups}
+              onChange={(value) => this.updatePermissionField("groups", value)}
+              multiple={true}
+              showAll={true}
+              groups={this.state.groups}
             />
           </Col>
         </Row>

@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import React from "react";
-import {Button, Card, Col, ConfigProvider, Input, InputNumber, Popover, Radio, Result, Row, Select, Space, Switch, Upload, message} from "antd";
-import {CopyOutlined, HolderOutlined, LinkOutlined, UploadOutlined, UsergroupAddOutlined} from "@ant-design/icons";
+import {Button, Card, Col, ConfigProvider, Input, InputNumber, Popover, Radio, Result, Row, Select, Switch, Upload, message} from "antd";
+import {CopyOutlined, LinkOutlined, UploadOutlined} from "@ant-design/icons";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 import * as ApplicationBackend from "./backend/ApplicationBackend";
 import * as CertBackend from "./backend/CertBackend";
 import * as Setting from "./Setting";
@@ -605,24 +606,14 @@ class ApplicationEditPage extends React.Component {
             {Setting.getLabel(i18next.t("ldap:Default group"), i18next.t("ldap:Default group - Tooltip"))} :
           </Col>
           <Col span={22}>
-            <Select virtual={false} style={{width: "100%"}} value={this.state.application.defaultGroup ?? []} onChange={(value => {
-              this.updateApplicationField("defaultGroup", value);
-            })}
-            >
-              <Option key={""} value={""}>
-                <Space>
-                  {i18next.t("general:Default")}
-                </Space>
-              </Option>
-              {
-                this.state.groups?.map((group) => <Option key={group.name} value={`${group.owner}/${group.name}`}>
-                  <Space>
-                    {group.type === "Physical" ? <UsergroupAddOutlined /> : <HolderOutlined />}
-                    {group.displayName}
-                  </Space>
-                </Option>)
-              }
-            </Select>
+            <GroupTreeSelect
+              organizationName={this.state.owner}
+              value={this.state.application.defaultGroup ?? ""}
+              onChange={(value) => this.updateApplicationField("defaultGroup", value)}
+              multiple={false}
+              showDefault={true}
+              groups={this.state.groups}
+            />
           </Col>
         </Row>
         <Row style={{marginTop: "20px"}} >

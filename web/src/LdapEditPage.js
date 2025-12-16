@@ -13,14 +13,15 @@
 // limitations under the License.
 
 import React from "react";
-import {Button, Card, Col, Input, InputNumber, Row, Select, Space, Switch} from "antd";
-import {EyeInvisibleOutlined, EyeTwoTone, HolderOutlined, UsergroupAddOutlined} from "@ant-design/icons";
+import {Button, Card, Col, Input, InputNumber, Row, Select, Switch} from "antd";
+import {EyeInvisibleOutlined, EyeTwoTone} from "@ant-design/icons";
 import * as LddpBackend from "./backend/LdapBackend";
 import * as OrganizationBackend from "./backend/OrganizationBackend";
 import * as Setting from "./Setting";
 import i18next from "i18next";
 import * as GroupBackend from "./backend/GroupBackend";
 import AttributesMapperTable from "./table/AttributesMapperTable";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 
 const {Option} = Select;
 
@@ -259,24 +260,14 @@ class LdapEditPage extends React.Component {
             {Setting.getLabel(i18next.t("ldap:Default group"), i18next.t("ldap:Default group - Tooltip"))} :
           </Col>
           <Col span={21}>
-            <Select virtual={false} style={{width: "100%"}} value={this.state.ldap.defaultGroup ?? []} onChange={(value => {
-              this.updateLdapField("defaultGroup", value);
-            })}
-            >
-              <Option key={""} value={""}>
-                <Space>
-                  {i18next.t("general:Default")}
-                </Space>
-              </Option>
-              {
-                this.state.groups?.map((group) => <Option key={group.name} value={`${group.owner}/${group.name}`}>
-                  <Space>
-                    {group.type === "Physical" ? <UsergroupAddOutlined /> : <HolderOutlined />}
-                    {group.displayName}
-                  </Space>
-                </Option>)
-              }
-            </Select>
+            <GroupTreeSelect
+              organizationName={this.state.organizationName}
+              value={this.state.ldap.defaultGroup ?? ""}
+              onChange={(value) => this.updateLdapField("defaultGroup", value)}
+              multiple={false}
+              showDefault={true}
+              groups={this.state.groups}
+            />
           </Col>
         </Row>
         <Row style={{marginTop: "20px"}} >

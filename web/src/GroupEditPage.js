@@ -18,6 +18,7 @@ import * as GroupBackend from "./backend/GroupBackend";
 import * as OrganizationBackend from "./backend/OrganizationBackend";
 import * as Setting from "./Setting";
 import i18next from "i18next";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 
 class GroupEditPage extends React.Component {
   constructor(props) {
@@ -169,12 +170,16 @@ class GroupEditPage extends React.Component {
             {Setting.getLabel(i18next.t("group:Parent group"), i18next.t("group:Parent group - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Select style={{width: "100%"}}
-              options={this.getParentIdOptions()}
-              value={this.state.group.parentId} onChange={(value => {
-                this.updateGroupField("parentId", value);
-              }
-              )} />
+            <GroupTreeSelect
+              organizationName={this.state.group.owner}
+              value={this.state.group.parentId}
+              onChange={(value) => this.updateGroupField("parentId", value)}
+              multiple={false}
+              includeOrganization={true}
+              excludeGroupName={this.state.group.name}
+              valueFormat="name"
+              groups={this.state.groups}
+            />
           </Col>
         </Row>
         <Row style={{marginTop: "20px"}} >

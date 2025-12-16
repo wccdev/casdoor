@@ -20,6 +20,7 @@ import * as GroupBackend from "./backend/GroupBackend";
 import * as RoleBackend from "./backend/RoleBackend";
 import * as Setting from "./Setting";
 import i18next from "i18next";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 
 class RoleEditPage extends React.Component {
   constructor(props) {
@@ -198,9 +199,12 @@ class RoleEditPage extends React.Component {
             {Setting.getLabel(i18next.t("role:Sub groups"), i18next.t("role:Sub groups - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Select virtual={false} mode="multiple" style={{width: "100%"}} value={this.state.role.groups}
-              onChange={(value => {this.updateRoleField("groups", value);})}
-              options={this.state.groups.map((group) => Setting.getOption(`${group.owner}/${group.name}`, `${group.owner}/${group.name}`))}
+            <GroupTreeSelect
+              organizationName={this.state.role.owner}
+              value={this.state.role.groups}
+              onChange={(value) => this.updateRoleField("groups", value)}
+              multiple={true}
+              groups={this.state.groups}
             />
           </Col>
         </Row>

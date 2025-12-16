@@ -22,6 +22,7 @@ import * as Setting from "./Setting";
 import i18next from "i18next";
 import copy from "copy-to-clipboard";
 import * as GroupBackend from "./backend/GroupBackend";
+import GroupTreeSelect from "./common/select/GroupTreeSelect";
 
 const {Option} = Select;
 
@@ -282,14 +283,14 @@ class InvitationEditPage extends React.Component {
             {Setting.getLabel(i18next.t("provider:Signup group"), i18next.t("provider:Signup group - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Select virtual={false} style={{width: "100%"}} value={this.state.invitation.signupGroup} onChange={(value => {this.updateInvitationField("signupGroup", value);})}>
-              <Option key={""} value={""}>
-                {i18next.t("general:Default")}
-              </Option>
-              {
-                this.state.groups.map((group, index) => <Option key={index} value={`${group.owner}/${group.name}`}>{group.name}</Option>)
-              }
-            </Select>
+            <GroupTreeSelect
+              organizationName={this.state.invitation.owner}
+              value={this.state.invitation.signupGroup}
+              onChange={(value) => this.updateInvitationField("signupGroup", value)}
+              multiple={false}
+              showDefault={true}
+              groups={this.state.groups}
+            />
           </Col>
         </Row>
         <Row style={{marginTop: "20px"}} >
