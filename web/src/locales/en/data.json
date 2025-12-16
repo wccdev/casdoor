@@ -600,7 +600,8 @@
     "The Auto Sync option will sync all users to specify organization": "The Auto Sync option will sync all users to specify organization",
     "User property name": "User property name",
     "synced": "synced",
-    "unsynced": "unsynced"
+    "unsynced": "unsynced",
+    "User linked successfully": "User linked successfully"
   },
   "login": {
     "Auto sign in": "Auto sign in",

@@ -48,19 +48,32 @@ class LdapSyncPage extends React.Component {
         if (res.status === "ok") {
           const exist = res.data.exist;
           const failed = res.data.failed;
+          const linked = res.data.linked;
           const existUser = [];
           const failedUser = [];
+          const linkedUser = [];
 
-          if ((!exist || exist.length === 0) && (!failed || failed.length === 0)) {
+          // 没有任何特殊情况，直接跳转
+          if ((!exist || exist.length === 0) && (!failed || failed.length === 0) && (!linked || linked.length === 0)) {
             Setting.goToLink(`/organizations/${this.state.ldap.owner}/users`);
           } else {
+            // 合并关联成功的用户（显示成功提示）
+            if (linked && linked.length > 0) {
+              linked.forEach(elem => {
+                linkedUser.push(elem.cn);
+              });
+              Setting.showMessage("success", `${i18next.t("ldap:User linked successfully")}: [${linkedUser}]`);
+            }
+
+            // LDAP UUID 已存在的用户（显示警告提示）
             if (exist && exist.length > 0) {
               exist.forEach(elem => {
                 existUser.push(elem.cn);
               });
-              Setting.showMessage("error", `${i18next.t("general:User already exists")}: [${existUser}]`);
+              Setting.showMessage("warning", `${i18next.t("general:User already exists")}: [${existUser}]`);
             }
 
+            // 同步失败的用户（显示错误提示）
             if (failed && failed.length > 0) {
               failed.forEach(elem => {
                 failedUser.push(elem.cn);

@@ -36,6 +36,7 @@ type LdapResp struct {
 type LdapSyncResp struct {
 	Exist  []object.LdapUser `json:"exist"`
 	Failed []object.LdapUser `json:"failed"`
+	Linked []object.LdapUser `json:"linked"` // 合并关联成功的用户（原用户无 LDAP 账号，现已关联）
 }
 
 // GetLdapUsers
@@ -286,7 +287,7 @@ func (c *ApiController) SyncLdapUsers() {
 		return
 	}
 
-	exist, failed, err := object.SyncLdapUsers(owner, users, ldapId)
+	exist, failed, linked, err := object.SyncLdapUsers(owner, users, ldapId)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return
@@ -295,5 +296,6 @@ func (c *ApiController) SyncLdapUsers() {
 	c.ResponseOk(&LdapSyncResp{
 		Exist:  exist,
 		Failed: failed,
+		Linked: linked,
 	})
 }

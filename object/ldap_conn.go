@@ -295,7 +295,7 @@ func AutoAdjustLdapUser(users []LdapUser) []LdapUser {
 	return res
 }
 
-func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUsers []LdapUser, failedUsers []LdapUser, err error) {
+func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUsers []LdapUser, failedUsers []LdapUser, linkedUsers []LdapUser, err error) {
 	var uuids []string
 	for _, user := range syncUsers {
 		uuids = append(uuids, user.Uuid)
@@ -327,7 +327,7 @@ func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUser
 	for _, syncUser := range syncUsers {
 		existUuids, err := GetExistUuids(owner, uuids)
 		if err != nil {
-			return nil, nil, err
+			return nil, nil, nil, err
 		}
 
 		found := false
@@ -344,7 +344,7 @@ func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUser
 			// 检查是否存在同名用户且没有 LDAP 账号，如果有则更新该用户的 ldap 字段
 			existingUser, err := getExistingUserWithoutLdap(owner, syncUser.Uid, syncUser.Cn)
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 
 			if existingUser != nil {
@@ -363,21 +363,22 @@ func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUser
 
 				_, err = UpdateUser(existingUser.GetId(), existingUser, []string{"ldap", "email", "phone", "display_name"}, false)
 				if err != nil {
-					return nil, nil, err
+					return nil, nil, nil, err
 				}
 
-				existUsers = append(existUsers, syncUser)
+				// 合并关联成功的用户放入 linkedUsers
+				linkedUsers = append(linkedUsers, syncUser)
 				continue
 			}
 
 			score, err := organization.GetInitScore()
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 
 			name, err := syncUser.buildLdapUserName(owner)
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 
 			newUser := &User{
@@ -405,7 +406,7 @@ func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUser
 
 			affected, err := AddUser(newUser, "en")
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 
 			if !affected {
@@ -418,7 +419,7 @@ func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUser
 		}
 	}
 
-	return existUsers, failedUsers, err
+	return existUsers, failedUsers, linkedUsers, err
 }
 
 func GetExistUuids(owner string, uuids []string) ([]string, error) {

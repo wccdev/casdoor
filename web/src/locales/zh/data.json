@@ -598,7 +598,8 @@
     "The Auto Sync option will sync all users to specify organization": "自动同步选项将同步所有用户以指定组织",
     "User property name": "用户属性名",
     "synced": "已同步",
-    "unsynced": "未同步"
+    "unsynced": "未同步",
+    "User linked successfully": "用户关联成功"
   },
   "login": {
     "Auto sign in": "下次自动登录",
