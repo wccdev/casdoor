@@ -108,7 +108,9 @@ func getObject(ctx *context.Context) (string, string, error) {
 
 		return "", "", nil
 	} else {
-		if path == "/api/add-policy" || path == "/api/remove-policy" || path == "/api/update-policy" || path == "/api/send-invitation" {
+		// 这些 POST API 需要从 query 参数 id 中获取 owner，因为它们的 request body 不包含标准的 owner/name 结构
+		if path == "/api/add-policy" || path == "/api/remove-policy" || path == "/api/update-policy" || path == "/api/send-invitation" ||
+			path == "/api/sync-ldap-users" {
 			id := ctx.Input.Query("id")
 			if id != "" {
 				return util.GetOwnerAndNameFromIdWithError(id)
