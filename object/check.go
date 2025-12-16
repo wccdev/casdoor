@@ -386,26 +386,23 @@ func CheckUserPassword(organization string, username string, password string, la
 	}
 
 	if isSigninViaLdap {
+		// 用户选择 LDAP 方式登录，走 LDAP 验证
 		if user.Ldap == "" {
 			return nil, fmt.Errorf(i18n.Translate(lang, "check:The user: %s doesn't exist in LDAP server"), username)
 		}
-	}
-
-	if user.Ldap != "" {
-		if !isSigninViaLdap && !isPasswordWithLdapEnabled {
-			return nil, fmt.Errorf(i18n.Translate(lang, "check:password or code is incorrect"))
-		}
-
-		// only for LDAP users
 		err = CheckLdapUserPassword(user, password, lang, enableCaptcha)
 		if err != nil {
 			if err.Error() == "user not exist" {
 				return nil, fmt.Errorf(i18n.Translate(lang, "check:The user: %s doesn't exist in LDAP server"), username)
 			}
-
 			return nil, err
 		}
 	} else {
+		// 用户选择普通密码方式登录
+		// 如果用户有 LDAP 账号，需要检查应用是否允许密码登录
+		if user.Ldap != "" && !isPasswordWithLdapEnabled {
+			return nil, fmt.Errorf(i18n.Translate(lang, "check:password or code is incorrect"))
+		}
 		err = CheckPassword(user, password, lang, enableCaptcha)
 		if err != nil {
 			return nil, err
