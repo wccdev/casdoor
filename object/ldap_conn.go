@@ -341,6 +341,35 @@ func SyncLdapUsers(owner string, syncUsers []LdapUser, ldapId string) (existUser
 		}
 
 		if !found {
+			// 检查是否存在同名用户且没有 LDAP 账号，如果有则更新该用户的 ldap 字段
+			existingUser, err := getExistingUserWithoutLdap(owner, syncUser.Uid, syncUser.Cn)
+			if err != nil {
+				return nil, nil, err
+			}
+
+			if existingUser != nil {
+				// 更新现有用户的 LDAP 账号信息
+				existingUser.Ldap = syncUser.Uuid
+				// 同时更新其他可能为空的字段
+				if existingUser.Email == "" && syncUser.Email != "" {
+					existingUser.Email = syncUser.Email
+				}
+				if existingUser.Phone == "" && syncUser.Mobile != "" {
+					existingUser.Phone = syncUser.Mobile
+				}
+				if existingUser.DisplayName == "" {
+					existingUser.DisplayName = syncUser.buildLdapDisplayName()
+				}
+
+				_, err = UpdateUser(existingUser.GetId(), existingUser, []string{"ldap", "email", "phone", "display_name"}, false)
+				if err != nil {
+					return nil, nil, err
+				}
+
+				existUsers = append(existUsers, syncUser)
+				continue
+			}
+
 			score, err := organization.GetInitScore()
 			if err != nil {
 				return nil, nil, err
@@ -403,6 +432,33 @@ func GetExistUuids(owner string, uuids []string) ([]string, error) {
 	}
 
 	return existUuids, nil
+}
+
+// getExistingUserWithoutLdap 查找同名用户且没有 LDAP 账号的用户
+// 用于 LDAP 同步时合并已存在的用户（如通过数据库同步器同步过来的用户）
+func getExistingUserWithoutLdap(owner string, uid string, cn string) (*User, error) {
+	user := User{}
+
+	// 优先匹配 uid，其次匹配 cn
+	userName := uid
+	if userName == "" {
+		userName = cn
+	}
+	if userName == "" {
+		return nil, nil
+	}
+
+	// 查找同名用户且 ldap 字段为空的用户
+	has, err := ormer.Engine.Where("owner = ? and name = ? and (ldap = '' or ldap is null)", owner, userName).Get(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	if has {
+		return &user, nil
+	}
+
+	return nil, nil
 }
 
 func ResetLdapPassword(user *User, oldPassword string, newPassword string, lang string) error {
