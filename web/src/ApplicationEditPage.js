@@ -44,27 +44,29 @@ const {Option} = Select;
 
 const template = `<style>
   .login-panel {
-    margin: 50px 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
     display: flex;
     background-color: #fff;
-    padding: 40px 70px 0;
+    padding: 30px 30px 20px;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
   }
   .login-panel-dark {
-    margin: 50px 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
     display: flex;
     background-color: #141414;
-    padding: 40px 70px 0;
+    padding: 30px 30px 20px;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
   }
   .panel-logo {
     width: 230px;
+    margin-top: 30px;
     margin-bottom: 30px;
-    margin-left: 0px;
   }
   .forget-content {
     padding: 10px 100px 20px;
