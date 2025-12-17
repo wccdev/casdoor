@@ -299,7 +299,7 @@ func extendApplicationWithSigninItems(application *Application) (err error) {
 		signinItem = &SigninItem{
 			Name:        "Forgot password?",
 			Visible:     true,
-			CustomCss:   ".login-forget-password {\n    display: inline-flex;\n    justify-content: flex-end;\n    width: 320px;\n    margin-bottom: 25px;\n}",
+			CustomCss:   ".login-forget-password {\n    display: inline-flex;\n    justify-content: flex-end;\n    width: 320px;\n    margin-bottom: 10px;\n}",
 			Placeholder: "",
 			Rule:        "None",
 		}
