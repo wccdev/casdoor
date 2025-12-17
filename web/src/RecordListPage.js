@@ -299,11 +299,14 @@ class RecordListPage extends BaseListPage {
   };
 
   jsonStrFormatter = str => {
+    // 安全检查：空值直接返回空字符串
+    if (!str || str === "" || str === "null" || str === "undefined") {
+      return "";
+    }
     try {
       return JSON.stringify(JSON.parse(str), null, 2);
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
+      // JSON 解析失败，返回原始字符串
       return str;
     }
   };
