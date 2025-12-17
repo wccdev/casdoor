@@ -14,7 +14,7 @@
 
 import React, {Suspense, lazy} from "react";
 import {Button, Col, Form, Input, Result, Spin, Tabs, message} from "antd";
-import {ArrowLeftOutlined, LockOutlined, UserOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, KeyOutlined, LockOutlined, ScanOutlined, UserOutlined} from "@ant-design/icons";
 import {withRouter} from "react-router-dom";
 import * as UserWebauthnBackend from "../backend/UserWebauthnBackend";
 import OrganizationSelect from "../common/select/OrganizationSelect";
@@ -876,8 +876,8 @@ class LoginPage extends React.Component {
             className="login-button"
           >
             {
-              this.state.loginMethod === "webAuthn" ? i18next.t("login:Sign in with WebAuthn") :
-                this.state.loginMethod === "faceId" ? i18next.t("login:Sign in with Face ID") :
+              this.state.loginMethod === "webAuthn" ? <><KeyOutlined style={{marginRight: 8}} />{i18next.t("login:Sign in with WebAuthn")}</> :
+                this.state.loginMethod === "faceId" ? <><ScanOutlined style={{marginRight: 8}} />{i18next.t("login:Sign in with Face ID")}</> :
                   signinItem.label ? signinItem.label : i18next.t("login:Sign In")
             }
           </Button>
