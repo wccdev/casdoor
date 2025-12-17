@@ -274,7 +274,7 @@ class UserListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        // width: '100px',
+        width: "60px",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -307,6 +307,7 @@ class UserListPage extends BaseListPage {
         key: "signupApplication",
         width: (Setting.isMobile()) ? "100px" : "120px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("signupApplication"),
         render: (text, record, index) => {

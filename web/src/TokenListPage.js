@@ -82,7 +82,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("general:Name"),
         dataIndex: "name",
         key: "name",
-        width: (Setting.isMobile()) ? "100px" : "300px",
+        width: (Setting.isMobile()) ? "100px" : "200px",
         fixed: "left",
         hidden: true,
         sorter: true,
@@ -135,7 +135,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "organization",
         key: "organization",
-        width: "120px",
+        width: "160px",
         sorter: true,
         ...this.getColumnSearchProps("organization"),
         render: (text, record, index) => {

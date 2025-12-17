@@ -166,7 +166,7 @@ class OrganizationListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        width: "300px",
+        width: "160px",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {

@@ -111,7 +111,7 @@ class CertListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        // width: '100px',
+        width: "60px",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -126,7 +126,7 @@ class CertListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "200px",
+        width: "160px",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {

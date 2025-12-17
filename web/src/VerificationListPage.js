@@ -38,7 +38,7 @@ class VerificationListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "120px",
+        width: "150px",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -57,7 +57,7 @@ class VerificationListPage extends BaseListPage {
         title: i18next.t("general:Name"),
         dataIndex: "name",
         key: "name",
-        width: "260px",
+        width: "210px",
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("name"),

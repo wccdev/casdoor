@@ -166,7 +166,7 @@ class ApplicationListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        // width: '100px',
+        width: "200px",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -204,7 +204,7 @@ class ApplicationListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "organization",
         key: "organization",
-        width: "200px",
+        width: "160px",
         sorter: true,
         ...this.getColumnSearchProps("organization"),
         render: (text, record, index) => {

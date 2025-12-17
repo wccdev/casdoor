@@ -125,7 +125,7 @@ class SyncerListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "organization",
         key: "organization",
-        width: "200px",
+        width: "160px",
         sorter: true,
         ...this.getColumnSearchProps("organization"),
         render: (text, record, index) => {

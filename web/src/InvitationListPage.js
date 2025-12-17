@@ -121,7 +121,7 @@ class InvitationListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "200px",
+        width: "160px",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
