@@ -30,7 +30,7 @@ export const SigninTableDefaultCssMap = {
   "Password": ".login-password {}\n.login-password-input{}",
   "Verification code": ".verification-code {}\n.verification-code-input{}",
   "Agreement": ".login-agreement {}",
-  "Forgot password?": ".login-forget-password {\n    display: inline-flex;\n    justify-content: space-between;\n    width: 320px;\n    margin-bottom: 25px;\n}",
+  "Forgot password?": ".login-forget-password {\n    display: inline-flex;\n    justify-content: flex-end;\n    width: 320px;\n    margin-bottom: 25px;\n}",
   "Login button": ".login-button-box {\n    margin-bottom: 5px;\n}\n.login-button {\n    width: 100%;\n}",
   "Signup link": ".login-signup-link {\n    margin-bottom: 24px;\n    display: flex;\n    justify-content: end;\n}",
   "Providers": ".provider-img {\n      width: 30px;\n      margin: 5px;\n}\n.provider-big-img {\n      margin-bottom: 10px;\n}",
