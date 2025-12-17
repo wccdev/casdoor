@@ -85,6 +85,7 @@ class FormListPage extends BaseListPage {
         dataIndex: "name",
         key: "name",
         width: "160px",
+        hidden: true,
         sorter: (a, b) => a.name.localeCompare(b.name),
         render: (text, record, index) => {
           return (
@@ -100,6 +101,13 @@ class FormListPage extends BaseListPage {
         key: "displayName",
         width: "200px",
         sorter: (a, b) => a.displayName.localeCompare(b.displayName),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/forms/${record.name}`}>
+              {text}
+            </Link>
+          );
+        },
       },
       {
         title: i18next.t("general:Type"),

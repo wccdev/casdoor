@@ -151,12 +151,28 @@ class ApplicationListPage extends BaseListPage {
         key: "name",
         width: "150px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("name"),
         render: (text, record, index) => {
           return (
             <Link to={`/applications/${record.organization}/${text}`}>
               {Setting.getApplicationDisplayName(record)}
+            </Link>
+          );
+        },
+      },
+      {
+        title: i18next.t("general:Display name"),
+        dataIndex: "displayName",
+        key: "displayName",
+        // width: '100px',
+        sorter: true,
+        ...this.getColumnSearchProps("displayName"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/applications/${record.organization}/${encodeURIComponent(record.name)}`}>
+              {text}
             </Link>
           );
         },
@@ -170,14 +186,6 @@ class ApplicationListPage extends BaseListPage {
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
         },
-      },
-      {
-        title: i18next.t("general:Display name"),
-        dataIndex: "displayName",
-        key: "displayName",
-        // width: '100px',
-        sorter: true,
-        ...this.getColumnSearchProps("displayName"),
       },
       {
         title: "Logo",
@@ -196,7 +204,7 @@ class ApplicationListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "organization",
         key: "organization",
-        width: "150px",
+        width: "200px",
         sorter: true,
         ...this.getColumnSearchProps("organization"),
         render: (text, record, index) => {

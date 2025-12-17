@@ -85,6 +85,7 @@ class TicketListPage extends BaseListPage {
         key: "name",
         width: "140px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("name"),
         render: (text, record, index) => {
@@ -102,6 +103,13 @@ class TicketListPage extends BaseListPage {
         width: "200px",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/tickets/${record.owner}/${record.name}`}>
+              {text}
+            </Link>
+          );
+        },
       },
       {
         title: i18next.t("general:Title"),

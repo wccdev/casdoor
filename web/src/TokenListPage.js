@@ -84,6 +84,7 @@ class TokenListPage extends BaseListPage {
         key: "name",
         width: (Setting.isMobile()) ? "100px" : "300px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("name"),
         render: (text, record, index) => {
@@ -92,6 +93,17 @@ class TokenListPage extends BaseListPage {
               {text}
             </Link>
           );
+        },
+      },
+      {
+        title: i18next.t("token:Authorization code"),
+        dataIndex: "code",
+        key: "code",
+        width: "180px",
+        sorter: true,
+        ...this.getColumnSearchProps("code"),
+        render: (text, record, index) => {
+          return Setting.getClickable(text);
         },
       },
       {
@@ -147,17 +159,6 @@ class TokenListPage extends BaseListPage {
               {record.userDisplayName || text}
             </Link>
           );
-        },
-      },
-      {
-        title: i18next.t("token:Authorization code"),
-        dataIndex: "code",
-        key: "code",
-        width: "180px",
-        sorter: true,
-        ...this.getColumnSearchProps("code"),
-        render: (text, record, index) => {
-          return Setting.getClickable(text);
         },
       },
       {

@@ -148,6 +148,7 @@ class OrganizationListPage extends BaseListPage {
       {
         title: i18next.t("general:Name"),
         dataIndex: "name",
+        hidden: true,
         key: "name",
         width: "120px",
         fixed: "left",
@@ -162,6 +163,21 @@ class OrganizationListPage extends BaseListPage {
         },
       },
       {
+        title: i18next.t("general:Display name"),
+        dataIndex: "displayName",
+        key: "displayName",
+        width: "300px",
+        sorter: true,
+        ...this.getColumnSearchProps("displayName"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/organizations/${encodeURIComponent(record.name)}`}>
+              {text}
+            </Link>
+          );
+        },
+      },
+      {
         title: i18next.t("general:Created time"),
         dataIndex: "createdTime",
         key: "createdTime",
@@ -170,14 +186,6 @@ class OrganizationListPage extends BaseListPage {
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
         },
-      },
-      {
-        title: i18next.t("general:Display name"),
-        dataIndex: "displayName",
-        key: "displayName",
-        // width: '100px',
-        sorter: true,
-        ...this.getColumnSearchProps("displayName"),
       },
       {
         title: i18next.t("general:Favicon"),
@@ -225,6 +233,7 @@ class OrganizationListPage extends BaseListPage {
         dataIndex: "passwordSalt",
         key: "passwordSalt",
         width: "150px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("passwordSalt"),
       },
@@ -246,6 +255,7 @@ class OrganizationListPage extends BaseListPage {
         dataIndex: "orgBalance",
         key: "orgBalance",
         width: "120px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text ?? 0;
@@ -256,6 +266,7 @@ class OrganizationListPage extends BaseListPage {
         dataIndex: "userBalance",
         key: "userBalance",
         width: "120px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text ?? 0;
@@ -266,6 +277,7 @@ class OrganizationListPage extends BaseListPage {
         dataIndex: "balanceCredit",
         key: "balanceCredit",
         width: "120px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text ?? 0;
@@ -276,6 +288,7 @@ class OrganizationListPage extends BaseListPage {
         dataIndex: "balanceCurrency",
         key: "balanceCurrency",
         width: "140px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text || "USD";

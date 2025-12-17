@@ -271,10 +271,25 @@ class UserListPage extends BaseListPage {
   renderTable(users) {
     const columns = [
       {
+        title: i18next.t("general:Display name"),
+        dataIndex: "displayName",
+        key: "displayName",
+        // width: '100px',
+        sorter: true,
+        ...this.getColumnSearchProps("displayName"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/users/${record.owner}/${record.name}`}>
+              {text}
+            </Link>
+          );
+        },
+      },
+      {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: (Setting.isMobile()) ? "100px" : "120px",
+        width: (Setting.isMobile()) ? "100px" : "200px",
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
@@ -308,6 +323,7 @@ class UserListPage extends BaseListPage {
         key: "name",
         width: (Setting.isMobile()) ? "80px" : "110px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("name"),
         render: (text, record, index) => {
@@ -327,14 +343,6 @@ class UserListPage extends BaseListPage {
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
         },
-      },
-      {
-        title: i18next.t("general:Display name"),
-        dataIndex: "displayName",
-        key: "displayName",
-        // width: '100px',
-        sorter: true,
-        ...this.getColumnSearchProps("displayName"),
       },
       {
         title: i18next.t("general:Avatar"),
@@ -377,6 +385,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "affiliation",
         key: "affiliation",
         width: "140px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("affiliation"),
       },
@@ -385,6 +394,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "realName",
         key: "realName",
         width: "120px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("realName"),
       },
@@ -416,6 +426,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "type",
         key: "type",
         width: "120px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("type"),
       },
@@ -424,6 +435,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "tag",
         key: "tag",
         width: "110px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("tag"),
         render: (text, record, index) => {
@@ -461,6 +473,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "balance",
         key: "balance",
         width: "120px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text ?? 0;
@@ -471,6 +484,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "balanceCredit",
         key: "balanceCredit",
         width: "120px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text ?? 0;
@@ -481,6 +495,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "balanceCurrency",
         key: "balanceCurrency",
         width: "140px",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return text || "USD";

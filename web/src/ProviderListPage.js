@@ -99,11 +99,27 @@ class ProviderListPage extends BaseListPage {
         key: "name",
         width: "120px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("name"),
         render: (text, record, index) => {
           return (
             <Link to={`/providers/${record.owner}/${text}`}>
+              {text}
+            </Link>
+          );
+        },
+      },
+      {
+        title: i18next.t("general:Display name"),
+        dataIndex: "displayName",
+        key: "displayName",
+        // width: '100px',
+        sorter: true,
+        ...this.getColumnSearchProps("displayName"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/providers/${record.owner}/${record.name}`}>
               {text}
             </Link>
           );
@@ -132,14 +148,6 @@ class ProviderListPage extends BaseListPage {
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
         },
-      },
-      {
-        title: i18next.t("general:Display name"),
-        dataIndex: "displayName",
-        key: "displayName",
-        // width: '100px',
-        sorter: true,
-        ...this.getColumnSearchProps("displayName"),
       },
       {
         title: i18next.t("provider:Category"),

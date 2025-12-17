@@ -192,8 +192,24 @@ class RoleListPage extends BaseListPage {
         key: "name",
         width: "150px",
         fixed: "left",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("name"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/roles/${record.owner}/${encodeURIComponent(record.name)}`}>
+              {text}
+            </Link>
+          );
+        },
+      },
+      {
+        title: i18next.t("general:Display name"),
+        dataIndex: "displayName",
+        key: "displayName",
+        width: "200px",
+        sorter: true,
+        ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
           return (
             <Link to={`/roles/${record.owner}/${encodeURIComponent(record.name)}`}>
@@ -206,7 +222,7 @@ class RoleListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "120px",
+        width: "200px",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -226,14 +242,6 @@ class RoleListPage extends BaseListPage {
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
         },
-      },
-      {
-        title: i18next.t("general:Display name"),
-        dataIndex: "displayName",
-        key: "displayName",
-        width: "200px",
-        sorter: true,
-        ...this.getColumnSearchProps("displayName"),
       },
       {
         title: i18next.t("role:Sub users"),
