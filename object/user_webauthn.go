@@ -28,9 +28,10 @@ import (
 func GetWebAuthnObject(host string) (*webauthn.WebAuthn, error) {
 	var err error
 
-	_, originBackend := getOriginFromHost(host)
+	// WebAuthn 请求来自前端，需要使用前端 origin
+	originFrontend, _ := getOriginFromHost(host)
 
-	localUrl, err := url.Parse(originBackend)
+	localUrl, err := url.Parse(originFrontend)
 	if err != nil {
 		return nil, fmt.Errorf("error when parsing origin:" + err.Error())
 	}
@@ -38,7 +39,7 @@ func GetWebAuthnObject(host string) (*webauthn.WebAuthn, error) {
 	webAuthn, err := webauthn.New(&webauthn.Config{
 		RPDisplayName: conf.GetConfigString("appname"),      // Display Name for your site
 		RPID:          strings.Split(localUrl.Host, ":")[0], // Generally the domain name for your site, it's ok because splits cannot return empty array
-		RPOrigin:      originBackend,                        // The origin URL for WebAuthn requests
+		RPOrigin:      originFrontend,                       // The origin URL for WebAuthn requests (from frontend)
 		// RPIcon:     "https://duo.com/logo.png",           // Optional icon URL for your site
 	})
 	if err != nil {

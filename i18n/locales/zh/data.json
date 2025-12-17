@@ -202,6 +202,7 @@
   },
   "webauthn": {
     "Found no credentials for this user": "无法找到此用户的证书",
-    "Please call WebAuthnSigninBegin first": "请先调用WebAuthnSigninBegin函数"
+    "Please call WebAuthnSigninBegin first": "请先调用WebAuthnSigninBegin函数",
+    "User does not belong to organization: %s": "用户不属于组织: %s"
   }
 }

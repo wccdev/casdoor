@@ -134,6 +134,8 @@ func (c *ApiController) WebAuthnSigninBegin() {
 
 	if userName == "" {
 		options, sessionData, err = webauthnObj.BeginDiscoverableLogin()
+		// 保存请求的组织，用于 Finish 阶段验证
+		c.SetSession("webauthn_owner", userOwner)
 	} else {
 		var user *object.User
 		user, err = object.GetUserByFields(userOwner, userName)
@@ -198,15 +200,37 @@ func (c *ApiController) WebAuthnSigninFinish() {
 
 		_, err = webauthnObj.FinishLogin(user, sessionData, c.Ctx.Request)
 	} else {
+		// 获取 Begin 阶段保存的组织
+		expectedOwner := ""
+		if ownerSession := c.GetSession("webauthn_owner"); ownerSession != nil {
+			expectedOwner, _ = ownerSession.(string)
+		}
+
+		// 用于保存组织校验错误
+		var orgError error
+
 		handler := func(rawID, userHandle []byte) (webauthn.User, error) {
 			user, err = object.GetUserByWebauthID(base64.StdEncoding.EncodeToString(rawID))
 			if err != nil {
 				return nil, err
 			}
+			// 验证用户是否属于请求的组织
+			if expectedOwner != "" && user != nil && user.Owner != expectedOwner {
+				orgError = fmt.Errorf(c.T("webauthn:User does not belong to organization: %s"), expectedOwner)
+				return nil, orgError
+			}
 			return user, nil
 		}
 
 		_, err = webauthnObj.FinishDiscoverableLogin(handler, sessionData, c.Ctx.Request)
+		// 清除 session 中保存的组织
+		c.DelSession("webauthn_owner")
+
+		// 如果是组织校验错误，直接返回友好提示
+		if orgError != nil {
+			c.ResponseError(orgError.Error())
+			return
+		}
 	}
 
 	if err != nil {
