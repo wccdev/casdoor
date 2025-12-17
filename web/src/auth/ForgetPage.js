@@ -529,7 +529,7 @@ class ForgetPage extends React.Component {
           {Setting.inIframe() || Setting.isMobile() ? null : <div dangerouslySetInnerHTML={{__html: application.formCss}} />}
           {Setting.inIframe() || !Setting.isMobile() ? null : <div dangerouslySetInnerHTML={{__html: application.formCssMobile}} />}
           <Button type="text"
-            style={{position: "relative", left: Setting.isMobile() ? "10px" : "-90px", top: 0}}
+            style={{position: "relative", left: Setting.isMobile() ? "10px" : "-25px", top: 0}}
             icon={<ArrowLeftOutlined style={{fontSize: "24px"}} />}
             size={"large"}
             onClick={() => {this.stepBack();}}
@@ -538,7 +538,7 @@ class ForgetPage extends React.Component {
             <Col span={24} style={{justifyContent: "center"}}>
               <Row>
                 <Col span={24}>
-                  <div style={{marginTop: "80px", marginBottom: "10px", textAlign: "center"}}>
+                  <div style={{marginTop: "0", marginBottom: "20px", textAlign: "center"}}>
                     {
                       Setting.renderHelmet(application)
                     }
