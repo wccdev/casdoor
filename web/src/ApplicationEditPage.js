@@ -1387,7 +1387,7 @@ class ApplicationEditPage extends React.Component {
           });
 
           if (exitAfterSave) {
-            this.props.history.push("/applications");
+            Setting.goToSavedListUrl(this.props.history, "application", "/applications");
           } else {
             this.props.history.push(`/applications/${this.state.application.organization}/${this.state.application.name}`);
           }
@@ -1405,7 +1405,7 @@ class ApplicationEditPage extends React.Component {
     ApplicationBackend.deleteApplication(this.state.application)
       .then((res) => {
         if (res.status === "ok") {
-          this.props.history.push("/applications");
+          Setting.goToSavedListUrl(this.props.history, "application", "/applications");
         } else {
           Setting.showMessage("error", `${i18next.t("general:Failed to delete")}: ${res.msg}`);
         }

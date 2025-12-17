@@ -307,7 +307,7 @@ class GroupListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} type="primary" onClick={() => this.props.history.push(`/groups/${record.owner}/${record.name}`)}>{i18next.t("general:Edit")}</Button>
+              <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} type="primary" onClick={() => {Setting.saveListPageState("group", this.state.pagination); this.props.history.push(`/groups/${record.owner}/${record.name}`);}}>{i18next.t("general:Edit")}</Button>
               {
                 record.haveChildren ? <Tooltip placement="topLeft" title={i18next.t("group:You need to delete all subgroups first. You can view the subgroups in the left group tree of the [Organizations] -> [Groups] page")}>
                   <Button disabled type="primary" danger>{i18next.t("general:Delete")}</Button>
@@ -325,6 +325,8 @@ class GroupListPage extends BaseListPage {
     ];
 
     const paginationProps = {
+      current: this.state.pagination.current,
+      pageSize: this.state.pagination.pageSize,
       total: this.state.pagination.total,
       showQuickJumper: true,
       showSizeChanger: true,

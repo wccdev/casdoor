@@ -255,7 +255,7 @@ class RoleEditPage extends React.Component {
           });
 
           if (exitAfterSave) {
-            this.props.history.push("/roles");
+            Setting.goToSavedListUrl(this.props.history, "role", "/roles");
           } else {
             this.props.history.push(`/roles/${this.state.role.owner}/${encodeURIComponent(this.state.role.name)}`);
           }
@@ -273,7 +273,7 @@ class RoleEditPage extends React.Component {
     RoleBackend.deleteRole(this.state.role)
       .then((res) => {
         if (res.status === "ok") {
-          this.props.history.push("/roles");
+          Setting.goToSavedListUrl(this.props.history, "role", "/roles");
         } else {
           Setting.showMessage("error", `${i18next.t("general:Failed to delete")}: ${res.msg}`);
         }

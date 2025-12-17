@@ -224,7 +224,7 @@ class GroupEditPage extends React.Component {
               sessionStorage.removeItem("groupTreeUrl");
               this.props.history.push(groupTreeUrl);
             } else {
-              this.props.history.push("/groups");
+              Setting.goToSavedListUrl(this.props.history, "group", "/groups");
             }
           } else {
             this.props.history.push(`/groups/${this.state.group.owner}/${this.state.group.name}`);
@@ -248,7 +248,7 @@ class GroupEditPage extends React.Component {
             sessionStorage.removeItem("groupTreeUrl");
             this.props.history.push(groupTreeUrl);
           } else {
-            this.props.history.push("/groups");
+            Setting.goToSavedListUrl(this.props.history, "group", "/groups");
           }
         } else {
           Setting.showMessage("error", `${i18next.t("general:Failed to delete")}: ${res.msg}`);

@@ -24,14 +24,32 @@ import * as FormBackend from "./backend/FormBackend";
 class BaseListPage extends React.Component {
   constructor(props) {
     super(props);
+    // 获取页面标识符（用于 sessionStorage key）
+    this.listPageKey = props.match?.path?.replace(/\//g, "_") || "default";
+
+    // 确定初始分页状态
+    let initialPagination = {current: 1, pageSize: 10};
+
+    if (props.location?.state?.fromEdit && props.location.state.pagination) {
+      // 从编辑页返回
+      initialPagination = {...initialPagination, ...props.location.state.pagination};
+    } else {
+      // 尝试从 sessionStorage 恢复
+      const savedPagination = sessionStorage.getItem(`pagination_${this.listPageKey}`);
+      if (savedPagination) {
+        try {
+          initialPagination = {...initialPagination, ...JSON.parse(savedPagination)};
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+
     this.state = {
       classes: props,
       organizationName: this.props.match?.params.organizationName || Setting.getRequestOrganization(this.props.account),
       data: [],
-      pagination: {
-        current: 1,
-        pageSize: 10,
-      },
+      pagination: initialPagination,
       loading: false,
       searchText: "",
       searchedColumn: "",
@@ -39,6 +57,19 @@ class BaseListPage extends React.Component {
       isTourVisible: TourConfig.getTourVisible(),
       formItems: [],
     };
+
+    // 绑定刷新事件处理
+    this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+  }
+
+  // 页面刷新时清除分页缓存
+  handleBeforeUnload() {
+    // 清除所有分页缓存
+    Object.keys(sessionStorage).forEach(key => {
+      if (key.startsWith("pagination_")) {
+        sessionStorage.removeItem(key);
+      }
+    });
   }
 
   handleOrganizationChange = () => {
@@ -58,8 +89,21 @@ class BaseListPage extends React.Component {
   componentDidMount() {
     window.addEventListener("storageOrganizationChanged", this.handleOrganizationChange);
     window.addEventListener("storageTourChanged", this.handleTourChange);
+    window.addEventListener("beforeunload", this.handleBeforeUnload);
     if (!Setting.isAdminUser(this.props.account)) {
       Setting.setOrganization("All");
+    }
+    // 从编辑页返回时，保存分页状态到 sessionStorage，并清除 history state
+    if (this.props.location?.state?.fromEdit) {
+      sessionStorage.setItem(`pagination_${this.listPageKey}`, JSON.stringify({
+        current: this.state.pagination.current,
+        pageSize: this.state.pagination.pageSize,
+      }));
+      this.props.history.replace({
+        pathname: this.props.location.pathname,
+        search: this.props.location.search,
+        state: {},
+      });
     }
   }
 
@@ -69,6 +113,13 @@ class BaseListPage extends React.Component {
     }
     window.removeEventListener("storageTourChanged", this.handleTourChange);
     window.removeEventListener("storageOrganizationChanged", this.handleOrganizationChange);
+    window.removeEventListener("beforeunload", this.handleBeforeUnload);
+
+    // 组件卸载时保存分页状态（用于切换 tab 后恢复）
+    sessionStorage.setItem(`pagination_${this.listPageKey}`, JSON.stringify({
+      current: this.state.pagination.current,
+      pageSize: this.state.pagination.pageSize,
+    }));
   }
 
   UNSAFE_componentWillMount() {
@@ -189,6 +240,12 @@ class BaseListPage extends React.Component {
   };
 
   handleTableChange = (pagination, filters, sorter) => {
+    // 保存分页状态到 sessionStorage
+    sessionStorage.setItem(`pagination_${this.listPageKey}`, JSON.stringify({
+      current: pagination.current,
+      pageSize: pagination.pageSize,
+    }));
+
     this.fetch({
       sortField: sorter.field,
       sortOrder: sorter.order,

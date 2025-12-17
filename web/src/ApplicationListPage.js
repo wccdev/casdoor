@@ -271,7 +271,7 @@ class ApplicationListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} type="primary" onClick={() => this.props.history.push(`/applications/${record.organization}/${record.name}`)}>{i18next.t("general:Edit")}</Button>
+              <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} type="primary" onClick={() => {Setting.saveListPageState("application", this.state.pagination); this.props.history.push(`/applications/${record.organization}/${record.name}`);}}>{i18next.t("general:Edit")}</Button>
               <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} onClick={() => this.copyApplication(index)}>{i18next.t("general:Copy")}</Button>
               <PopconfirmModal
                 title={i18next.t("general:Sure to delete") + `: ${record.name} ?`}
@@ -287,6 +287,8 @@ class ApplicationListPage extends BaseListPage {
 
     const filteredColumns = Setting.filterTableColumns(columns, this.props.formItems ?? this.state.formItems);
     const paginationProps = {
+      current: this.state.pagination.current,
+      pageSize: this.state.pagination.pageSize,
       total: this.state.pagination.total,
       showQuickJumper: true,
       showSizeChanger: true,

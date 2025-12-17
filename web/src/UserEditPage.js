@@ -1408,16 +1408,8 @@ class UserEditPage extends React.Component {
 
           if (this.props.history !== undefined) {
             if (exitAfterSave) {
-              const userListUrl = sessionStorage.getItem("userListUrl");
-              if (userListUrl !== null) {
-                this.props.history.push(userListUrl);
-              } else {
-                if (Setting.isLocalAdminUser(this.props.account)) {
-                  this.props.history.push("/users");
-                } else {
-                  this.props.history.push("/");
-                }
-              }
+              const defaultUrl = Setting.isLocalAdminUser(this.props.account) ? "/users" : "/";
+              Setting.goToSavedListUrl(this.props.history, "user", defaultUrl);
             } else {
               if (location.pathname !== "/account") {
                 this.props.history.push(`/users/${this.state.user.owner}/${this.state.user.name}`);
@@ -1445,12 +1437,7 @@ class UserEditPage extends React.Component {
     UserBackend.deleteUser(this.state.user)
       .then((res) => {
         if (res.status === "ok") {
-          const userListUrl = sessionStorage.getItem("userListUrl");
-          if (userListUrl !== null) {
-            this.props.history.push(userListUrl);
-          } else {
-            this.props.history.push("/users");
-          }
+          Setting.goToSavedListUrl(this.props.history, "user", "/users");
         } else {
           Setting.showMessage("error", `${i18next.t("general:Failed to delete")}: ${res.msg}`);
         }

@@ -2307,3 +2307,39 @@ export function getApiPaths() {
   });
   return res;
 }
+
+// 保存列表页分页信息
+export function saveListPageState(listName, pagination) {
+  const state = {
+    pathname: window.location.pathname,
+    search: window.location.search,
+    pagination: pagination,
+  };
+  sessionStorage.setItem(`${listName}ListState`, JSON.stringify(state));
+}
+
+// 清除保存的列表页分页信息
+export function clearListPageState(listName) {
+  sessionStorage.removeItem(`${listName}ListState`);
+}
+
+// 跳转到保存的列表页（会携带分页状态到 history.state）
+export function goToSavedListUrl(history, listName, defaultUrl) {
+  const stateStr = sessionStorage.getItem(`${listName}ListState`);
+  if (stateStr) {
+    try {
+      const state = JSON.parse(stateStr);
+      // 清除缓存，防止刷新时再次使用
+      sessionStorage.removeItem(`${listName}ListState`);
+      history.push({
+        pathname: state.pathname,
+        search: state.search,
+        state: {pagination: state.pagination, fromEdit: true},
+      });
+    } catch (e) {
+      history.push(defaultUrl);
+    }
+  } else {
+    history.push(defaultUrl);
+  }
+}

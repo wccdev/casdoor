@@ -25,6 +25,10 @@ import {UploadOutlined} from "@ant-design/icons";
 import * as XLSX from "xlsx";
 
 class PermissionListPage extends BaseListPage {
+  constructor(props) {
+    super(props);
+  }
+
   newPermission() {
     const randomName = Setting.getRandomName();
     const owner = Setting.getRequestOrganization(this.props.account);
@@ -451,7 +455,7 @@ class PermissionListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <div>
-              <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} type="primary" onClick={() => this.props.history.push(`/permissions/${record.owner}/${encodeURIComponent(record.name)}`)}>{i18next.t("general:Edit")}</Button>
+              <Button style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px"}} type="primary" onClick={() => {Setting.saveListPageState("permission", this.state.pagination); this.props.history.push(`/permissions/${record.owner}/${encodeURIComponent(record.name)}`);}}>{i18next.t("general:Edit")}</Button>
               <PopconfirmModal
                 title={i18next.t("general:Sure to delete") + `: ${record.name} ?`}
                 onConfirm={() => this.deletePermission(index)}
@@ -464,6 +468,8 @@ class PermissionListPage extends BaseListPage {
     ];
 
     const paginationProps = {
+      current: this.state.pagination.current,
+      pageSize: this.state.pagination.pageSize,
       total: this.state.pagination.total,
       showQuickJumper: true,
       showSizeChanger: true,

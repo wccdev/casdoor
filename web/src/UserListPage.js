@@ -99,7 +99,7 @@ class UserListPage extends BaseListPage {
     UserBackend.addUser(newUser)
       .then((res) => {
         if (res.status === "ok") {
-          sessionStorage.setItem("userListUrl", window.location.pathname);
+          Setting.saveListPageState("user", this.state.pagination);
           this.props.history.push({pathname: `/users/${newUser.owner}/${newUser.name}`, mode: "add"});
           Setting.showMessage("success", i18next.t("general:Successfully added"));
         } else {
@@ -534,7 +534,7 @@ class UserListPage extends BaseListPage {
           return (
             <Space>
               <Button size={isTreePage ? "small" : "middle"} type="primary" onClick={() => {
-                sessionStorage.setItem("userListUrl", window.location.pathname);
+                Setting.saveListPageState("user", this.state.pagination);
                 this.props.history.push(`/users/${record.owner}/${record.name}`);
               }}>{i18next.t("general:Edit")}
               </Button>
@@ -560,6 +560,8 @@ class UserListPage extends BaseListPage {
 
     const filteredColumns = Setting.filterTableColumns(columns, this.props.formItems ?? this.state.formItems);
     const paginationProps = {
+      current: this.state.pagination.current,
+      pageSize: this.state.pagination.pageSize,
       total: this.state.pagination.total,
       showQuickJumper: true,
       showSizeChanger: true,

@@ -493,7 +493,7 @@ class PermissionEditPage extends React.Component {
           });
 
           if (exitAfterSave) {
-            this.props.history.push("/permissions");
+            Setting.goToSavedListUrl(this.props.history, "permission", "/permissions");
           } else {
             this.props.history.push(`/permissions/${this.state.permission.owner}/${encodeURIComponent(this.state.permission.name)}`);
           }
@@ -511,7 +511,7 @@ class PermissionEditPage extends React.Component {
     PermissionBackend.deletePermission(this.state.permission)
       .then((res) => {
         if (res.status === "ok") {
-          this.props.history.push("/permissions");
+          Setting.goToSavedListUrl(this.props.history, "permission", "/permissions");
         } else {
           Setting.showMessage("error", `${i18next.t("general:Failed to delete")}: ${res.msg}`);
         }
