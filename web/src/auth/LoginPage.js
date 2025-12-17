@@ -407,12 +407,7 @@ class LoginPage extends React.Component {
   onFinish(values) {
     this.setState({loginLoading: true});
     if (this.state.loginMethod === "webAuthn") {
-      let username = this.state.username;
-      if (username === null || username === "") {
-        username = values["username"];
-      }
-
-      this.signInWithWebAuthn(username, values);
+      this.signInWithWebAuthn(values);
       return;
     }
     if (this.state.loginMethod === "faceId") {
@@ -1238,7 +1233,7 @@ class LoginPage extends React.Component {
     );
   }
 
-  signInWithWebAuthn(username, values) {
+  signInWithWebAuthn(values) {
     // WebAuthn 只在安全上下文（HTTPS 或 localhost）下支持
     if (!window.isSecureContext) {
       Setting.showMessage("error", i18next.t("login:WebAuthn is only supported in HTTPS"));
@@ -1249,8 +1244,8 @@ class LoginPage extends React.Component {
     const oAuthParams = Util.getOAuthGetParameters();
     this.populateOauthValues(values);
     const application = this.getApplicationObj();
-    const usernameParam = `&name=${encodeURIComponent(username)}`;
-    return fetch(`${Setting.ServerUrl}/api/webauthn/signin/begin?owner=${application.organization}${username ? usernameParam : ""}`, {
+    // WebAuthn 登录不需要用户名，通过设备凭证识别用户
+    return fetch(`${Setting.ServerUrl}/api/webauthn/signin/begin?owner=${application.organization}`, {
       method: "GET",
       credentials: "include",
     })
@@ -1261,7 +1256,8 @@ class LoginPage extends React.Component {
         }
         credentialRequestOptions.publicKey.challenge = UserWebauthnBackend.webAuthnBufferDecode(credentialRequestOptions.publicKey.challenge);
 
-        if (username) {
+        // 解码 allowCredentials（如果存在）
+        if (credentialRequestOptions.publicKey.allowCredentials) {
           credentialRequestOptions.publicKey.allowCredentials.forEach(function(listItem) {
             listItem.id = UserWebauthnBackend.webAuthnBufferDecode(listItem.id);
           });
