@@ -45,6 +45,7 @@ func (c *ApiController) GetCerts() {
 			return
 		}
 
+		object.PopulateCertsDisplayNames(certs)
 		c.ResponseOk(certs)
 	} else {
 		limit := util.ParseInt(limit)
@@ -61,6 +62,7 @@ func (c *ApiController) GetCerts() {
 			return
 		}
 
+		object.PopulateCertsDisplayNames(certs)
 		c.ResponseOk(certs, paginator.Nums())
 	}
 }
@@ -86,6 +88,7 @@ func (c *ApiController) GetGlobalCerts() {
 			return
 		}
 
+		object.PopulateCertsDisplayNames(certs)
 		c.ResponseOk(certs)
 	} else {
 		limit := util.ParseInt(limit)
@@ -102,6 +105,7 @@ func (c *ApiController) GetGlobalCerts() {
 			return
 		}
 
+		object.PopulateCertsDisplayNames(certs)
 		c.ResponseOk(certs, paginator.Nums())
 	}
 }
@@ -121,6 +125,7 @@ func (c *ApiController) GetCert() {
 		return
 	}
 
+	object.PopulateCertDisplayNames(cert)
 	c.ResponseOk(object.GetMaskedCert(cert))
 }
 

@@ -50,6 +50,7 @@ func (c *ApiController) GetProviders() {
 			return
 		}
 
+		object.PopulateProvidersDisplayNames(providers)
 		c.ResponseOk(object.GetMaskedProviders(providers, isMaskEnabled))
 	} else {
 		limit := util.ParseInt(limit)
@@ -66,6 +67,7 @@ func (c *ApiController) GetProviders() {
 			return
 		}
 
+		object.PopulateProvidersDisplayNames(paginationProviders)
 		providers := object.GetMaskedProviders(paginationProviders, isMaskEnabled)
 		c.ResponseOk(providers, paginator.Nums())
 	}
@@ -97,6 +99,7 @@ func (c *ApiController) GetGlobalProviders() {
 			return
 		}
 
+		object.PopulateProvidersDisplayNames(globalProviders)
 		c.ResponseOk(object.GetMaskedProviders(globalProviders, isMaskEnabled))
 	} else {
 		limit := util.ParseInt(limit)
@@ -113,6 +116,7 @@ func (c *ApiController) GetGlobalProviders() {
 			return
 		}
 
+		object.PopulateProvidersDisplayNames(paginationGlobalProviders)
 		providers := object.GetMaskedProviders(paginationGlobalProviders, isMaskEnabled)
 		c.ResponseOk(providers, paginator.Nums())
 	}
@@ -138,6 +142,7 @@ func (c *ApiController) GetProvider() {
 		return
 	}
 
+	object.PopulateProviderDisplayNames(provider)
 	c.ResponseOk(object.GetMaskedProvider(provider, isMaskEnabled))
 }
 

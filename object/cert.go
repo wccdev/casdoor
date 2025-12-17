@@ -35,6 +35,9 @@ type Cert struct {
 
 	Certificate string `xorm:"mediumtext" json:"certificate"`
 	PrivateKey  string `xorm:"mediumtext" json:"privateKey"`
+
+	// Non-persistent field for display name
+	OwnerDisplayName string `xorm:"-" json:"ownerDisplayName,omitempty"`
 }
 
 func GetMaskedCert(cert *Cert) *Cert {
@@ -287,4 +290,48 @@ func certChangeTrigger(oldName string, newName string) error {
 	}
 
 	return session.Commit()
+}
+
+// PopulateCertsDisplayNames fills the OwnerDisplayName field for a list of certs
+func PopulateCertsDisplayNames(certs []*Cert) error {
+	if len(certs) == 0 {
+		return nil
+	}
+
+	// Collect all unique owner names
+	ownerNames := make(map[string]bool)
+	for _, cert := range certs {
+		if cert.Owner != "" && cert.Owner != "admin" {
+			ownerNames[cert.Owner] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Apply mapping to each cert
+	for _, cert := range certs {
+		if displayName, ok := ownerMapping[cert.Owner]; ok {
+			cert.OwnerDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateCertDisplayNames fills the OwnerDisplayName field for a single cert
+func PopulateCertDisplayNames(cert *Cert) error {
+	if cert == nil {
+		return nil
+	}
+	return PopulateCertsDisplayNames([]*Cert{cert})
 }

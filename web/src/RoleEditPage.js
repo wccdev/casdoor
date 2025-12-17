@@ -149,7 +149,7 @@ class RoleEditPage extends React.Component {
           </Col>
           <Col span={22} >
             <Select virtual={false} style={{width: "100%"}} disabled={!Setting.isAdminUser(this.props.account)} value={this.state.role.owner} onChange={(value => {this.updateRoleField("owner", value);})}
-              options={this.state.organizations.map((organization) => Setting.getOption(organization.name, organization.name))
+              options={this.state.organizations.map((organization) => Setting.getOption(organization.displayName, organization.name))
               } />
           </Col>
         </Row>
@@ -190,7 +190,7 @@ class RoleEditPage extends React.Component {
           <Col span={22} >
             <Select virtual={true} mode="multiple" style={{width: "100%"}} value={this.state.role.users}
               onChange={(value => {this.updateRoleField("users", value);})}
-              options={this.state.users.map((user) => Setting.getOption(`${user.owner}/${user.name}`, `${user.owner}/${user.name}`))}
+              options={this.state.users.map((user) => Setting.getOption(user.displayName || `${user.owner}/${user.name}`, `${user.owner}/${user.name}`))}
             />
           </Col>
         </Row>
@@ -214,7 +214,7 @@ class RoleEditPage extends React.Component {
           </Col>
           <Col span={22} >
             <Select virtual={false} mode="multiple" style={{width: "100%"}} value={this.state.role.roles} onChange={(value => {this.updateRoleField("roles", value);})}
-              options={this.state.roles.filter(role => (role.owner !== this.state.role.owner || role.name !== this.state.role.name)).map((role) => Setting.getOption(`${role.owner}/${role.name}`, `${role.owner}/${role.name}`))
+              options={this.state.roles.filter(role => (role.owner !== this.state.role.owner || role.name !== this.state.role.name)).map((role) => Setting.getOption(role.displayName || `${role.owner}/${role.name}`, `${role.owner}/${role.name}`))
               } />
           </Col>
         </Row>

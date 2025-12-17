@@ -97,7 +97,7 @@ class ResourceListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/providers/${record.owner}/${text}`}>
-              {text}
+              {record.providerDisplayName || text}
             </Link>
           );
         },
@@ -112,7 +112,7 @@ class ResourceListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },
@@ -127,7 +127,7 @@ class ResourceListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/applications/${record.owner}/${text}`}>
-              {text}
+              {record.applicationDisplayName || text}
             </Link>
           );
         },
@@ -142,7 +142,7 @@ class ResourceListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/users/${record.owner}/${record.user}`}>
-              {text}
+              {record.userDisplayName || text}
             </Link>
           );
         },

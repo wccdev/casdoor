@@ -45,6 +45,12 @@ func (c *ApiController) GetRoles() {
 			return
 		}
 
+		err = object.PopulateRolesDisplayNames(roles)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
 		c.ResponseOk(roles)
 	} else {
 		limit := util.ParseInt(limit)
@@ -56,6 +62,12 @@ func (c *ApiController) GetRoles() {
 
 		paginator := pagination.SetPaginator(c.Ctx, limit, count)
 		roles, err := object.GetPaginationRoles(owner, paginator.Offset(), limit, field, value, sortField, sortOrder)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
+		err = object.PopulateRolesDisplayNames(roles)
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
@@ -76,6 +88,12 @@ func (c *ApiController) GetRole() {
 	id := c.Input().Get("id")
 
 	role, err := object.GetRole(id)
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+
+	err = object.PopulateRoleDisplayNames(role)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return

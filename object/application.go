@@ -141,6 +141,10 @@ type Application struct {
 	FailedSigninLimit      int `json:"failedSigninLimit"`
 	FailedSigninFrozenTime int `json:"failedSigninFrozenTime"`
 	CodeResendTimeout      int `json:"codeResendTimeout"`
+
+	// Non-persistent fields for display name mapping
+	OrganizationDisplayName string            `xorm:"-" json:"organizationDisplayName,omitempty"`
+	ProvidersMapping        map[string]string `xorm:"-" json:"providersMapping,omitempty"`
 }
 
 func GetApplicationCount(owner, field, value string) (int64, error) {
@@ -957,4 +961,66 @@ func applicationChangeTrigger(oldName string, newName string) error {
 	}
 
 	return session.Commit()
+}
+
+// PopulateApplicationsDisplayNames fills the OrganizationDisplayName and ProvidersMapping fields for a list of applications
+func PopulateApplicationsDisplayNames(applications []*Application) error {
+	if len(applications) == 0 {
+		return nil
+	}
+
+	// Collect all unique organization names and provider names
+	orgNames := make(map[string]bool)
+	providerNames := make(map[string]bool)
+	for _, app := range applications {
+		if app.Organization != "" {
+			orgNames[app.Organization] = true
+		}
+		for _, providerItem := range app.Providers {
+			if providerItem != nil && providerItem.Name != "" {
+				providerNames[providerItem.Name] = true
+			}
+		}
+	}
+
+	// Build organization display name mapping
+	orgMapping := make(map[string]string)
+	for orgName := range orgNames {
+		org, err := getOrganization("admin", orgName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			orgMapping[orgName] = org.DisplayName
+		}
+	}
+
+	// Build provider display name mapping
+	providerMapping := make(map[string]string)
+	for providerName := range providerNames {
+		provider := &Provider{}
+		existed, err := ormer.Engine.Where("name = ?", providerName).Get(provider)
+		if err != nil || !existed {
+			continue
+		}
+		providerMapping[providerName] = provider.DisplayName
+	}
+
+	// Apply mapping to each application
+	for _, app := range applications {
+		if displayName, ok := orgMapping[app.Organization]; ok {
+			app.OrganizationDisplayName = displayName
+		}
+
+		app.ProvidersMapping = make(map[string]string)
+		for _, providerItem := range app.Providers {
+			if providerItem != nil {
+				if displayName, ok := providerMapping[providerItem.Name]; ok {
+					app.ProvidersMapping[providerItem.Name] = displayName
+				}
+			}
+		}
+	}
+
+	return nil
 }

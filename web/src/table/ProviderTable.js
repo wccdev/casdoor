@@ -79,6 +79,18 @@ class ProviderTable extends React.Component {
               showSearch
               optionFilterProp="label"
               value={text}
+              labelRender={({value}) => {
+                const provider = Setting.getArrayItem(this.props.providers, "name", value);
+                if (provider) {
+                  return (
+                    <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
+                      <img width={20} height={20} src={Setting.getProviderLogoURL(provider)} alt={provider.type} />
+                      <span>{provider.displayName || provider.name}</span>
+                    </div>
+                  );
+                }
+                return value;
+              }}
               onChange={value => {
                 this.updateField(table, index, "name", value);
                 const provider = Setting.getArrayItem(this.props.providers, "name", value);
@@ -94,10 +106,10 @@ class ProviderTable extends React.Component {
                   const existingProvider = Setting.getArrayItem(this.props.providers, "name", tableItem.name);
                   return existingProvider && existingProvider.category === "Captcha";
                 })).map((provider, index) => (
-                  <Option key={index} value={provider.name} label={`${provider.name} ${provider.displayName || ""}`}>
+                  <Option key={index} value={provider.name} label={provider.displayName || provider.name}>
                     <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
                       <img width={20} height={20} src={Setting.getProviderLogoURL(provider)} alt={provider.type} />
-                      <span>{provider.displayName && provider.displayName !== provider.name ? `${provider.name} (${provider.displayName})` : provider.name}</span>
+                      <span>{provider.displayName || provider.name}</span>
                     </div>
                   </Option>
                 ))

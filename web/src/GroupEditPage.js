@@ -188,7 +188,7 @@ class GroupEditPage extends React.Component {
           </Col>
           <Col style={{marginTop: "5px"}} span={22} >
             {
-              Setting.getTags(this.state.group.users, "users")
+              Setting.getTags(this.state.group.users, "users", this.state.group.usersMapping)
             }
           </Col>
         </Row>

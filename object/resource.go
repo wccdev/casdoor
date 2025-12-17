@@ -38,6 +38,12 @@ type Resource struct {
 	FileSize    int    `json:"fileSize"`
 	Url         string `xorm:"varchar(500)" json:"url"`
 	Description string `xorm:"varchar(255)" json:"description"`
+
+	// Non-persistent fields for display names
+	OwnerDisplayName       string `xorm:"-" json:"ownerDisplayName,omitempty"`
+	UserDisplayName        string `xorm:"-" json:"userDisplayName,omitempty"`
+	ProviderDisplayName    string `xorm:"-" json:"providerDisplayName,omitempty"`
+	ApplicationDisplayName string `xorm:"-" json:"applicationDisplayName,omitempty"`
 }
 
 func GetResourceCount(owner, user, field, value string) (int64, error) {
@@ -146,4 +152,101 @@ func AddOrUpdateResource(resource *Resource) (bool, error) {
 	} else {
 		return UpdateResource(resource.GetId(), resource)
 	}
+}
+
+// PopulateResourcesDisplayNames fills the display name fields for a list of resources
+func PopulateResourcesDisplayNames(resources []*Resource) error {
+	if len(resources) == 0 {
+		return nil
+	}
+
+	// Collect all unique IDs
+	ownerNames := make(map[string]bool)
+	userIds := make(map[string]bool)
+	providerIds := make(map[string]bool)
+	applicationIds := make(map[string]bool)
+
+	for _, resource := range resources {
+		if resource.Owner != "" {
+			ownerNames[resource.Owner] = true
+		}
+		if resource.Owner != "" && resource.User != "" {
+			userIds[resource.Owner+"/"+resource.User] = true
+		}
+		if resource.Owner != "" && resource.Provider != "" {
+			providerIds[resource.Owner+"/"+resource.Provider] = true
+		}
+		if resource.Owner != "" && resource.Application != "" {
+			applicationIds[resource.Owner+"/"+resource.Application] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build user display name mapping
+	userMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUser(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			userMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Build provider display name mapping
+	providerMapping := make(map[string]string)
+	for providerId := range providerIds {
+		provider, err := GetProvider(providerId)
+		if err != nil {
+			continue
+		}
+		if provider != nil {
+			providerMapping[providerId] = provider.DisplayName
+		}
+	}
+
+	// Build application display name mapping
+	applicationMapping := make(map[string]string)
+	for applicationId := range applicationIds {
+		app, err := GetApplication(applicationId)
+		if err != nil {
+			continue
+		}
+		if app != nil {
+			applicationMapping[applicationId] = app.DisplayName
+		}
+	}
+
+	// Apply mappings to each resource
+	for _, resource := range resources {
+		if displayName, ok := ownerMapping[resource.Owner]; ok {
+			resource.OwnerDisplayName = displayName
+		}
+		userId := resource.Owner + "/" + resource.User
+		if displayName, ok := userMapping[userId]; ok {
+			resource.UserDisplayName = displayName
+		}
+		providerId := resource.Owner + "/" + resource.Provider
+		if displayName, ok := providerMapping[providerId]; ok {
+			resource.ProviderDisplayName = displayName
+		}
+		applicationId := resource.Owner + "/" + resource.Application
+		if displayName, ok := applicationMapping[applicationId]; ok {
+			resource.ApplicationDisplayName = displayName
+		}
+	}
+
+	return nil
 }

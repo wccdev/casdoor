@@ -77,6 +77,9 @@ type Provider struct {
 
 	ProviderUrl string `xorm:"varchar(200)" json:"providerUrl"`
 	EnableProxy bool   `json:"enableProxy"`
+
+	// Non-persistent field for display name
+	OwnerDisplayName string `xorm:"-" json:"ownerDisplayName,omitempty"`
 }
 
 func GetMaskedProvider(provider *Provider, isMaskEnabled bool) *Provider {
@@ -574,4 +577,48 @@ func GetIdvProviderFromProvider(provider *Provider) idv.IdvProvider {
 		return nil
 	}
 	return idv.GetIdvProvider(provider.Type, provider.ClientId, provider.ClientSecret, provider.Endpoint)
+}
+
+// PopulateProvidersDisplayNames fills the OwnerDisplayName field for a list of providers
+func PopulateProvidersDisplayNames(providers []*Provider) error {
+	if len(providers) == 0 {
+		return nil
+	}
+
+	// Collect all unique owner names
+	ownerNames := make(map[string]bool)
+	for _, provider := range providers {
+		if provider.Owner != "" && provider.Owner != "admin" {
+			ownerNames[provider.Owner] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Apply mapping to each provider
+	for _, provider := range providers {
+		if displayName, ok := ownerMapping[provider.Owner]; ok {
+			provider.OwnerDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateProviderDisplayNames fills the OwnerDisplayName field for a single provider
+func PopulateProviderDisplayNames(provider *Provider) error {
+	if provider == nil {
+		return nil
+	}
+	return PopulateProvidersDisplayNames([]*Provider{provider})
 }

@@ -46,6 +46,10 @@ type Group struct {
 	Children     []*Group `json:"children,omitempty"`
 
 	IsEnabled bool `json:"isEnabled"`
+
+	// Non-persistent fields for display name mapping
+	OwnerDisplayName string            `xorm:"-" json:"ownerDisplayName,omitempty"`
+	UsersMapping     map[string]string `xorm:"-" json:"usersMapping,omitempty"`
 }
 
 type GroupNode struct{}
@@ -421,26 +425,91 @@ func ExtendGroupWithUsers(group *Group) error {
 		return nil
 	}
 
+	// Fill owner display name
+	org, err := getOrganization("admin", group.Owner)
+	if err == nil && org != nil {
+		group.OwnerDisplayName = org.DisplayName
+	}
+
 	groupId := group.GetId()
 	userIds := []string{}
-	userIds, err := userEnforcer.GetAllUsersByGroup(groupId)
+	userIds, err = userEnforcer.GetAllUsersByGroup(groupId)
 	if err != nil {
 		return err
 	}
 
 	group.Users = userIds
+
+	// Build users mapping for display names
+	group.UsersMapping = make(map[string]string)
+	for _, userId := range userIds {
+		user, err := GetUserNoCheck(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			group.UsersMapping[userId] = user.DisplayName
+		}
+	}
+
 	return nil
 }
 
 func ExtendGroupsWithUsers(groups []*Group) error {
+	// Collect all owner names and user IDs first
+	ownerNames := make(map[string]bool)
+	allUserIds := make(map[string]bool)
+
 	for _, group := range groups {
+		ownerNames[group.Owner] = true
 		users, err := userEnforcer.GetAllUsersByGroup(group.GetId())
 		if err != nil {
 			return err
 		}
 
 		group.Users = users
+		for _, userId := range users {
+			allUserIds[userId] = true
+		}
 	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build users mapping for display names
+	usersMapping := make(map[string]string)
+	for userId := range allUserIds {
+		user, err := GetUserNoCheck(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			usersMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Apply mapping to each group
+	for _, group := range groups {
+		group.UsersMapping = make(map[string]string)
+		if displayName, ok := ownerMapping[group.Owner]; ok {
+			group.OwnerDisplayName = displayName
+		}
+		for _, userId := range group.Users {
+			if displayName, ok := usersMapping[userId]; ok {
+				group.UsersMapping[userId] = displayName
+			}
+		}
+	}
+
 	return nil
 }
 

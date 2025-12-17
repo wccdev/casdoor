@@ -47,6 +47,14 @@ type Permission struct {
 	Approver    string `xorm:"varchar(100)" json:"approver"`
 	ApproveTime string `xorm:"varchar(100)" json:"approveTime"`
 	State       string `xorm:"varchar(100)" json:"state"`
+
+	// Non-persistent fields for display name mapping
+	OwnerDisplayName string            `xorm:"-" json:"ownerDisplayName,omitempty"`
+	ModelDisplayName string            `xorm:"-" json:"modelDisplayName,omitempty"`
+	UsersMapping     map[string]string `xorm:"-" json:"usersMapping,omitempty"`
+	GroupsMapping    map[string]string `xorm:"-" json:"groupsMapping,omitempty"`
+	RolesMapping     map[string]string `xorm:"-" json:"rolesMapping,omitempty"`
+	ResourcesMapping map[string]string `xorm:"-" json:"resourcesMapping,omitempty"`
 }
 
 const builtInMaxFields = 6 // Casdoor built-in adapter, use V5 to filter permission, so has 6 max field
@@ -524,4 +532,160 @@ func (p *Permission) isResourceHit(name string) bool {
 		}
 	}
 	return false
+}
+
+// PopulatePermissionDisplayNames fills the UsersMapping, GroupsMapping, and RolesMapping fields
+// for a single permission with display names
+func PopulatePermissionDisplayNames(permission *Permission) error {
+	if permission == nil {
+		return nil
+	}
+
+	return PopulatePermissionsDisplayNames([]*Permission{permission})
+}
+
+// PopulatePermissionsDisplayNames fills the UsersMapping, GroupsMapping, and RolesMapping fields
+// for a list of permissions with display names
+func PopulatePermissionsDisplayNames(permissions []*Permission) error {
+	if len(permissions) == 0 {
+		return nil
+	}
+
+	// Collect all unique owner names, model IDs, resource names, user IDs, group IDs, and role IDs
+	ownerNames := make(map[string]bool)
+	modelIds := make(map[string]bool)
+	resourceNames := make(map[string]bool)
+	userIds := make(map[string]bool)
+	groupIds := make(map[string]bool)
+	roleIds := make(map[string]bool)
+
+	for _, permission := range permissions {
+		ownerNames[permission.Owner] = true
+		if permission.Model != "" {
+			modelIds[permission.Model] = true
+		}
+		for _, resource := range permission.Resources {
+			if resource != "*" {
+				resourceNames[resource] = true
+			}
+		}
+		for _, userId := range permission.Users {
+			userIds[userId] = true
+		}
+		for _, groupId := range permission.Groups {
+			groupIds[groupId] = true
+		}
+		for _, roleId := range permission.Roles {
+			roleIds[roleId] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build model display name mapping
+	modelMapping := make(map[string]string)
+	for modelId := range modelIds {
+		model, err := GetModel(modelId)
+		if err != nil {
+			continue
+		}
+		if model != nil {
+			modelMapping[modelId] = model.DisplayName
+		}
+	}
+
+	// Build users mapping
+	usersMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUserNoCheck(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			usersMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Build groups mapping
+	groupsMapping := make(map[string]string)
+	for groupId := range groupIds {
+		group, err := GetGroup(groupId)
+		if err != nil {
+			continue
+		}
+		if group != nil {
+			groupsMapping[groupId] = group.DisplayName
+		}
+	}
+
+	// Build roles mapping
+	rolesMapping := make(map[string]string)
+	for roleId := range roleIds {
+		role, err := GetRole(roleId)
+		if err != nil {
+			continue
+		}
+		if role != nil {
+			rolesMapping[roleId] = role.DisplayName
+		}
+	}
+
+	// Build resources mapping (resources are application names)
+	resourcesMapping := make(map[string]string)
+	for resourceName := range resourceNames {
+		// Try to get application with the resource name
+		app := &Application{}
+		existed, err := ormer.Engine.Where("name = ?", resourceName).Get(app)
+		if err != nil || !existed {
+			continue
+		}
+		resourcesMapping[resourceName] = app.DisplayName
+	}
+
+	// Apply mappings to each permission
+	for _, permission := range permissions {
+		permission.UsersMapping = make(map[string]string)
+		permission.GroupsMapping = make(map[string]string)
+		permission.RolesMapping = make(map[string]string)
+		permission.ResourcesMapping = make(map[string]string)
+
+		if displayName, ok := ownerMapping[permission.Owner]; ok {
+			permission.OwnerDisplayName = displayName
+		}
+		if displayName, ok := modelMapping[permission.Model]; ok {
+			permission.ModelDisplayName = displayName
+		}
+		for _, userId := range permission.Users {
+			if displayName, ok := usersMapping[userId]; ok {
+				permission.UsersMapping[userId] = displayName
+			}
+		}
+		for _, groupId := range permission.Groups {
+			if displayName, ok := groupsMapping[groupId]; ok {
+				permission.GroupsMapping[groupId] = displayName
+			}
+		}
+		for _, roleId := range permission.Roles {
+			if displayName, ok := rolesMapping[roleId]; ok {
+				permission.RolesMapping[roleId] = displayName
+			}
+		}
+		for _, resource := range permission.Resources {
+			if displayName, ok := resourcesMapping[resource]; ok {
+				permission.ResourcesMapping[resource] = displayName
+			}
+		}
+	}
+
+	return nil
 }

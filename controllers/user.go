@@ -96,6 +96,7 @@ func (c *ApiController) GetUsers() {
 				c.ResponseError(err.Error())
 				return
 			}
+			object.PopulateUsersDisplayNames(users)
 			c.ResponseOk(users)
 			return
 		}
@@ -106,6 +107,7 @@ func (c *ApiController) GetUsers() {
 			return
 		}
 
+		object.PopulateUsersDisplayNames(users)
 		c.ResponseOk(users)
 	} else {
 		limit := util.ParseInt(limit)
@@ -128,6 +130,7 @@ func (c *ApiController) GetUsers() {
 			return
 		}
 
+		object.PopulateUsersDisplayNames(users)
 		c.ResponseOk(users, paginator.Nums())
 	}
 }
@@ -245,6 +248,7 @@ func (c *ApiController) GetUser() {
 		}
 	}
 
+	object.PopulateUserDisplayNames(user)
 	c.ResponseOk(user)
 }
 

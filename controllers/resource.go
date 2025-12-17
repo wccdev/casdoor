@@ -76,6 +76,7 @@ func (c *ApiController) GetResources() {
 			return
 		}
 
+		object.PopulateResourcesDisplayNames(resources)
 		c.ResponseOk(resources)
 	} else if limit == "" || page == "" {
 		resources, err := object.GetResources(owner, user)
@@ -84,6 +85,7 @@ func (c *ApiController) GetResources() {
 			return
 		}
 
+		object.PopulateResourcesDisplayNames(resources)
 		c.ResponseOk(resources)
 	} else {
 		limit := util.ParseInt(limit)
@@ -100,6 +102,7 @@ func (c *ApiController) GetResources() {
 			return
 		}
 
+		object.PopulateResourcesDisplayNames(resources)
 		c.ResponseOk(resources, paginator.Nums())
 	}
 }

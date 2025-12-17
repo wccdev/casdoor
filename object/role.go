@@ -36,6 +36,12 @@ type Role struct {
 	Roles     []string `xorm:"mediumtext" json:"roles"`
 	Domains   []string `xorm:"mediumtext" json:"domains"`
 	IsEnabled bool     `json:"isEnabled"`
+
+	// Non-persistent fields for display name mapping
+	OwnerDisplayName string            `xorm:"-" json:"ownerDisplayName,omitempty"`
+	UsersMapping     map[string]string `xorm:"-" json:"usersMapping,omitempty"`
+	GroupsMapping    map[string]string `xorm:"-" json:"groupsMapping,omitempty"`
+	RolesMapping     map[string]string `xorm:"-" json:"rolesMapping,omitempty"`
 }
 
 func GetRoleCount(owner, field, value string) (int64, error) {
@@ -469,4 +475,117 @@ func containsRole(role *Role, roleMap map[string]*Role, visited map[string]bool,
 	}
 
 	return false
+}
+
+// PopulateRoleDisplayNames fills the UsersMapping, GroupsMapping, and RolesMapping fields
+// for a single role with display names
+func PopulateRoleDisplayNames(role *Role) error {
+	if role == nil {
+		return nil
+	}
+
+	return PopulateRolesDisplayNames([]*Role{role})
+}
+
+// PopulateRolesDisplayNames fills the UsersMapping, GroupsMapping, and RolesMapping fields
+// for a list of roles with display names
+func PopulateRolesDisplayNames(roles []*Role) error {
+	if len(roles) == 0 {
+		return nil
+	}
+
+	// Collect all unique owner names, user IDs, group IDs, and role IDs
+	ownerNames := make(map[string]bool)
+	userIds := make(map[string]bool)
+	groupIds := make(map[string]bool)
+	roleIds := make(map[string]bool)
+
+	for _, role := range roles {
+		ownerNames[role.Owner] = true
+		for _, userId := range role.Users {
+			userIds[userId] = true
+		}
+		for _, groupId := range role.Groups {
+			groupIds[groupId] = true
+		}
+		for _, roleId := range role.Roles {
+			roleIds[roleId] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build users mapping
+	usersMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUserNoCheck(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			usersMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Build groups mapping
+	groupsMapping := make(map[string]string)
+	for groupId := range groupIds {
+		group, err := GetGroup(groupId)
+		if err != nil {
+			continue
+		}
+		if group != nil {
+			groupsMapping[groupId] = group.DisplayName
+		}
+	}
+
+	// Build roles mapping
+	rolesMapping := make(map[string]string)
+	for roleId := range roleIds {
+		r, err := GetRole(roleId)
+		if err != nil {
+			continue
+		}
+		if r != nil {
+			rolesMapping[roleId] = r.DisplayName
+		}
+	}
+
+	// Apply mappings to each role
+	for _, role := range roles {
+		role.UsersMapping = make(map[string]string)
+		role.GroupsMapping = make(map[string]string)
+		role.RolesMapping = make(map[string]string)
+
+		if displayName, ok := ownerMapping[role.Owner]; ok {
+			role.OwnerDisplayName = displayName
+		}
+		for _, userId := range role.Users {
+			if displayName, ok := usersMapping[userId]; ok {
+				role.UsersMapping[userId] = displayName
+			}
+		}
+		for _, groupId := range role.Groups {
+			if displayName, ok := groupsMapping[groupId]; ok {
+				role.GroupsMapping[groupId] = displayName
+			}
+		}
+		for _, roleId := range role.Roles {
+			if displayName, ok := rolesMapping[roleId]; ok {
+				role.RolesMapping[roleId] = displayName
+			}
+		}
+	}
+
+	return nil
 }

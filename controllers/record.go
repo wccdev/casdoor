@@ -53,7 +53,13 @@ func (c *ApiController) GetRecords() {
 			return
 		}
 
-		c.ResponseOk(records)
+		recordsWithNames, err := object.PopulateRecordsDisplayNames(records)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
+		c.ResponseOk(recordsWithNames)
 	} else {
 		limit := util.ParseInt(limit)
 		if c.IsGlobalAdmin() && organizationName != "" {
@@ -73,7 +79,13 @@ func (c *ApiController) GetRecords() {
 			return
 		}
 
-		c.ResponseOk(records, paginator.Nums())
+		recordsWithNames, err := object.PopulateRecordsDisplayNames(records)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
+		c.ResponseOk(recordsWithNames, paginator.Nums())
 	}
 }
 

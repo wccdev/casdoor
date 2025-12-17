@@ -78,7 +78,7 @@ class RecordListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.organizationDisplayName || text}
             </Link>
           );
         },
@@ -93,7 +93,7 @@ class RecordListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/users/${record.organization}/${record.user}`}>
-              {text}
+              {record.userDisplayName || text}
             </Link>
           );
         },
@@ -254,12 +254,12 @@ class RecordListPage extends BaseListPage {
             <Descriptions.Item label={i18next.t("general:Timestamp")}>{this.getDetailField("createdTime")}</Descriptions.Item>
             <Descriptions.Item label={i18next.t("general:Organization")}>
               <Link to={`/organizations/${this.getDetailField("organization")}`}>
-                {this.getDetailField("organization")}
+                {this.getDetailField("organizationDisplayName") || this.getDetailField("organization")}
               </Link>
             </Descriptions.Item>
             <Descriptions.Item label={i18next.t("general:User")}>
               <Link to={`/users/${this.getDetailField("organization")}/${this.getDetailField("user")}`}>
-                {this.getDetailField("user")}
+                {this.getDetailField("userDisplayName") || this.getDetailField("user")}
               </Link>
             </Descriptions.Item>
             <Descriptions.Item label={i18next.t("general:Method")}>{this.getDetailField("method")}</Descriptions.Item>

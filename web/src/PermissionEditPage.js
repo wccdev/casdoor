@@ -218,7 +218,7 @@ class PermissionEditPage extends React.Component {
               this.getModels(owner);
               this.getResources(owner);
             })}
-            options={this.state.organizations.map((organization) => Setting.getOption(organization.name, organization.name))
+            options={this.state.organizations.map((organization) => Setting.getOption(organization.displayName, organization.name))
             } />
           </Col>
         </Row>
@@ -260,7 +260,7 @@ class PermissionEditPage extends React.Component {
             <Select virtual={false} style={{width: "100%"}} value={this.state.permission.model} onChange={(model => {
               this.updatePermissionField("model", model);
             })}
-            options={this.state.models.map((model) => Setting.getOption(`${model.owner}/${model.name}`, `${model.owner}/${model.name}`))
+            options={this.state.models.map((model) => Setting.getOption(model.displayName || `${model.owner}/${model.name}`, `${model.owner}/${model.name}`))
             } />
           </Col>
         </Row>
@@ -273,7 +273,7 @@ class PermissionEditPage extends React.Component {
               onChange={(value => {this.updatePermissionField("users", value);})}
               options={[
                 Setting.getOption(i18next.t("organization:All"), "*"),
-                ...this.state.users.map((user) => Setting.getOption(`${user.owner}/${user.name}`, `${user.owner}/${user.name}`)),
+                ...this.state.users.map((user) => Setting.getOption(user.displayName || `${user.owner}/${user.name}`, `${user.owner}/${user.name}`)),
               ]}
             />
           </Col>
@@ -302,7 +302,7 @@ class PermissionEditPage extends React.Component {
               onChange={(value => {this.updatePermissionField("roles", value);})}
               options={[
                 Setting.getOption(i18next.t("organization:All"), "*"),
-                ...this.state.roles.filter(roles => (roles.owner !== this.state.roles.owner || roles.name !== this.state.roles.name)).map((permission) => Setting.getOption(`${permission.owner}/${permission.name}`, `${permission.owner}/${permission.name}`)),
+                ...this.state.roles.filter(roles => (roles.owner !== this.state.roles.owner || roles.name !== this.state.roles.name)).map((role) => Setting.getOption(role.displayName || `${role.owner}/${role.name}`, `${role.owner}/${role.name}`)),
               ]}
             />
           </Col>
@@ -352,7 +352,7 @@ class PermissionEditPage extends React.Component {
                 return Setting.getOption(option, option);
               }) : [
                 Setting.getOption(i18next.t("organization:All"), "*"),
-                ...this.state.resources.map((resource) => Setting.getOption(`${resource.name}`, `${resource.name}`)),
+                ...this.state.resources.map((resource) => Setting.getOption(resource.displayName || resource.name, resource.name)),
               ]}
             />
           </Col>

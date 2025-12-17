@@ -463,7 +463,7 @@ class OrganizationEditPage extends React.Component {
           </Col>
           <Col span={22} >
             <Select virtual={false} style={{width: "100%"}} value={this.state.organization.defaultApplication} onChange={(value => {this.updateOrganizationField("defaultApplication", value);})}
-              options={this.state.applications?.map((item) => Setting.getOption(Setting.getApplicationDisplayName(item.name), item.name))
+              options={this.state.applications?.map((item) => Setting.getOption(item.displayName || item.name, item.name))
               } />
           </Col>
         </Row>

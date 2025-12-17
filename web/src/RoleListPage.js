@@ -212,7 +212,7 @@ class RoleListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },
@@ -243,7 +243,7 @@ class RoleListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("users"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "users");
+          return Setting.getTags(text, "users", record.usersMapping);
         },
       },
       {
@@ -254,7 +254,7 @@ class RoleListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("groups"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "groups");
+          return Setting.getTags(text, "groups", record.groupsMapping);
         },
       },
       {
@@ -265,7 +265,7 @@ class RoleListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("roles"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "roles");
+          return Setting.getTags(text, "roles", record.rolesMapping);
         },
       },
       {

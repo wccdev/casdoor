@@ -1617,24 +1617,27 @@ export function getTagColor(s) {
   return "processing";
 }
 
-export function getTags(tags, urlPrefix = null) {
+export function getTags(tags, urlPrefix = null, displayNameMapping = null) {
   const res = [];
   if (!tags) {
     return res;
   }
 
   tags.forEach((tag, i) => {
+    // Use displayName from mapping if available, otherwise use the tag itself
+    const displayText = (displayNameMapping && displayNameMapping[tag]) ? displayNameMapping[tag] : tag;
+
     if (urlPrefix === null) {
       res.push(
-        <Tag color={getTagColor(tag)}>
-          {tag}
+        <Tag key={tag} color={getTagColor(tag)}>
+          {displayText}
         </Tag>
       );
     } else {
       res.push(
-        <Link to={`/${urlPrefix}/${tag}`}>
+        <Link key={tag} to={`/${urlPrefix}/${tag}`}>
           <Tag color={getTagColor(tag)}>
-            {tag}
+            {displayText}
           </Tag>
         </Link>
       );

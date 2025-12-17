@@ -201,7 +201,7 @@ class ApplicationListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.organizationDisplayName || text}
             </Link>
           );
         },
@@ -227,6 +227,7 @@ class ApplicationListPage extends BaseListPage {
                 locale={{emptyText: " "}}
                 dataSource={providers}
                 renderItem={(providerItem, i) => {
+                  const displayName = record.providersMapping?.[providerItem.name] || providerItem.name;
                   return (
                     <List.Item>
                       <div style={{display: "inline"}}>
@@ -234,7 +235,7 @@ class ApplicationListPage extends BaseListPage {
                           <Button style={{marginRight: "5px"}} icon={<EditOutlined />} size="small" onClick={() => Setting.goToLinkSoft(this, `/providers/${record.organization}/${providerItem.name}`)} />
                         </Tooltip>
                         <Link to={`/providers/${record.organization}/${providerItem.name}`}>
-                          {providerItem.name}
+                          {displayName}
                         </Link>
                       </div>
                     </List.Item>

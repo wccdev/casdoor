@@ -221,7 +221,7 @@ class GroupListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },
@@ -295,7 +295,7 @@ class GroupListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("users"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "users");
+          return Setting.getTags(text, "users", record.usersMapping);
         },
       },
       {

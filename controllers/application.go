@@ -52,6 +52,13 @@ func (c *ApiController) GetApplications() {
 			c.ResponseError(err.Error())
 			return
 		}
+
+		err = object.PopulateApplicationsDisplayNames(applications)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
 		c.ResponseOk(object.GetMaskedApplications(applications, userId))
 	} else {
 		limit := util.ParseInt(limit)
@@ -63,6 +70,12 @@ func (c *ApiController) GetApplications() {
 
 		paginator := pagination.SetPaginator(c.Ctx, limit, count)
 		application, err := object.GetPaginationApplications(owner, paginator.Offset(), limit, field, value, sortField, sortOrder)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
+		err = object.PopulateApplicationsDisplayNames(application)
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
@@ -186,6 +199,12 @@ func (c *ApiController) GetOrganizationApplications() {
 			return
 		}
 
+		err = object.PopulateApplicationsDisplayNames(applications)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
 		c.ResponseOk(object.GetMaskedApplications(applications, userId))
 	} else {
 		limit := util.ParseInt(limit)
@@ -204,6 +223,12 @@ func (c *ApiController) GetOrganizationApplications() {
 		}
 
 		applications, err = object.GetAllowedApplications(applications, userId, c.GetAcceptLanguage())
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
+		err = object.PopulateApplicationsDisplayNames(applications)
 		if err != nil {
 			c.ResponseError(err.Error())
 			return

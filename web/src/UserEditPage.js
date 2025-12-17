@@ -365,7 +365,7 @@ class UserEditPage extends React.Component {
               this.getGroups(value);
             })}>
               {
-                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.name}</Option>)
+                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.displayName}</Option>)
               }
             </Select>
           </Col>
@@ -896,7 +896,7 @@ class UserEditPage extends React.Component {
           <Col span={22} >
             <Select virtual={false} style={{width: "100%"}} disabled={disabled} value={this.state.user.signupApplication}
               onChange={(value => {this.updateUserField("signupApplication", value);})}
-              options={this.state.applications.map((application) => Setting.getOption(application.name, application.name))
+              options={this.state.applications.map((application) => Setting.getOption(application.displayName || application.name, application.name))
               } />
           </Col>
         </Row>
@@ -966,7 +966,7 @@ class UserEditPage extends React.Component {
           </Col>
           <Col span={22} >
             {
-              Setting.getTags(this.state.user.roles.map(role => role.name))
+              Setting.getTags(this.state.user.roles.map(role => role.displayName || role.name))
             }
           </Col>
         </Row>
@@ -979,7 +979,7 @@ class UserEditPage extends React.Component {
           </Col>
           <Col span={22} >
             {
-              Setting.getTags(this.state.user.permissions.map(permission => permission.name))
+              Setting.getTags(this.state.user.permissions.map(permission => permission.displayName || permission.name))
             }
           </Col>
         </Row>

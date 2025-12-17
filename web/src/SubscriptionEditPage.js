@@ -150,7 +150,7 @@ class SubscriptionEditPage extends React.Component {
               this.getUsers(owner);
               this.getPlans(owner);
             })}
-            options={this.state.organizations.map((organization) => Setting.getOption(organization.name, organization.name))
+            options={this.state.organizations.map((organization) => Setting.getOption(organization.displayName, organization.name))
             } />
           </Col>
         </Row>

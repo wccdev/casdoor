@@ -423,7 +423,7 @@ class ApplicationEditPage extends React.Component {
           <Col span={22} >
             <Select virtual={false} style={{width: "100%"}} disabled={!Setting.isAdminUser(this.props.account)} value={this.state.application.organization} onChange={(value => {this.updateApplicationField("organization", value);})}>
               {
-                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.name}</Option>)
+                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.displayName}</Option>)
               }
             </Select>
           </Col>
@@ -467,7 +467,7 @@ class ApplicationEditPage extends React.Component {
           <Col span={22} >
             <Select virtual={false} style={{width: "100%"}} value={this.state.application.cert} onChange={(value => {this.updateApplicationField("cert", value);})}>
               {
-                this.state.certs.map((cert, index) => <Option key={index} value={cert.name}>{cert.name}</Option>)
+                this.state.certs.map((cert, index) => <Option key={index} value={cert.name}>{cert.displayName || cert.name}</Option>)
               }
             </Select>
           </Col>

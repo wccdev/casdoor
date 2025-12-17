@@ -238,6 +238,9 @@ type User struct {
 	MfaRememberDeadline string           `xorm:"varchar(100)" json:"mfaRememberDeadline"`
 	NeedUpdatePassword  bool             `json:"needUpdatePassword"`
 	IpWhitelist         string           `xorm:"varchar(200)" json:"ipWhitelist"`
+
+	// Non-persistent field for display name
+	OwnerDisplayName string `xorm:"-" json:"ownerDisplayName,omitempty"`
 }
 
 type Userinfo struct {
@@ -1545,4 +1548,48 @@ func UpdateUserBalance(owner string, name string, balance float64, currency stri
 	user.Balance = newBalance
 	_, err = UpdateUser(user.GetId(), user, []string{"balance"}, true)
 	return err
+}
+
+// PopulateUsersDisplayNames fills the OwnerDisplayName field for a list of users
+func PopulateUsersDisplayNames(users []*User) error {
+	if len(users) == 0 {
+		return nil
+	}
+
+	// Collect all unique owner names
+	ownerNames := make(map[string]bool)
+	for _, user := range users {
+		if user.Owner != "" {
+			ownerNames[user.Owner] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Apply mapping to each user
+	for _, user := range users {
+		if displayName, ok := ownerMapping[user.Owner]; ok {
+			user.OwnerDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateUserDisplayNames fills the OwnerDisplayName field for a single user
+func PopulateUserDisplayNames(user *User) error {
+	if user == nil {
+		return nil
+	}
+	return PopulateUsersDisplayNames([]*User{user})
 }

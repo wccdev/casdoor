@@ -106,7 +106,7 @@ class CertEditPage extends React.Component {
             <Select virtual={false} style={{width: "100%"}} disabled={!Setting.isAdminUser(this.props.account)} value={this.state.cert.owner} onChange={(value => {this.updateCertField("owner", value);})}>
               {Setting.isAdminUser(this.props.account) ? <Option key={"admin"} value={"admin"}>{i18next.t("provider:admin (Shared)")}</Option> : null}
               {
-                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.name}</Option>)
+                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.displayName}</Option>)
               }
             </Select>
           </Col>

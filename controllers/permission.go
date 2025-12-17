@@ -45,6 +45,12 @@ func (c *ApiController) GetPermissions() {
 			return
 		}
 
+		err = object.PopulatePermissionsDisplayNames(permissions)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
 		c.ResponseOk(permissions)
 	} else {
 		limit := util.ParseInt(limit)
@@ -56,6 +62,12 @@ func (c *ApiController) GetPermissions() {
 
 		paginator := pagination.SetPaginator(c.Ctx, limit, count)
 		permissions, err := object.GetPaginationPermissions(owner, paginator.Offset(), limit, field, value, sortField, sortOrder)
+		if err != nil {
+			c.ResponseError(err.Error())
+			return
+		}
+
+		err = object.PopulatePermissionsDisplayNames(permissions)
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
@@ -78,6 +90,12 @@ func (c *ApiController) GetPermissionsBySubmitter() {
 	}
 
 	permissions, err := object.GetPermissionsBySubmitter(user.Owner, user.Name)
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+
+	err = object.PopulatePermissionsDisplayNames(permissions)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return
@@ -115,6 +133,12 @@ func (c *ApiController) GetPermission() {
 	id := c.Input().Get("id")
 
 	permission, err := object.GetPermission(id)
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+
+	err = object.PopulatePermissionDisplayNames(permission)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return

@@ -40,6 +40,13 @@ type Record struct {
 	casvisorsdk.Record
 }
 
+// RecordWithDisplayNames extends casvisorsdk.Record with display name fields
+type RecordWithDisplayNames struct {
+	casvisorsdk.Record
+	OrganizationDisplayName string `json:"organizationDisplayName,omitempty"`
+	UserDisplayName         string `json:"userDisplayName,omitempty"`
+}
+
 type Response struct {
 	Status string `json:"status"`
 	Msg    string `json:"msg"`
@@ -354,4 +361,65 @@ func SendWebhooks(record *casvisorsdk.Record) error {
 		return fmt.Errorf(strings.Join(errStrings, " | "))
 	}
 	return nil
+}
+
+// PopulateRecordsDisplayNames converts records to RecordWithDisplayNames with display names
+func PopulateRecordsDisplayNames(records []*casvisorsdk.Record) ([]*RecordWithDisplayNames, error) {
+	if len(records) == 0 {
+		return []*RecordWithDisplayNames{}, nil
+	}
+
+	// Collect all unique organization names and user IDs
+	orgNames := make(map[string]bool)
+	userIds := make(map[string]bool) // format: "organization/user"
+	for _, record := range records {
+		if record.Organization != "" {
+			orgNames[record.Organization] = true
+		}
+		if record.Organization != "" && record.User != "" {
+			userIds[record.Organization+"/"+record.User] = true
+		}
+	}
+
+	// Build organization display name mapping
+	orgMapping := make(map[string]string)
+	for orgName := range orgNames {
+		org, err := getOrganization("admin", orgName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			orgMapping[orgName] = org.DisplayName
+		}
+	}
+
+	// Build user display name mapping
+	userMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUser(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			userMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Create RecordWithDisplayNames for each record
+	result := make([]*RecordWithDisplayNames, len(records))
+	for i, record := range records {
+		recordWithNames := &RecordWithDisplayNames{
+			Record: *record,
+		}
+		if displayName, ok := orgMapping[record.Organization]; ok {
+			recordWithNames.OrganizationDisplayName = displayName
+		}
+		userId := record.Organization + "/" + record.User
+		if displayName, ok := userMapping[userId]; ok {
+			recordWithNames.UserDisplayName = displayName
+		}
+		result[i] = recordWithNames
+	}
+
+	return result, nil
 }

@@ -222,7 +222,7 @@ class PermissionListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },
@@ -256,7 +256,7 @@ class PermissionListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/models/${text}`}>
-              {text}
+              {record.modelDisplayName || text}
             </Link>
           );
         },
@@ -269,7 +269,7 @@ class PermissionListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("users"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "users");
+          return Setting.getTags(text, "users", record.usersMapping);
         },
       },
       {
@@ -280,7 +280,7 @@ class PermissionListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("groups"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "groups");
+          return Setting.getTags(text, "groups", record.groupsMapping);
         },
       },
       {
@@ -291,7 +291,7 @@ class PermissionListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("roles"),
         render: (text, record, index) => {
-          return Setting.getTags(text, "roles");
+          return Setting.getTags(text, "roles", record.rolesMapping);
         },
       },
       {
@@ -323,7 +323,7 @@ class PermissionListPage extends BaseListPage {
         sorter: true,
         ...this.getColumnSearchProps("resources"),
         render: (text, record, index) => {
-          return Setting.getTags(text);
+          return Setting.getTags(text, null, record.resourcesMapping);
         },
       },
       {

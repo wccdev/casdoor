@@ -138,7 +138,7 @@ class PricingEditPage extends React.Component {
               this.getApplicationsByOrganization(owner);
               this.getPlans(owner);
             })}
-            options={this.state.organizations.map((organization) => Setting.getOption(organization.name, organization.name))
+            options={this.state.organizations.map((organization) => Setting.getOption(organization.displayName, organization.name))
             } />
           </Col>
         </Row>
