@@ -237,8 +237,6 @@ func (c *ApiController) WebAuthnSigninFinish() {
 		c.ResponseError(err.Error())
 		return
 	}
-	c.SetSessionUsername(user.GetId())
-	util.LogInfo(c.Ctx, "API: [%s] signed in", user.GetId())
 
 	var application *object.Application
 
