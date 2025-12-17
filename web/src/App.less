@@ -77,27 +77,6 @@ img {
   border: 1px solid #eee;
 }
 
-#footer {
-  flex-shrink: 0;  /* 添加这行 */
-
-  > a {
-    filter: grayscale(100%);
-    transition: filter 0.2s;
-    color: #adaab4;
-  }
-
-  > a:hover {
-    filter: grayscale(0%);
-    color: #928f9a;
-  }
-
-  background: #e5e1ec;
-
-  &.dark-mode {
-    background: #000;
-  }
-}
-
 @media (max-width: 640px) {
   .login-panel {
     padding: 40px 0 0;
@@ -161,8 +140,8 @@ img {
 }
 
 .forget-content {
-  padding: 20px 30px;
-  margin: 30px auto;
+  padding: 20px;
+  margin: 20px auto;
   border: 2px solid #fff;
   border-radius: 16px;
   background-color: #fff;
@@ -173,60 +152,6 @@ img {
     background-color: #141414;
     box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
   }
-}
-
-.login-panel {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  display: flex;
-  background-color: #fff;
-  padding: 30px 40px 20px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
-}
-
-.login-panel-dark {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  display: flex;
-  background-color: #141414;
-  padding: 30px 40px 20px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
-}
-
-.login-form {
-  text-align: center;
-  padding: 0 30px;
-}
-
-.login-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  margin: 0 auto;
-  position: relative;
-}
-
-.loginBackground {
-  flex: auto;
-  display: flex;
-  align-items: center;
-  background: #e5e1ec no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-}
-
-.loginBackgroundDark {
-  flex: auto;
-  display: flex;
-  align-items: center;
-  background: #000 no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
 }
 
 .ant-menu-horizontal {
@@ -335,4 +260,214 @@ img {
 
 .dark-mode .app-card:hover {
   box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+}
+
+/* 登录页字体大小统一优化 */
+
+/* 登录方式 Tab */
+.signin-methods .ant-tabs-tab {
+  font-size: 14px;
+}
+
+.signin-methods .ant-tabs-tab-btn {
+  font-size: 14px;
+}
+
+/* 账号密码输入框 placeholder */
+.login-username input,
+.login-username-input,
+.login-password input,
+.login-password-input,
+.signin-phone input {
+  font-size: 14px !important;
+}
+
+.login-username input::placeholder,
+.login-username-input::placeholder,
+.login-password input::placeholder,
+.login-password-input::placeholder,
+.signin-phone input::placeholder {
+  font-size: 14px !important;
+}
+
+/* 忘记密码链接 */
+.login-forget-password,
+.login-forget-password a {
+  font-size: 14px !important;
+}
+
+/* 注册链接和其他文字 */
+.login-signup-link,
+.login-signup-link a {
+  font-size: 14px !important;
+}
+
+/* 登录按钮 */
+.login-button {
+  font-size: 16px !important;
+}
+
+/* 第三方登录按钮文字 */
+/* stylelint-disable-next-line no-descending-specificity */
+.provider-big-btn span,
+.provider-small-btn span {
+  font-size: 14px !important;
+}
+
+/* 注册页面和重置密码页面字体大小优化 */
+
+/* 表单输入框和 placeholder */
+.forget-content .ant-form-item input,
+.login-form .ant-form-item input {
+  font-size: 14px;
+}
+
+.forget-content .ant-form-item .ant-input,
+.login-form .ant-form-item .ant-input {
+  font-size: 14px;
+}
+
+.forget-content .ant-form-item .ant-input-password input,
+.login-form .ant-form-item .ant-input-password input {
+  font-size: 14px;
+}
+
+.forget-content .ant-form-item .ant-select-selection-item,
+.forget-content .ant-form-item .ant-select-selection-placeholder,
+.login-form .ant-form-item .ant-select-selection-item,
+.login-form .ant-form-item .ant-select-selection-placeholder {
+  font-size: 14px;
+}
+
+.forget-content .ant-form-item input::placeholder,
+.login-form .ant-form-item input::placeholder {
+  font-size: 14px;
+}
+
+.forget-content .ant-form-item .ant-input::placeholder,
+.login-form .ant-form-item .ant-input::placeholder {
+  font-size: 14px;
+}
+
+.forget-content .ant-form-item .ant-input-password input::placeholder,
+.login-form .ant-form-item .ant-input-password input::placeholder {
+  font-size: 14px;
+}
+
+/* 表单标签 */
+.login-form .ant-form-item-label > label,
+.forget-content .ant-form-item-label > label {
+  font-size: 14px;
+}
+
+/* 表单提示文字和链接 */
+.login-form .ant-form-item-explain,
+.login-form a,
+.forget-content .ant-form-item-explain,
+.forget-content a {
+  font-size: 14px;
+}
+
+/* 注册/提交按钮 */
+.login-form .ant-btn-primary,
+.forget-content .ant-btn-primary {
+  font-size: 16px;
+}
+
+/* 发送验证码按钮 */
+.login-form .ant-btn:not(.ant-btn-primary),
+.forget-content .ant-btn:not(.ant-btn-primary) {
+  font-size: 14px;
+}
+
+/* 返回按钮 */
+.forget-content .ant-btn-text {
+  font-size: 14px;
+}
+
+/* 步骤条文字 */
+.forget-content .ant-steps-item-title,
+.forget-content .ant-steps-item-description {
+  font-size: 14px;
+}
+
+/* Radio 单选框文字 */
+.login-form .ant-radio-wrapper,
+.forget-content .ant-radio-wrapper {
+  font-size: 14px;
+}
+
+.login-panel {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  background-color: #fff;
+  padding: 30px 40px 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 2%);
+}
+
+.login-panel-dark {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  background-color: #141414;
+  padding: 30px 40px 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgb(255 255 255 / 2%);
+}
+
+.login-form {
+  text-align: center;
+  padding: 0 30px;
+}
+
+.login-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0 auto;
+  position: relative;
+}
+
+.loginBackground {
+  flex: auto;
+  display: flex;
+  align-items: center;
+  background: #e5e1ec no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+.loginBackgroundDark {
+  flex: auto;
+  display: flex;
+  align-items: center;
+  background: #000 no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+#footer {
+  flex-shrink: 0;  /* 添加这行 */
+
+  > a {
+    filter: grayscale(100%);
+    transition: filter 0.2s;
+    color: #adaab4;
+  }
+
+  > a:hover {
+    filter: grayscale(0%);
+    color: #928f9a;
+  }
+
+  background: #e5e1ec;
+
+  &.dark-mode {
+    background: #000;
+  }
 }
