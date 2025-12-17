@@ -1312,8 +1312,8 @@ class LoginPage extends React.Component {
             Setting.showMessage("error", `${i18next.t("general:Failed to connect to server")}${error}`);
           });
       }).catch(error => {
-        // 用户主动取消 WebAuthn 认证，不显示错误
-        if (error.name === "AbortError") {
+        // 用户主动取消或超时，不显示错误
+        if (error.name === "NotAllowedError" || error.name === "AbortError") {
           return;
         }
         Setting.showMessage("error", `${error.message}`);
