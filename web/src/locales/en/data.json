@@ -661,6 +661,7 @@
     "Verification code": "Verification code",
     "WeChat": "WeChat",
     "WebAuthn": "WebAuthn",
+    "WebAuthn is only supported in HTTPS": "WebAuthn is only supported in HTTPS",
     "sign up now": "sign up now",
     "Username / Email / Phone": "Username / Email / Phone"
   },

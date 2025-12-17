@@ -1239,6 +1239,13 @@ class LoginPage extends React.Component {
   }
 
   signInWithWebAuthn(username, values) {
+    // WebAuthn 只在安全上下文（HTTPS 或 localhost）下支持
+    if (!window.isSecureContext) {
+      Setting.showMessage("error", i18next.t("login:WebAuthn is only supported in HTTPS"));
+      this.setState({loginLoading: false});
+      return;
+    }
+
     const oAuthParams = Util.getOAuthGetParameters();
     this.populateOauthValues(values);
     const application = this.getApplicationObj();
@@ -1309,6 +1316,10 @@ class LoginPage extends React.Component {
             Setting.showMessage("error", `${i18next.t("general:Failed to connect to server")}${error}`);
           });
       }).catch(error => {
+        // 用户主动取消 WebAuthn 认证，不显示错误
+        if (error.name === "AbortError") {
+          return;
+        }
         Setting.showMessage("error", `${error.message}`);
       }).finally(() => {
         this.setState({

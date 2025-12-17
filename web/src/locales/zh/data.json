@@ -659,6 +659,7 @@
     "Verification code": "验证码",
     "WeChat": "微信",
     "WebAuthn": "Web身份验证",
+    "WebAuthn is only supported in HTTPS": "WebAuthn 仅支持 HTTPS 环境",
     "sign up now": "立即注册",
     "Username / Email / Phone": "用户名 / 邮箱 / 手机号",
     "or": "其他登录方式"
