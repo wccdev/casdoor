@@ -439,7 +439,7 @@ class PermissionEditPage extends React.Component {
             <Select virtual={false} disabled={!Setting.isLocalAdminUser(this.props.account)} style={{width: "100%"}} value={this.state.permission.state} onChange={(value => {
               if (this.state.permission.state !== value) {
                 if (value === "Approved") {
-                  this.updatePermissionField("approver", this.props.account.name);
+                  this.updatePermissionField("approver", `${this.props.account.owner}/${this.props.account.name}`);
                   this.updatePermissionField("approveTime", moment().format());
                 } else {
                   this.updatePermissionField("approver", "");
@@ -477,7 +477,7 @@ class PermissionEditPage extends React.Component {
       Setting.showMessage("error", i18next.t("general:The actions cannot be empty"));
       return;
     }
-    if (!Setting.isLocalAdminUser(this.props.account) && this.state.permission.submitter !== this.props.account.name) {
+    if (!Setting.isLocalAdminUser(this.props.account) && this.state.permission.submitter !== `${this.props.account.owner}/${this.props.account.name}`) {
       Setting.showMessage("error", i18next.t("general:A normal user can only modify the permission submitted by itself"));
       return;
     }
