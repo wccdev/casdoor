@@ -90,7 +90,7 @@ class UserListPage extends BaseListPage {
       signupApplication: this.state.organization.defaultApplication,
       registerType: "Add User",
       registerSource: `${this.props.account.owner}/${this.props.account.name}`,
-      balanceCurrency: this.state.organization.balanceCurrency || "USD",
+      balanceCurrency: this.state.organization.balanceCurrency || "CNY",
     };
   }
 

@@ -39,7 +39,7 @@ class OrganizationListPage extends BaseListPage {
       passwordObfuscatorType: "Plain",
       passwordObfuscatorKey: "",
       passwordExpireDays: 0,
-      countryCodes: ["US"],
+      countryCodes: ["CN"],
       defaultAvatar: `${Setting.StaticBaseUrl}/img/casbin.svg`,
       defaultApplication: "",
       tags: [],
@@ -51,7 +51,7 @@ class OrganizationListPage extends BaseListPage {
       enableTour: true,
       disableSignin: false,
       mfaRememberInHours: DefaultMfaRememberInHours,
-      balanceCurrency: "USD",
+      balanceCurrency: "CNY",
       accountItems: [
         {name: "Organization", visible: true, viewRule: "Public", modifyRule: "Admin"},
         {name: "ID", visible: true, viewRule: "Public", modifyRule: "Immutable"},

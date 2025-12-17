@@ -40,9 +40,11 @@ class ApplicationListPage extends BaseListPage {
       displayName: `New Application - ${randomName}`,
       logo: `${Setting.StaticBaseUrl}/img/casdoor-logo_1185x256.png`,
       enablePassword: true,
-      enableSignUp: true,
+      enableSignUp: false,
       disableSignin: false,
-      enableSigninSession: false,
+      enableAutoSignin: true,
+      enableSigninSession: true,
+      enableLinkWithEmail: true,
       enableCodeSignin: false,
       enableSamlCompress: false,
       disableSamlAttributes: false,
@@ -51,9 +53,7 @@ class ApplicationListPage extends BaseListPage {
       ],
       SigninMethods: [
         {name: "Password", displayName: "Password", rule: "All"},
-        {name: "Verification code", displayName: "Verification code", rule: "All"},
-        {name: "WebAuthn", displayName: "WebAuthn", rule: "None"},
-        {name: "Face ID", displayName: "Face ID", rule: "None"},
+        {name: "WebAuthn", displayName: "Passkey", rule: "None"},
       ],
       signupItems: [
         {name: "ID", visible: false, required: true, rule: "Random"},
@@ -63,8 +63,8 @@ class ApplicationListPage extends BaseListPage {
         {name: "Confirm password", visible: true, required: true, rule: "None"},
         {name: "Email", visible: true, required: true, rule: "Normal"},
         {name: "Phone", visible: true, required: true, rule: "None"},
-        {name: "Agreement", visible: true, required: true, rule: "None"},
-        {name: "Signup button", visible: true, required: true, rule: "None"},
+        {name: "Agreement", visible: false, required: true, rule: "None"},
+        {name: "Signup button", visible: false, required: true, rule: "None"},
         {name: "Providers", visible: true, required: true, rule: "None", customCss: SignupTableDefaultCssMap["Providers"]},
       ],
       grantTypes: ["authorization_code", "password", "client_credentials", "token", "id_token", "refresh_token"],
@@ -75,6 +75,7 @@ class ApplicationListPage extends BaseListPage {
       expireInHours: 24 * 7,
       refreshExpireInHours: 24 * 7,
       formOffset: 2,
+      order: 100,
     };
   }
 
