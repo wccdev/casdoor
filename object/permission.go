@@ -49,12 +49,14 @@ type Permission struct {
 	State       string `xorm:"varchar(100)" json:"state"`
 
 	// Non-persistent fields for display name mapping
-	OwnerDisplayName string            `xorm:"-" json:"ownerDisplayName,omitempty"`
-	ModelDisplayName string            `xorm:"-" json:"modelDisplayName,omitempty"`
-	UsersMapping     map[string]string `xorm:"-" json:"usersMapping,omitempty"`
-	GroupsMapping    map[string]string `xorm:"-" json:"groupsMapping,omitempty"`
-	RolesMapping     map[string]string `xorm:"-" json:"rolesMapping,omitempty"`
-	ResourcesMapping map[string]string `xorm:"-" json:"resourcesMapping,omitempty"`
+	OwnerDisplayName     string            `xorm:"-" json:"ownerDisplayName,omitempty"`
+	ModelDisplayName     string            `xorm:"-" json:"modelDisplayName,omitempty"`
+	UsersMapping         map[string]string `xorm:"-" json:"usersMapping,omitempty"`
+	GroupsMapping        map[string]string `xorm:"-" json:"groupsMapping,omitempty"`
+	RolesMapping         map[string]string `xorm:"-" json:"rolesMapping,omitempty"`
+	ResourcesMapping     map[string]string `xorm:"-" json:"resourcesMapping,omitempty"`
+	SubmitterDisplayName string            `xorm:"-" json:"submitterDisplayName,omitempty"`
+	ApproverDisplayName  string            `xorm:"-" json:"approverDisplayName,omitempty"`
 }
 
 const builtInMaxFields = 6 // Casdoor built-in adapter, use V5 to filter permission, so has 6 max field
@@ -551,13 +553,15 @@ func PopulatePermissionsDisplayNames(permissions []*Permission) error {
 		return nil
 	}
 
-	// Collect all unique owner names, model IDs, resource names, user IDs, group IDs, and role IDs
+	// Collect all unique owner names, model IDs, resource names, user IDs, group IDs, role IDs, submitters and approvers
 	ownerNames := make(map[string]bool)
 	modelIds := make(map[string]bool)
 	resourceNames := make(map[string]bool)
 	userIds := make(map[string]bool)
 	groupIds := make(map[string]bool)
 	roleIds := make(map[string]bool)
+	submitterIds := make(map[string]bool)
+	approverIds := make(map[string]bool)
 
 	for _, permission := range permissions {
 		ownerNames[permission.Owner] = true
@@ -577,6 +581,12 @@ func PopulatePermissionsDisplayNames(permissions []*Permission) error {
 		}
 		for _, roleId := range permission.Roles {
 			roleIds[roleId] = true
+		}
+		if permission.Submitter != "" {
+			submitterIds[permission.Submitter] = true
+		}
+		if permission.Approver != "" {
+			approverIds[permission.Approver] = true
 		}
 	}
 
@@ -640,6 +650,39 @@ func PopulatePermissionsDisplayNames(permissions []*Permission) error {
 		}
 	}
 
+	// Build submitter mapping
+	submitterMapping := make(map[string]string)
+	for submitter := range submitterIds {
+		userId := submitter
+		// If submitter is stored as simple name, prepend default owner
+		if !strings.Contains(submitter, "/") {
+			userId = fmt.Sprintf("%s/%s", "admin", submitter)
+		}
+		user, err := GetUserNoCheck(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			submitterMapping[submitter] = user.DisplayName
+		}
+	}
+
+	// Build approver mapping
+	approverMapping := make(map[string]string)
+	for approver := range approverIds {
+		userId := approver
+		if !strings.Contains(approver, "/") {
+			userId = fmt.Sprintf("%s/%s", "admin", approver)
+		}
+		user, err := GetUserNoCheck(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			approverMapping[approver] = user.DisplayName
+		}
+	}
+
 	// Build resources mapping (resources are application names)
 	resourcesMapping := make(map[string]string)
 	for resourceName := range resourceNames {
@@ -664,6 +707,12 @@ func PopulatePermissionsDisplayNames(permissions []*Permission) error {
 		}
 		if displayName, ok := modelMapping[permission.Model]; ok {
 			permission.ModelDisplayName = displayName
+		}
+		if displayName, ok := submitterMapping[permission.Submitter]; ok {
+			permission.SubmitterDisplayName = displayName
+		}
+		if displayName, ok := approverMapping[permission.Approver]; ok {
+			permission.ApproverDisplayName = displayName
 		}
 		for _, userId := range permission.Users {
 			if displayName, ok := usersMapping[userId]; ok {

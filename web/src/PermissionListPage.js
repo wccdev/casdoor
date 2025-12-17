@@ -393,7 +393,7 @@ class PermissionListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/users/${record.owner}/${encodeURIComponent(text)}`}>
-              {text}
+              {record.submitterDisplayName || text}
             </Link>
           );
         },
@@ -408,7 +408,7 @@ class PermissionListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/users/${record.owner}/${encodeURIComponent(text)}`}>
-              {text}
+              {record.approverDisplayName || text}
             </Link>
           );
         },

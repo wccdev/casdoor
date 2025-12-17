@@ -406,7 +406,7 @@ class PermissionEditPage extends React.Component {
             {Setting.getLabel(i18next.t("permission:Submitter"), i18next.t("permission:Submitter - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Input disabled={true} value={this.state.permission.submitter} onChange={e => {
+            <Input disabled={true} value={this.state.permission.submitterDisplayName || this.state.permission.submitter} onChange={e => {
               this.updatePermissionField("submitter", e.target.value);
             }} />
           </Col>
@@ -416,7 +416,7 @@ class PermissionEditPage extends React.Component {
             {Setting.getLabel(i18next.t("permission:Approver"), i18next.t("permission:Approver - Tooltip"))} :
           </Col>
           <Col span={22} >
-            <Input disabled={true} value={this.state.permission.approver} onChange={e => {
+            <Input disabled={true} value={this.state.permission.approverDisplayName || this.state.permission.approver} onChange={e => {
               this.updatePermissionField("approver", e.target.value);
             }} />
           </Col>
