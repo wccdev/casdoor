@@ -704,6 +704,11 @@ class LoginPage extends React.Component {
         return (<WeChatLoginPanel application={application} loginMethod={this.state.loginMethod} />);
       }
 
+      // 添加这段代码：WebAuthn 登录不需要输入框
+      if (this.state.loginMethod === "webAuthn") {
+        return null;
+      }
+
       if (this.state.loginMethod === "verificationCodePhone") {
         return <Form.Item className="signin-phone" required={true}>
           <Input.Group compact>
