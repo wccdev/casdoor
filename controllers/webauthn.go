@@ -253,6 +253,10 @@ func (c *ApiController) WebAuthnSigninFinish() {
 	var authForm form.AuthForm
 	authForm.Type = responseType
 	resp := c.HandleLoggedIn(application, user, &authForm)
+
+	// 设置用户 ID 用于日志记录
+	c.Ctx.Input.SetParam("recordUserId", user.GetId())
+
 	c.Data["json"] = resp
 	c.ServeJSON()
 }
