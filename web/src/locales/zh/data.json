@@ -646,7 +646,7 @@
     "Select organization": "选择组织",
     "Sign In": "登录",
     "Sign in with Face ID": "人脸登录",
-    "Sign in with WebAuthn": "WebAuthn登录",
+    "Sign in with WebAuthn": "使用 Passkey 登录",
     "Sign in with {type}": "{type}登录",
     "Signin button": "登录按钮",
     "Signing in...": "正在登录...",
