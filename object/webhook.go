@@ -44,6 +44,9 @@ type Webhook struct {
 	IsUserExtended bool      `json:"isUserExtended"`
 	SingleOrgOnly  bool      `json:"singleOrgOnly"`
 	IsEnabled      bool      `json:"isEnabled"`
+
+	// Non-persistent field for display name
+	OrganizationDisplayName string `xorm:"-" json:"organizationDisplayName,omitempty"`
 }
 
 func GetWebhookCount(owner, organization, field, value string) (int64, error) {
@@ -149,4 +152,45 @@ func DeleteWebhook(webhook *Webhook) (bool, error) {
 
 func (p *Webhook) GetId() string {
 	return fmt.Sprintf("%s/%s", p.Owner, p.Name)
+}
+
+// PopulateWebhooksDisplayNames fills the OrganizationDisplayName field for a list of webhooks
+func PopulateWebhooksDisplayNames(webhooks []*Webhook) error {
+	if len(webhooks) == 0 {
+		return nil
+	}
+
+	orgNames := make(map[string]bool)
+	for _, webhook := range webhooks {
+		if webhook.Organization != "" {
+			orgNames[webhook.Organization] = true
+		}
+	}
+
+	orgMapping := make(map[string]string)
+	for orgName := range orgNames {
+		org, err := getOrganization("admin", orgName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			orgMapping[orgName] = org.DisplayName
+		}
+	}
+
+	for _, webhook := range webhooks {
+		if displayName, ok := orgMapping[webhook.Organization]; ok {
+			webhook.OrganizationDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateWebhookDisplayNames fills the OrganizationDisplayName field for a single webhook
+func PopulateWebhookDisplayNames(webhook *Webhook) error {
+	if webhook == nil {
+		return nil
+	}
+	return PopulateWebhooksDisplayNames([]*Webhook{webhook})
 }

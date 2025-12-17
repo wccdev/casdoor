@@ -98,7 +98,7 @@ class EnforcerListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },
@@ -132,7 +132,7 @@ class EnforcerListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/models/${text}`}>
-              {text}
+              {record.modelDisplayName || text}
             </Link>
           );
         },
@@ -148,7 +148,7 @@ class EnforcerListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/adapters/${text}`}>
-              {text}
+              {record.adapterDisplayName || text}
             </Link>
           );
         },

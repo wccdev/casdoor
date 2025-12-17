@@ -70,6 +70,7 @@ func (c *ApiController) GetVerifications() {
 			return
 		}
 
+		object.PopulateVerificationsDisplayNames(payments)
 		c.ResponseOk(payments)
 	} else {
 		limit := util.ParseInt(limit)
@@ -86,6 +87,7 @@ func (c *ApiController) GetVerifications() {
 			return
 		}
 
+		object.PopulateVerificationsDisplayNames(payments)
 		c.ResponseOk(payments, paginator.Nums())
 	}
 }

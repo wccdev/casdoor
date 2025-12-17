@@ -47,6 +47,7 @@ func (c *ApiController) GetEnforcers() {
 			return
 		}
 
+		object.PopulateEnforcersDisplayNames(enforcers)
 		c.ResponseOk(enforcers)
 	} else {
 		limit := util.ParseInt(limit)
@@ -63,6 +64,7 @@ func (c *ApiController) GetEnforcers() {
 			return
 		}
 
+		object.PopulateEnforcersDisplayNames(enforcers)
 		c.ResponseOk(enforcers, paginator.Nums())
 	}
 }
@@ -93,6 +95,7 @@ func (c *ApiController) GetEnforcer() {
 		}
 	}
 
+	object.PopulateEnforcerDisplayNames(enforcer)
 	c.ResponseOk(enforcer)
 }
 

@@ -131,7 +131,7 @@ class SyncerListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.organizationDisplayName || text}
             </Link>
           );
         },

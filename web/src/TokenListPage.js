@@ -114,7 +114,7 @@ class TokenListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/applications/${record.organization}/${text}`}>
-              {text}
+              {record.applicationDisplayName || text}
             </Link>
           );
         },
@@ -129,7 +129,7 @@ class TokenListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.organizationDisplayName || text}
             </Link>
           );
         },
@@ -144,7 +144,7 @@ class TokenListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/users/${record.organization}/${text}`}>
-              {text}
+              {record.userDisplayName || text}
             </Link>
           );
         },

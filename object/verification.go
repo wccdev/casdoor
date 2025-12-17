@@ -65,6 +65,11 @@ type VerificationRecord struct {
 	Code       string `xorm:"varchar(10) notnull" json:"code"`
 	Time       int64  `xorm:"notnull" json:"time"`
 	IsUsed     bool   `xorm:"notnull" json:"isUsed"`
+
+	// Non-persistent fields for display names
+	OwnerDisplayName    string `xorm:"-" json:"ownerDisplayName,omitempty"`
+	UserDisplayName     string `xorm:"-" json:"userDisplayName,omitempty"`
+	ProviderDisplayName string `xorm:"-" json:"providerDisplayName,omitempty"`
 }
 
 func IsAllowSend(user *User, remoteAddr, recordType string, application *Application) error {
@@ -431,4 +436,79 @@ func GetVerification(id string) (*VerificationRecord, error) {
 		return nil, err
 	}
 	return getVerification(owner, name)
+}
+
+// PopulateVerificationsDisplayNames fills the display name fields for a list of verifications
+func PopulateVerificationsDisplayNames(verifications []*VerificationRecord) error {
+	if len(verifications) == 0 {
+		return nil
+	}
+
+	ownerNames := make(map[string]bool)
+	userIds := make(map[string]bool)
+	providerIds := make(map[string]bool)
+
+	for _, v := range verifications {
+		if v.Owner != "" && v.Owner != "admin" {
+			ownerNames[v.Owner] = true
+		}
+		if v.User != "" {
+			userIds[v.User] = true
+		}
+		if v.Owner != "" && v.Provider != "" {
+			providerIds[v.Owner+"/"+v.Provider] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build user display name mapping
+	userMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUser(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			userMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Build provider display name mapping
+	providerMapping := make(map[string]string)
+	for providerId := range providerIds {
+		provider, err := GetProvider(providerId)
+		if err != nil {
+			continue
+		}
+		if provider != nil {
+			providerMapping[providerId] = provider.DisplayName
+		}
+	}
+
+	// Apply mappings
+	for _, v := range verifications {
+		if displayName, ok := ownerMapping[v.Owner]; ok {
+			v.OwnerDisplayName = displayName
+		}
+		if displayName, ok := userMapping[v.User]; ok {
+			v.UserDisplayName = displayName
+		}
+		providerId := v.Owner + "/" + v.Provider
+		if displayName, ok := providerMapping[providerId]; ok {
+			v.ProviderDisplayName = displayName
+		}
+	}
+
+	return nil
 }

@@ -33,6 +33,9 @@ type Model struct {
 	ModelText string `xorm:"mediumtext" json:"modelText"`
 
 	model.Model `xorm:"-" json:"-"`
+
+	// Non-persistent field for display name
+	OwnerDisplayName string `xorm:"-" json:"ownerDisplayName,omitempty"`
 }
 
 func GetModelCount(owner, field, value string) (int64, error) {
@@ -225,4 +228,45 @@ func getModelCfg(m *Model) (map[string]string, error) {
 		modelCfg["g"] = cfg.String("role_definition::g")
 	}
 	return modelCfg, nil
+}
+
+// PopulateModelsDisplayNames fills the OwnerDisplayName field for a list of models
+func PopulateModelsDisplayNames(models []*Model) error {
+	if len(models) == 0 {
+		return nil
+	}
+
+	ownerNames := make(map[string]bool)
+	for _, m := range models {
+		if m.Owner != "" {
+			ownerNames[m.Owner] = true
+		}
+	}
+
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	for _, m := range models {
+		if displayName, ok := ownerMapping[m.Owner]; ok {
+			m.OwnerDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateModelDisplayNames fills the OwnerDisplayName field for a single model
+func PopulateModelDisplayNames(m *Model) error {
+	if m == nil {
+		return nil
+	}
+	return PopulateModelsDisplayNames([]*Model{m})
 }

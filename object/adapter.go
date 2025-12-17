@@ -41,6 +41,9 @@ type Adapter struct {
 	Database     string `xorm:"varchar(100)" json:"database"`
 
 	*xormadapter.Adapter `xorm:"-" json:"-"`
+
+	// Non-persistent field for display name
+	OwnerDisplayName string `xorm:"-" json:"ownerDisplayName,omitempty"`
 }
 
 func GetAdapterCount(owner, field, value string) (int64, error) {
@@ -233,4 +236,45 @@ func (adapter *Adapter) isBuiltIn() bool {
 	}
 
 	return adapter.Name == "user-adapter-built-in" || adapter.Name == "api-adapter-built-in"
+}
+
+// PopulateAdaptersDisplayNames fills the OwnerDisplayName field for a list of adapters
+func PopulateAdaptersDisplayNames(adapters []*Adapter) error {
+	if len(adapters) == 0 {
+		return nil
+	}
+
+	ownerNames := make(map[string]bool)
+	for _, adapter := range adapters {
+		if adapter.Owner != "" {
+			ownerNames[adapter.Owner] = true
+		}
+	}
+
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	for _, adapter := range adapters {
+		if displayName, ok := ownerMapping[adapter.Owner]; ok {
+			adapter.OwnerDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateAdapterDisplayNames fills the OwnerDisplayName field for a single adapter
+func PopulateAdapterDisplayNames(adapter *Adapter) error {
+	if adapter == nil {
+		return nil
+	}
+	return PopulateAdaptersDisplayNames([]*Adapter{adapter})
 }

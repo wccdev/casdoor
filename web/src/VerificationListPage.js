@@ -48,7 +48,7 @@ class VerificationListPage extends BaseListPage {
 
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },
@@ -90,7 +90,7 @@ class VerificationListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/users/${text}`}>
-              {text}
+              {record.userDisplayName || text}
             </Link>
           );
         },
@@ -105,7 +105,7 @@ class VerificationListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/providers/${record.owner}/${text}`}>
-              {text}
+              {record.providerDisplayName || text}
             </Link>
           );
         },

@@ -37,6 +37,11 @@ type Enforcer struct {
 
 	ModelCfg map[string]string `xorm:"-" json:"modelCfg"`
 	*casbin.Enforcer
+
+	// Non-persistent fields for display names
+	OwnerDisplayName   string `xorm:"-" json:"ownerDisplayName,omitempty"`
+	ModelDisplayName   string `xorm:"-" json:"modelDisplayName,omitempty"`
+	AdapterDisplayName string `xorm:"-" json:"adapterDisplayName,omitempty"`
 }
 
 func GetEnforcerCount(owner, field, value string) (int64, error) {
@@ -379,4 +384,86 @@ func (enforcer *Enforcer) LoadModelCfg() error {
 	}
 
 	return nil
+}
+
+// PopulateEnforcersDisplayNames fills the display name fields for a list of enforcers
+func PopulateEnforcersDisplayNames(enforcers []*Enforcer) error {
+	if len(enforcers) == 0 {
+		return nil
+	}
+
+	ownerNames := make(map[string]bool)
+	modelIds := make(map[string]bool)
+	adapterIds := make(map[string]bool)
+
+	for _, enforcer := range enforcers {
+		if enforcer.Owner != "" {
+			ownerNames[enforcer.Owner] = true
+		}
+		if enforcer.Model != "" {
+			modelIds[enforcer.Model] = true
+		}
+		if enforcer.Adapter != "" {
+			adapterIds[enforcer.Adapter] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build model display name mapping
+	modelMapping := make(map[string]string)
+	for modelId := range modelIds {
+		model, err := GetModel(modelId)
+		if err != nil {
+			continue
+		}
+		if model != nil {
+			modelMapping[modelId] = model.DisplayName
+		}
+	}
+
+	// Build adapter display name mapping
+	adapterMapping := make(map[string]string)
+	for adapterId := range adapterIds {
+		adapter, err := GetAdapter(adapterId)
+		if err != nil {
+			continue
+		}
+		if adapter != nil && adapter.Name != "" {
+			adapterMapping[adapterId] = adapter.Name
+		}
+	}
+
+	// Apply mappings
+	for _, enforcer := range enforcers {
+		if displayName, ok := ownerMapping[enforcer.Owner]; ok {
+			enforcer.OwnerDisplayName = displayName
+		}
+		if displayName, ok := modelMapping[enforcer.Model]; ok {
+			enforcer.ModelDisplayName = displayName
+		}
+		if displayName, ok := adapterMapping[enforcer.Adapter]; ok {
+			enforcer.AdapterDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateEnforcerDisplayNames fills the OwnerDisplayName field for a single enforcer
+func PopulateEnforcerDisplayNames(enforcer *Enforcer) error {
+	if enforcer == nil {
+		return nil
+	}
+	return PopulateEnforcersDisplayNames([]*Enforcer{enforcer})
 }

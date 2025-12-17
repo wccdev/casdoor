@@ -47,6 +47,7 @@ func (c *ApiController) GetSyncers() {
 			return
 		}
 
+		object.PopulateSyncersDisplayNames(syncers)
 		c.ResponseOk(syncers)
 	} else {
 		limit := util.ParseInt(limit)
@@ -63,6 +64,7 @@ func (c *ApiController) GetSyncers() {
 			return
 		}
 
+		object.PopulateSyncersDisplayNames(syncers)
 		c.ResponseOk(syncers, paginator.Nums())
 	}
 }
@@ -83,6 +85,7 @@ func (c *ApiController) GetSyncer() {
 		return
 	}
 
+	object.PopulateSyncerDisplayNames(syncer)
 	c.ResponseOk(syncer)
 }
 

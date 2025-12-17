@@ -45,6 +45,7 @@ func (c *ApiController) GetSessions() {
 			return
 		}
 
+		object.PopulateSessionsDisplayNames(sessions)
 		c.ResponseOk(sessions)
 	} else {
 		limit := util.ParseInt(limit)
@@ -60,6 +61,7 @@ func (c *ApiController) GetSessions() {
 			return
 		}
 
+		object.PopulateSessionsDisplayNames(sessions)
 		c.ResponseOk(sessions, paginator.Nums())
 	}
 }

@@ -52,6 +52,9 @@ class SessionListPage extends BaseListPage {
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("name"),
+        render: (text, record, index) => {
+          return record.nameDisplayName || text;
+        },
       },
       {
         title: i18next.t("general:Organization"),
@@ -63,7 +66,7 @@ class SessionListPage extends BaseListPage {
         render: (text, record, index) => {
           return (
             <Link to={`/organizations/${text}`}>
-              {text}
+              {record.ownerDisplayName || text}
             </Link>
           );
         },

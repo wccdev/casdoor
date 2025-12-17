@@ -47,6 +47,7 @@ func (c *ApiController) GetWebhooks() {
 			return
 		}
 
+		object.PopulateWebhooksDisplayNames(webhooks)
 		c.ResponseOk(webhooks)
 	} else {
 		limit := util.ParseInt(limit)
@@ -64,6 +65,7 @@ func (c *ApiController) GetWebhooks() {
 			return
 		}
 
+		object.PopulateWebhooksDisplayNames(webhooks)
 		c.ResponseOk(webhooks, paginator.Nums())
 	}
 }
@@ -84,6 +86,7 @@ func (c *ApiController) GetWebhook() {
 		return
 	}
 
+	object.PopulateWebhookDisplayNames(webhook)
 	c.ResponseOk(webhook)
 }
 

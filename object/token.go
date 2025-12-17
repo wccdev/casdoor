@@ -43,6 +43,11 @@ type Token struct {
 	CodeChallenge    string `xorm:"varchar(100)" json:"codeChallenge"`
 	CodeIsUsed       bool   `json:"codeIsUsed"`
 	CodeExpireIn     int64  `json:"codeExpireIn"`
+
+	// Non-persistent fields for display names
+	OrganizationDisplayName string `xorm:"-" json:"organizationDisplayName,omitempty"`
+	UserDisplayName         string `xorm:"-" json:"userDisplayName,omitempty"`
+	ApplicationDisplayName  string `xorm:"-" json:"applicationDisplayName,omitempty"`
 }
 
 func GetTokenCount(owner, organization, field, value string) (int64, error) {
@@ -233,4 +238,80 @@ func ExpireTokenByUser(owner, username string) (bool, error) {
 	}
 
 	return affected != 0, nil
+}
+
+// PopulateTokensDisplayNames fills the display name fields for a list of tokens
+func PopulateTokensDisplayNames(tokens []*Token) error {
+	if len(tokens) == 0 {
+		return nil
+	}
+
+	orgNames := make(map[string]bool)
+	userIds := make(map[string]bool)
+	appIds := make(map[string]bool)
+
+	for _, token := range tokens {
+		if token.Organization != "" {
+			orgNames[token.Organization] = true
+		}
+		if token.Organization != "" && token.User != "" {
+			userIds[token.Organization+"/"+token.User] = true
+		}
+		if token.Owner != "" && token.Application != "" {
+			appIds[token.Owner+"/"+token.Application] = true
+		}
+	}
+
+	// Build organization display name mapping
+	orgMapping := make(map[string]string)
+	for orgName := range orgNames {
+		org, err := getOrganization("admin", orgName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			orgMapping[orgName] = org.DisplayName
+		}
+	}
+
+	// Build user display name mapping
+	userMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUser(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			userMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Build application display name mapping
+	appMapping := make(map[string]string)
+	for appId := range appIds {
+		app, err := GetApplication(appId)
+		if err != nil {
+			continue
+		}
+		if app != nil {
+			appMapping[appId] = app.DisplayName
+		}
+	}
+
+	// Apply mappings
+	for _, token := range tokens {
+		if displayName, ok := orgMapping[token.Organization]; ok {
+			token.OrganizationDisplayName = displayName
+		}
+		userId := token.Organization + "/" + token.User
+		if displayName, ok := userMapping[userId]; ok {
+			token.UserDisplayName = displayName
+		}
+		appId := token.Owner + "/" + token.Application
+		if displayName, ok := appMapping[appId]; ok {
+			token.ApplicationDisplayName = displayName
+		}
+	}
+
+	return nil
 }

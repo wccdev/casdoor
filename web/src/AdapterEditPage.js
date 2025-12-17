@@ -100,7 +100,7 @@ class AdapterEditPage extends React.Component {
               this.updateAdapterField("owner", value);
             })}>
               {
-                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.name}</Option>)
+                this.state.organizations.map((organization, index) => <Option key={index} value={organization.name}>{organization.displayName}</Option>)
               }
             </Select>
           </Col>

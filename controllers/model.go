@@ -45,6 +45,7 @@ func (c *ApiController) GetModels() {
 			return
 		}
 
+		object.PopulateModelsDisplayNames(models)
 		c.ResponseOk(models)
 	} else {
 		limit := util.ParseInt(limit)
@@ -61,6 +62,7 @@ func (c *ApiController) GetModels() {
 			return
 		}
 
+		object.PopulateModelsDisplayNames(models)
 		c.ResponseOk(models, paginator.Nums())
 	}
 }
@@ -81,6 +83,7 @@ func (c *ApiController) GetModel() {
 		return
 	}
 
+	object.PopulateModelDisplayNames(model)
 	c.ResponseOk(model)
 }
 

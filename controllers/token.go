@@ -43,13 +43,14 @@ func (c *ApiController) GetTokens() {
 	sortOrder := c.Input().Get("sortOrder")
 	organization := c.Input().Get("organization")
 	if limit == "" || page == "" {
-		token, err := object.GetTokens(owner, organization)
+		tokens, err := object.GetTokens(owner, organization)
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
 		}
 
-		c.ResponseOk(token)
+		object.PopulateTokensDisplayNames(tokens)
+		c.ResponseOk(tokens)
 	} else {
 		limit := util.ParseInt(limit)
 		count, err := object.GetTokenCount(owner, organization, field, value)
@@ -65,6 +66,7 @@ func (c *ApiController) GetTokens() {
 			return
 		}
 
+		object.PopulateTokensDisplayNames(tokens)
 		c.ResponseOk(tokens, paginator.Nums())
 	}
 }

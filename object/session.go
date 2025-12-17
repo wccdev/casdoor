@@ -36,6 +36,10 @@ type Session struct {
 	SessionId []string `json:"sessionId"`
 
 	ExclusiveSignin bool `xorm:"-"`
+
+	// Non-persistent fields for display names
+	OwnerDisplayName string `xorm:"-" json:"ownerDisplayName,omitempty"`
+	NameDisplayName  string `xorm:"-" json:"nameDisplayName,omitempty"`
 }
 
 func GetSessions(owner string) ([]*Session, error) {
@@ -247,4 +251,59 @@ func IsSessionDuplicated(id string, sessionId string) (bool, error) {
 			return session.SessionId[0] != sessionId, nil
 		}
 	}
+}
+
+// PopulateSessionsDisplayNames fills the display name fields for a list of sessions
+func PopulateSessionsDisplayNames(sessions []*Session) error {
+	if len(sessions) == 0 {
+		return nil
+	}
+
+	ownerNames := make(map[string]bool)
+	userIds := make(map[string]bool)
+	for _, session := range sessions {
+		if session.Owner != "" {
+			ownerNames[session.Owner] = true
+		}
+		if session.Owner != "" && session.Name != "" {
+			userIds[session.Owner+"/"+session.Name] = true
+		}
+	}
+
+	// Build owner display name mapping
+	ownerMapping := make(map[string]string)
+	for ownerName := range ownerNames {
+		org, err := getOrganization("admin", ownerName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			ownerMapping[ownerName] = org.DisplayName
+		}
+	}
+
+	// Build user display name mapping
+	userMapping := make(map[string]string)
+	for userId := range userIds {
+		user, err := GetUser(userId)
+		if err != nil {
+			continue
+		}
+		if user != nil {
+			userMapping[userId] = user.DisplayName
+		}
+	}
+
+	// Apply mappings
+	for _, session := range sessions {
+		if displayName, ok := ownerMapping[session.Owner]; ok {
+			session.OwnerDisplayName = displayName
+		}
+		userId := session.Owner + "/" + session.Name
+		if displayName, ok := userMapping[userId]; ok {
+			session.NameDisplayName = displayName
+		}
+	}
+
+	return nil
 }

@@ -182,7 +182,7 @@ class EnforcerEditPage extends React.Component {
             <Select virtual={false} disabled={Setting.builtInObject(this.state.enforcer)} style={{width: "100%"}} value={this.state.enforcer.adapter} onChange={(adapter => {
               this.updateEnforcerField("adapter", adapter);
             })}
-            options={this.state.adapters.map((adapter) => Setting.getOption(`${adapter.owner}/${adapter.name}`, `${adapter.owner}/${adapter.name}`))
+            options={this.state.adapters.map((adapter) => Setting.getOption(adapter.name, `${adapter.owner}/${adapter.name}`))
             } />
           </Col>
         </Row>

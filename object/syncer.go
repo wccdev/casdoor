@@ -64,6 +64,9 @@ type Syncer struct {
 
 	Ormer     *Ormer      `xorm:"-" json:"-"`
 	SshClient *ssh.Client `xorm:"-" json:"-"`
+
+	// Non-persistent field for display name
+	OrganizationDisplayName string `xorm:"-" json:"organizationDisplayName,omitempty"`
 }
 
 func GetSyncerCount(owner, organization, field, value string) (int64, error) {
@@ -342,4 +345,45 @@ func (syncer *Syncer) Close() error {
 		syncer.SshClient = nil
 	}
 	return err
+}
+
+// PopulateSyncersDisplayNames fills the OrganizationDisplayName field for a list of syncers
+func PopulateSyncersDisplayNames(syncers []*Syncer) error {
+	if len(syncers) == 0 {
+		return nil
+	}
+
+	orgNames := make(map[string]bool)
+	for _, syncer := range syncers {
+		if syncer.Organization != "" {
+			orgNames[syncer.Organization] = true
+		}
+	}
+
+	orgMapping := make(map[string]string)
+	for orgName := range orgNames {
+		org, err := getOrganization("admin", orgName)
+		if err != nil {
+			continue
+		}
+		if org != nil {
+			orgMapping[orgName] = org.DisplayName
+		}
+	}
+
+	for _, syncer := range syncers {
+		if displayName, ok := orgMapping[syncer.Organization]; ok {
+			syncer.OrganizationDisplayName = displayName
+		}
+	}
+
+	return nil
+}
+
+// PopulateSyncerDisplayNames fills the OrganizationDisplayName field for a single syncer
+func PopulateSyncerDisplayNames(syncer *Syncer) error {
+	if syncer == nil {
+		return nil
+	}
+	return PopulateSyncersDisplayNames([]*Syncer{syncer})
 }

@@ -45,6 +45,7 @@ func (c *ApiController) GetAdapters() {
 			return
 		}
 
+		object.PopulateAdaptersDisplayNames(adapters)
 		c.ResponseOk(adapters)
 	} else {
 		limit := util.ParseInt(limit)
@@ -61,6 +62,7 @@ func (c *ApiController) GetAdapters() {
 			return
 		}
 
+		object.PopulateAdaptersDisplayNames(adapters)
 		c.ResponseOk(adapters, paginator.Nums())
 	}
 }
@@ -81,6 +83,7 @@ func (c *ApiController) GetAdapter() {
 		return
 	}
 
+	object.PopulateAdapterDisplayNames(adapter)
 	c.ResponseOk(adapter)
 }
 
