@@ -393,13 +393,23 @@ func (c *ApiController) Logout() {
 		}
 
 		_, application, token, err := object.ExpireTokenByAccessToken(accessToken)
-		if err != nil {
-			c.ResponseError(err.Error())
-			return
-		}
-		if token == nil {
+		if err != nil || token == nil {
+			// token 过期或找不到，如果有重定向链接，直接重定向
+			if redirectUri != "" {
+				redirectUrl := redirectUri
+				if state != "" {
+					if strings.Contains(redirectUri, "?") {
+						redirectUrl = fmt.Sprintf("%s&state=%s", strings.TrimSuffix(redirectUri, "/"), state)
+					} else {
+						redirectUrl = fmt.Sprintf("%s?state=%s", strings.TrimSuffix(redirectUri, "/"), state)
+					}
+				}
+				c.ClearUserSession()
+				c.ClearTokenSession()
+				c.Ctx.Redirect(http.StatusFound, redirectUrl)
+				return
+			}
 			c.ResponseOk()
-			// c.ResponseError(c.T("token:Token not found, invalid accessToken"))
 			return
 		}
 		if application == nil {
