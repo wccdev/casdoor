@@ -216,6 +216,14 @@ class ApplicationListPage extends BaseListPage {
         },
       },
       {
+        title: i18next.t("general:Order"),
+        dataIndex: "order",
+        key: "order",
+        width: "70px",
+        sorter: true,
+
+      },
+      {
         title: i18next.t("general:Providers"),
         dataIndex: "providers",
         key: "providers",
