@@ -91,7 +91,7 @@ class ResourceListPage extends BaseListPage {
         title: i18next.t("general:Provider"),
         dataIndex: "provider",
         key: "provider",
-        width: "150px",
+        width: "120px",
         sorter: true,
         ...this.getColumnSearchProps("provider"),
         render: (text, record, index) => {
