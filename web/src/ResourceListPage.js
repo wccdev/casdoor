@@ -233,6 +233,10 @@ class ResourceListPage extends BaseListPage {
                 overflow: "hidden",
                 borderRadius: "8px",
                 backgroundColor: "#f5f5f5",
+                objectFit: "contain",
+                margin: "8px",
+                border: "1px solid #eee",
+                transition: "transform 0.2s, box-shadow 0.2s",
               }}>
                 <Image
                   src={record.url}
@@ -259,6 +263,10 @@ class ResourceListPage extends BaseListPage {
                 overflow: "hidden",
                 borderRadius: "8px",
                 backgroundColor: "#f5f5f5",
+                objectFit: "contain",
+                margin: "8px",
+                border: "1px solid #eee",
+                transition: "transform 0.2s, box-shadow 0.2s",
               }}>
                 <video style={{height: "100%", width: "auto"}} controls>
                   <source src={record.url} type="video/mp4" />

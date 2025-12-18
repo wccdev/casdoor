@@ -307,6 +307,7 @@ class PermissionListPage extends BaseListPage {
         dataIndex: "groups",
         key: "groups",
         // width: '100px',
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("groups"),
         render: (text, record, index) => {
