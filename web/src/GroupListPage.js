@@ -216,7 +216,7 @@ class GroupListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        // width: "200px",
+        width: "200px",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -231,7 +231,7 @@ class GroupListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {

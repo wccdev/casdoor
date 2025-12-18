@@ -166,7 +166,7 @@ class OrganizationListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        width: "160px",
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -204,7 +204,7 @@ class OrganizationListPage extends BaseListPage {
         title: i18next.t("organization:Website URL"),
         dataIndex: "websiteUrl",
         key: "websiteUrl",
-        width: "200px",
+        width: "250px",
         sorter: true,
         ...this.getColumnSearchProps("websiteUrl"),
         render: (text, record, index) => {
@@ -219,7 +219,7 @@ class OrganizationListPage extends BaseListPage {
         title: i18next.t("general:Password type"),
         dataIndex: "passwordType",
         key: "passwordType",
-        width: "150px",
+        width: "7%",
         sorter: true,
         filterMultiple: false,
         filters: [

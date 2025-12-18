@@ -99,7 +99,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("token:Authorization code"),
         dataIndex: "code",
         key: "code",
-        width: "180px",
+        width: "100px",
         sorter: true,
         ...this.getColumnSearchProps("code"),
         render: (text, record, index) => {
@@ -110,7 +110,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("general:Created time"),
         dataIndex: "createdTime",
         key: "createdTime",
-        width: "160px",
+        width: "100px",
         sorter: true,
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
@@ -120,7 +120,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("general:Application"),
         dataIndex: "application",
         key: "application",
-        width: "120px",
+        width: "100px",
         sorter: true,
         ...this.getColumnSearchProps("application"),
         render: (text, record, index) => {
@@ -135,7 +135,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "organization",
         key: "organization",
-        width: "160px",
+        width: "110px",
         sorter: true,
         ...this.getColumnSearchProps("organization"),
         render: (text, record, index) => {
@@ -150,7 +150,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("general:User"),
         dataIndex: "user",
         key: "user",
-        width: "120px",
+        width: "60px",
         sorter: true,
         ...this.getColumnSearchProps("user"),
         render: (text, record, index) => {
@@ -177,7 +177,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("token:Expires in"),
         dataIndex: "expiresIn",
         key: "expiresIn",
-        width: "120px",
+        width: "60px",
         sorter: true,
         ...this.getColumnSearchProps("expiresIn"),
       },
@@ -185,7 +185,7 @@ class TokenListPage extends BaseListPage {
         title: i18next.t("provider:Scope"),
         dataIndex: "scope",
         key: "scope",
-        width: "110px",
+        width: "100px",
         sorter: true,
         ...this.getColumnSearchProps("scope"),
       },

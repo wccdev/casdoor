@@ -43,8 +43,19 @@ class RecordListPage extends BaseListPage {
         dataIndex: "id",
         key: "id",
         width: "90px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("id"),
+      },
+      {
+        title: i18next.t("general:Timestamp"),
+        dataIndex: "createdTime",
+        key: "createdTime",
+        width: "160px",
+        sorter: true,
+        render: (text, record, index) => {
+          return Setting.getFormattedDate(text);
+        },
       },
       {
         title: i18next.t("general:Client IP"),
@@ -57,31 +68,6 @@ class RecordListPage extends BaseListPage {
             {highlightContent}
           </a>
         )),
-      },
-      {
-        title: i18next.t("general:Timestamp"),
-        dataIndex: "createdTime",
-        key: "createdTime",
-        width: "150px",
-        sorter: true,
-        render: (text, record, index) => {
-          return Setting.getFormattedDate(text);
-        },
-      },
-      {
-        title: i18next.t("general:Organization"),
-        dataIndex: "organization",
-        key: "organization",
-        width: "110px",
-        sorter: true,
-        ...this.getColumnSearchProps("organization"),
-        render: (text, record, index) => {
-          return (
-            <Link to={`/organizations/${text}`}>
-              {record.organizationDisplayName || text}
-            </Link>
-          );
-        },
       },
       {
         title: i18next.t("general:User"),
@@ -102,7 +88,7 @@ class RecordListPage extends BaseListPage {
         title: i18next.t("general:Method"),
         dataIndex: "method",
         key: "method",
-        width: "100px",
+        width: "85px",
         sorter: true,
         filterMultiple: false,
         filters: [
@@ -124,6 +110,21 @@ class RecordListPage extends BaseListPage {
             {highlightContent}
           </Tooltip>
         )),
+      },
+      {
+        title: i18next.t("general:Organization"),
+        dataIndex: "organization",
+        key: "organization",
+        width: "200px",
+        sorter: true,
+        ...this.getColumnSearchProps("organization"),
+        render: (text, record, index) => {
+          return (
+            <Link to={`/organizations/${text}`}>
+              {record.organizationDisplayName || text}
+            </Link>
+          );
+        },
       },
       {
         title: i18next.t("user:Language"),

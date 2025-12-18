@@ -48,7 +48,7 @@ class SessionListPage extends BaseListPage {
         title: i18next.t("general:Name"),
         dataIndex: "name",
         key: "name",
-        width: "30px",
+        width: "8%",
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("name"),
@@ -60,7 +60,7 @@ class SessionListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "13%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -75,7 +75,7 @@ class SessionListPage extends BaseListPage {
         title: i18next.t("general:Created time"),
         dataIndex: "createdTime",
         key: "createdTime",
-        width: "60px",
+        width: "10%",
         sorter: true,
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);

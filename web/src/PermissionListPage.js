@@ -217,7 +217,7 @@ class PermissionListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        width: "160px",
+        width: "8%",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -229,10 +229,32 @@ class PermissionListPage extends BaseListPage {
         },
       },
       {
+        title: i18next.t("permission:Resource type"),
+        dataIndex: "resourceType",
+        key: "resourceType",
+        filterMultiple: false,
+        filters: [
+          {text: "Application", value: "Application"},
+        ],
+        width: "170px",
+        sorter: true,
+      },
+      {
+        title: i18next.t("general:Resources"),
+        dataIndex: "resources",
+        key: "resources",
+        width: "5%",
+        sorter: true,
+        ...this.getColumnSearchProps("resources"),
+        render: (text, record, index) => {
+          return Setting.getTags(text, null, record.resourcesMapping);
+        },
+      },
+      {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "9%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -247,7 +269,7 @@ class PermissionListPage extends BaseListPage {
         title: i18next.t("general:Created time"),
         dataIndex: "createdTime",
         key: "createdTime",
-        width: "160px",
+        width: "7%",
         sorter: true,
         render: (text, record, index) => {
           return Setting.getFormattedDate(text);
@@ -257,7 +279,7 @@ class PermissionListPage extends BaseListPage {
         title: i18next.t("general:Model"),
         dataIndex: "model",
         key: "model",
-        width: "250px",
+        width: "7%",
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("name"),
@@ -273,7 +295,7 @@ class PermissionListPage extends BaseListPage {
         title: i18next.t("role:Sub users"),
         dataIndex: "users",
         key: "users",
-        // width: '100px',
+        width: "7%",
         sorter: true,
         ...this.getColumnSearchProps("users"),
         render: (text, record, index) => {
@@ -306,32 +328,11 @@ class PermissionListPage extends BaseListPage {
         title: i18next.t("role:Sub domains"),
         dataIndex: "domains",
         key: "domains",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("domains"),
         render: (text, record, index) => {
           return Setting.getTags(text);
-        },
-      },
-      {
-        title: i18next.t("permission:Resource type"),
-        dataIndex: "resourceType",
-        key: "resourceType",
-        filterMultiple: false,
-        filters: [
-          {text: "Application", value: "Application"},
-        ],
-        width: "170px",
-        sorter: true,
-      },
-      {
-        title: i18next.t("general:Resources"),
-        dataIndex: "resources",
-        key: "resources",
-        // width: '100px',
-        sorter: true,
-        ...this.getColumnSearchProps("resources"),
-        render: (text, record, index) => {
-          return Setting.getTags(text, null, record.resourcesMapping);
         },
       },
       {
@@ -441,7 +442,7 @@ class PermissionListPage extends BaseListPage {
           {text: i18next.t("permission:Approved"), value: "Approved"},
           {text: i18next.t("permission:Pending"), value: "Pending"},
         ],
-        width: "120px",
+        width: "100px",
         sorter: true,
         render: (text, record, index) => {
           switch (text) {

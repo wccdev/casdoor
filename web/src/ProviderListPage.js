@@ -114,7 +114,7 @@ class ProviderListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        // width: '100px',
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -129,7 +129,7 @@ class ProviderListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -165,7 +165,7 @@ class ProviderListPage extends BaseListPage {
           {text: "Storage", value: "Storage"},
           {text: "Web3", value: "Web3"},
         ],
-        width: "110px",
+        width: "80px",
         sorter: true,
       },
       {
@@ -195,7 +195,7 @@ class ProviderListPage extends BaseListPage {
         title: i18next.t("provider:Client ID"),
         dataIndex: "clientId",
         key: "clientId",
-        width: "100px",
+        width: "150px",
         sorter: true,
         ...this.getColumnSearchProps("clientId"),
         render: (text, record, index) => {

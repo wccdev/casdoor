@@ -106,7 +106,7 @@ class ResourceListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -121,7 +121,7 @@ class ResourceListPage extends BaseListPage {
         title: i18next.t("general:Application"),
         dataIndex: "application",
         key: "application",
-        width: "80px",
+        width: "100px",
         sorter: true,
         ...this.getColumnSearchProps("application"),
         render: (text, record, index) => {

@@ -77,7 +77,7 @@ class AdapterListPage extends BaseListPage {
         title: i18next.t("general:Name"),
         dataIndex: "name",
         key: "name",
-        width: "150px",
+        width: "200px",
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("name"),
@@ -93,7 +93,7 @@ class AdapterListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {

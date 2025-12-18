@@ -274,7 +274,7 @@ class UserListPage extends BaseListPage {
         title: i18next.t("general:Display name"),
         dataIndex: "displayName",
         key: "displayName",
-        width: "60px",
+        width: "7%",
         sorter: true,
         ...this.getColumnSearchProps("displayName"),
         render: (text, record, index) => {
@@ -289,7 +289,7 @@ class UserListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: (Setting.isMobile()) ? "100px" : "200px",
+        width: "12%",
         fixed: "left",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
@@ -403,7 +403,8 @@ class UserListPage extends BaseListPage {
         title: i18next.t("user:Is verified"),
         dataIndex: "isVerified",
         key: "isVerified",
-        width: "120px",
+        width: "6%",
+        hidden: true,
         sorter: true,
         render: (text, record, index) => {
           return (
@@ -416,6 +417,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "region",
         key: "region",
         width: "140px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("region"),
         render: (text, record, index) => {
@@ -458,6 +460,7 @@ class UserListPage extends BaseListPage {
         dataIndex: "registerType",
         key: "registerType",
         width: "150px",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("registerType"),
       },

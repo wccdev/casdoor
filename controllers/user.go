@@ -46,6 +46,7 @@ func (c *ApiController) GetGlobalUsers() {
 			return
 		}
 
+		object.PopulateUsersDisplayNames(users)
 		c.ResponseOk(users)
 	} else {
 		limit := util.ParseInt(limit)
@@ -68,6 +69,7 @@ func (c *ApiController) GetGlobalUsers() {
 			return
 		}
 
+		object.PopulateUsersDisplayNames(users)
 		c.ResponseOk(users, paginator.Nums())
 	}
 }

@@ -222,7 +222,7 @@ class RoleListPage extends BaseListPage {
         title: i18next.t("general:Organization"),
         dataIndex: "owner",
         key: "owner",
-        width: "160px",
+        width: "12%",
         sorter: true,
         ...this.getColumnSearchProps("owner"),
         render: (text, record, index) => {
@@ -280,6 +280,7 @@ class RoleListPage extends BaseListPage {
         title: i18next.t("role:Sub domains"),
         dataIndex: "domains",
         key: "domains",
+        hidden: true,
         sorter: true,
         ...this.getColumnSearchProps("domains"),
         render: (text, record, index) => {
